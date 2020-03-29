@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "690773184055",
+    "firebase_url": "https://the-datagram-app.firebaseio.com",
+    "project_id": "the-datagram-app",
+    "storage_bucket": "the-datagram-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690773184055:android:9ecc6959f329b6294379b2",
+        "android_client_info": {
+          "package_name": "com.example.datagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690773184055-pb6qkgditpcahnusbs2logvpd8fpp22l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.datagram",
+            "certificate_hash": "91a28eeabeac99641e0dd8ddb4c16fb92e850de5"
+          }
+        },
+        {
+          "client_id": "690773184055-82jvmg1vt0d6kdmn05bjfqr9kt29nso1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7Yv4hMRsiJ4l_rmIBN2M1YkZToDwFm-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690773184055-82jvmg1vt0d6kdmn05bjfqr9kt29nso1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
