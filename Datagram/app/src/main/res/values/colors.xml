@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#C71585</color>
+    <color name="colorPrimaryDark">#4169E1</color><!--Cor da barra de notificações -->
+    <color name="colorAccent">#FF00FF</color>
+    <color name="cinza_medio">#0DBDBDBD</color>
+</resources>

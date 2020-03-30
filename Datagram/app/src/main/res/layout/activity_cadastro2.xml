@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Cadastro3Finalizar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_degrade"
+    tools:context=".activity.LoginActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-62dp">
+
+    <Button
+        android:id="@+id/buttonCadastroProximo"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:text="Finalizar cadastro"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroDataNasc" />
+
+    <EditText
+        android:id="@+id/editCadastroNome"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_caixa_texto"
+        android:ems="10"
+        android:hint="Data_inicio_trabalho"
+        android:inputType="textPersonName|textEmailAddress"
+        android:padding="8dp"
+        android:paddingBottom="0dp"
+        android:text="Quando iniciou os trabalhos com Data Science?"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastroCPF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <EditText
+        android:id="@+id/editCadastroCPF"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_caixa_texto"
+        android:ems="10"
+        android:hint="Estado"
+        android:inputType="textPersonName|textEmailAddress"
+        android:padding="8dp"
+        android:paddingBottom="0dp"
+        android:text="Estado"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastroEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroNome" />
+
+    <EditText
+        android:id="@+id/editCadastroDataNasc"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_caixa_texto"
+        android:ems="10"
+        android:hint="Senha"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:paddingBottom="0dp"
+        android:text="Senha"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCadastroProximo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCadastro1CV" />
+
+    <EditText
+        android:id="@+id/editCadastro1Formacao"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_caixa_texto"
+        android:ems="10"
+        android:hint="Formação"
+        android:inputType="text"
+        android:padding="8dp"
+        android:paddingBottom="0dp"
+        android:text="Formação"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastro1CV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroEmail" />
+
+    <EditText
+        android:id="@+id/editCadastro1CV"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_caixa_texto"
+        android:ems="10"
+        android:hint="Link CV"
+        android:inputType="date|textEmailAddress"
+        android:padding="8dp"
+        android:paddingBottom="0dp"
+        android:text="Link CV"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastroDataNasc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCadastro1Formacao" />
+
+    <EditText
+        android:id="@+id/editCadastroEmail"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_caixa_texto"
+        android:ems="10"
+        android:hint="Instituicão"
+        android:inputType="text"
+        android:padding="8dp"
+        android:paddingBottom="0dp"
+        android:text="Instituicão"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastro1Formacao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroCPF" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="212dp"
+        android:layout_height="147dp"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastroNome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCadastroProximo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
