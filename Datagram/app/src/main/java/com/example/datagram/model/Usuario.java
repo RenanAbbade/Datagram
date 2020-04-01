@@ -14,6 +14,7 @@ public abstract class Usuario {
     private String email;
     private String dataNasc;
     private String caminhoFoto;
+    public static int numeroUsuarios;
 
 
     public Usuario() {
@@ -24,6 +25,7 @@ public abstract class Usuario {
         this.CPF = CPF;
         this.email = email;
         this.dataNasc = dataNasc;
+        numeroUsuarios++;
     }
 
     public String getId() {

@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toTopOf="@+id/progressBar2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCadastroCPF" />
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroSenha" />
 
     <EditText
         android:id="@+id/editCadastroNome"
@@ -35,13 +35,13 @@
         android:text="Escolaridade"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/editCadastroCPF"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastroSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <EditText
-        android:id="@+id/editCadastroCPF"
+        android:id="@+id/editCadastroSenha"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_caixa_texto"

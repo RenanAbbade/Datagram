@@ -12,13 +12,17 @@ public class Pesquisador extends Usuario {
     public Pesquisador() {
 
     }
-
+    //CadastroBase
+    public Pesquisador(String nome,String CPF, String email, String dataNasc){
+        super(nome, CPF, email, dataNasc);
+    }
+    //CadastroEspecifico
     public Pesquisador(String nome, String CPF, String email, String dataNasc, String dataInicioTrabalho, String estado, String instituicao, String formacao, String linkCv, String senha) {
         super(nome, CPF, email, dataNasc);
         this.dataInicioTrabalho = dataInicioTrabalho;
         this.estado = estado;
         this.instituicao = instituicao;
-        Formacao = formacao;
+        this.Formacao = formacao;
         this.linkCv = linkCv;
         this.senha = senha;
     }

@@ -9,6 +9,11 @@ public class Membro extends Usuario {
     public Membro() {
     }
 
+    //CadastroBase
+    public Membro(String nome,String CPF, String email, String dataNasc){
+        super(nome, CPF, email, dataNasc);
+    }
+    //Cadastro especifico
     public Membro(String nome, String CPF, String email, String dataNasc, String escolaridade, String senha) {
         super(nome, CPF, email, dataNasc);
         this.escolaridade = escolaridade;

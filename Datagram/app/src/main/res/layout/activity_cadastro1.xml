@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_degrade"
-    tools:context=".activity.LoginActivity"
+    tools:context=".activity.Cadastro1Activity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="-62dp">
 
@@ -15,7 +15,7 @@
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:text="Próximo"
+        android:text="Cadastrar"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,22 +35,22 @@
         android:text="Nome"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/editCadastroCPF"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastroSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioButtonSim" />
 
     <EditText
-        android:id="@+id/editCadastroCPF"
+        android:id="@+id/editCadastroSenha"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_caixa_texto"
         android:ems="10"
-        android:hint="CPF"
+        android:hint="Senha"
         android:inputType="textPersonName|textEmailAddress"
         android:padding="8dp"
         android:paddingBottom="0dp"
-        android:text="CPF"
+        android:text="Senha"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/editCadastroEmail"
@@ -74,7 +74,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editCadastroDataNasc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCadastroCPF" />
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroSenha" />
 
     <EditText
         android:id="@+id/editCadastroDataNasc"
@@ -129,7 +129,9 @@
         app:layout_constraintEnd_toStartOf="@+id/radioButtonNao"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCadastrar" />
+        app:layout_constraintTop_toBottomOf="@+id/textCadastrar"
+        android:onClick="checkButton"
+    />
 
     <RadioButton
         android:id="@+id/radioButtonNao"
@@ -137,6 +139,7 @@
         android:layout_height="wrap_content"
         android:checked="true"
         android:duplicateParentState="false"
+        android:onClick="checkButton"
         android:text="Não"
         android:textColor="@android:color/white"
         android:textColorHighlight="@android:color/white"
@@ -154,7 +157,6 @@
         android:id="@+id/textCadastrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="abrirCadastro"
         android:text="Deseja se cadastrar como pesquisador?"
         android:textColor="@android:color/white"
         android:textSize="16sp"

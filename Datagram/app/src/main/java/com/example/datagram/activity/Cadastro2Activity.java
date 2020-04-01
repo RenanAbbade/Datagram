@@ -42,7 +42,7 @@ public class Cadastro2Activity extends AppCompatActivity {
         }
 
         //campoNome = findViewById(R.id.);
-        campoCPF = findViewById(R.id.editCadastroCPF);
+        campoCPF = findViewById(R.id.editCadastroSenha);
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoDataNasc = findViewById((R.id.editCadastroDataNasc));
         botaoProximo = findViewById(R.id.buttonCadastroProximo);

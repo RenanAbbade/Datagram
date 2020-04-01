@@ -35,13 +35,13 @@
         android:text="Quando iniciou os trabalhos com Data Science?"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/editCadastroCPF"
+        app:layout_constraintBottom_toTopOf="@+id/editCadastroSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <EditText
-        android:id="@+id/editCadastroCPF"
+        android:id="@+id/editCadastroSenha"
         android:layout_width="345dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_caixa_texto"
@@ -128,7 +128,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editCadastro1Formacao"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCadastroCPF" />
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroSenha" />
 
     <ImageView
         android:id="@+id/imageView4"
