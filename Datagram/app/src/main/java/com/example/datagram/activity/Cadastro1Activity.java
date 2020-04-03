@@ -1,22 +1,27 @@
 package com.example.datagram.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.datagram.R;
 import com.example.datagram.helper.ConfiguracaoFirebase;
-import com.example.datagram.model.Membro;
-import com.example.datagram.model.Pesquisador;
 import com.example.datagram.model.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class Cadastro1Activity extends AppCompatActivity {
 
@@ -32,6 +37,7 @@ public class Cadastro1Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("ON CREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro1);
 
@@ -39,35 +45,41 @@ public class Cadastro1Activity extends AppCompatActivity {
 
         //Cadastrar User
         progressBar.setVisibility(View.GONE);//Escondendo a ProgressBar
+
         botaoProximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                progressBar.setVisibility(View.VISIBLE);//Quando o user clicar no cadastrar, a progressbar aparecera
                 String Nome = campoNome.getText().toString();
-                String CPF = campoSenha.getText().toString();
+                String Senha = campoSenha.getText().toString();
                 String Email = campoEmail.getText().toString();
                 String DataNascimento = campoDataNasc.getText().toString();
 
 
                 if(!Nome.isEmpty()){
                     if(!Email.isEmpty()){
-                        if(!CPF.isEmpty()){
+                        if(!Senha.isEmpty()){
                             if(!DataNascimento.isEmpty()){
                                 //Cadastro usuario
-                                if(tipoUsuario.equalsIgnoreCase("Pesquisador")){
-                                    usuario = new Pesquisador(Nome,CPF,Email,DataNascimento);
+                                //if(tipoUsuario.equalsIgnoreCase("Pesquisador")){
+                                    usuario = new Usuario(Nome,Senha,Email,DataNascimento);
+                                //}
+                                //else {
+                                    //usuario = new Membro(Nome,Senha,Email,DataNascimento);
+                                //}
+
+                                try {
+                                    cadastrarUsuario(usuario);
+                                }catch (Exception e){
+                                    e.getMessage();
+                                    e.printStackTrace();
                                 }
-                                else {
-                                    usuario = new Membro(Nome,CPF,Email,DataNascimento);
-                                }
-                                cadastrarUsuario(usuario);
+
 
                             }else{
                                 Toast.makeText(Cadastro1Activity.this, "Preencha a Data de Nascimento!", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(Cadastro1Activity.this, "Preencha o CPF!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Cadastro1Activity.this, "Preencha a senha!", Toast.LENGTH_SHORT).show();
                         }
 
                     }else{
@@ -86,8 +98,10 @@ public class Cadastro1Activity extends AppCompatActivity {
             radioNao.setChecked(false);
             tipoUsuario = "Pesquisador";
 
-        }if(radioNao.isPressed()){
+        }else if(radioNao.isPressed()){
             radioSim.setChecked(false);
+            tipoUsuario = "Membro";
+        }else{
             tipoUsuario = "Membro";
         }
     }
@@ -95,10 +109,63 @@ public class Cadastro1Activity extends AppCompatActivity {
 
     //Método resp. por cadastrar user com email e senha
     public void cadastrarUsuario(Usuario usuario){
-
+        System.out.println("Método cadastrar");
+        progressBar.setVisibility(View.VISIBLE);//Quando o user clicar no cadastrar, a progressbar aparecera
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        //autenticacao.createUserWithEmailAndPassword(usuario.getEmail());
+        autenticacao.createUserWithEmailAndPassword(usuario.getEmail(),
+                usuario.getSenha()).addOnCompleteListener(
+                this,
+                new OnCompleteListener<AuthResult>() {
 
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        System.out.println("Listener");
+                        //Este Listener refere-se a tratativa de erros referente a tentativa de cadastrar um usuario
+                        if(task.isSuccessful()){ //Verifica se a task executou com sucesso
+                            System.out.println("SUC");
+                           //Cenário sucesso
+                            progressBar.setVisibility(View.GONE);
+
+                            Toast.makeText(Cadastro1Activity.this,
+                                    "Cadastro com sucesso",
+                                    Toast.LENGTH_SHORT).show();
+                            //O usuário será enviado para o proximo passo.
+
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                            finish();
+
+
+                        }else{//Tratamento da excessão ao criar user
+                            //Cenário falha
+                            System.out.println("EX");
+                            progressBar.setVisibility(View.GONE);//Tiramos a progressBar
+
+                            String erroExcecao = "";
+
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                erroExcecao = "Digite uma senha mais forte!";
+                            } catch (FirebaseAuthInvalidCredentialsException e){
+                                erroExcecao = "Por facor, digite um e-mail válido";
+                            }catch (FirebaseAuthUserCollisionException e){
+                                erroExcecao = "Este e-mail já foi cadastrado";
+                            }catch (Exception e){
+                                erroExcecao = "Ao cadastrar o usuário: " + e.getMessage();
+                                e.printStackTrace();
+                            }
+
+                            Toast.makeText(Cadastro1Activity.this,
+                                    "Erro: " + erroExcecao,
+                                    Toast.LENGTH_SHORT).show();
+                            //O erroExcecao será transmitido no PopUp Toast
+                        }
+
+                    }
+                }
+        )
+        ;
     }
 
     public void inicializarComponentes(){
@@ -111,8 +178,10 @@ public class Cadastro1Activity extends AppCompatActivity {
         campoSenha = findViewById(R.id.editCadastroSenha);
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoDataNasc = findViewById((R.id.editCadastroDataNasc));
-        botaoProximo = findViewById(R.id.buttonCadastroProximo);
+        botaoProximo = findViewById(R.id.buttonLogin);
         progressBar = findViewById(R.id.progressBar);
+
+        campoNome.requestFocus();
 
     }
 }

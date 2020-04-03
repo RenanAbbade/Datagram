@@ -6,11 +6,11 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Objects;
 
-public abstract class Usuario {
+public  class Usuario {
 
     private String id;
     private String nome;
-    private String CPF;
+    private String Senha;
     private String email;
     private String dataNasc;
     private String caminhoFoto;
@@ -20,9 +20,9 @@ public abstract class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nome, String CPF, String email, String dataNasc){
+    public Usuario(String nome, String Senha, String email, String dataNasc){
         this.nome = nome;
-        this.CPF = CPF;
+        this.Senha = Senha;
         this.email = email;
         this.dataNasc = dataNasc;
         numeroUsuarios++;
@@ -52,12 +52,12 @@ public abstract class Usuario {
         this.nome = nome;
     }
 
-    public String getCPF() {
-        return CPF;
+    public String getSenha() {
+        return Senha;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setSenha(String Senha) {
+        this.Senha = Senha;
     }
 
     public String getEmail() {

@@ -16,14 +16,14 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editLCadastro1Nome"
+        app:layout_constraintBottom_toTopOf="@+id/editLoginEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/editCadastroUF"
+        android:id="@+id/editLoginSenha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -32,20 +32,20 @@
         android:layout_marginRight="24dp"
         android:background="@drawable/background_caixa_texto"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Senha"
         android:inputType="textPassword"
         android:padding="8dp"
-        android:text="Password"
+        android:text=""
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCadastroProximo"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editLCadastro1Nome" />
+        app:layout_constraintTop_toBottomOf="@+id/editLoginEmail" />
 
     <EditText
-        android:id="@+id/editLCadastro1Nome"
+        android:id="@+id/editLoginEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -59,16 +59,16 @@
         android:inputType="textPersonName|textEmailAddress"
         android:padding="8dp"
         android:paddingBottom="0dp"
-        android:text="E-mail"
+        android:text=""
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/editCadastroUF"
+        app:layout_constraintBottom_toTopOf="@+id/editLoginSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <Button
-        android:id="@+id/buttonCadastroProximo"
+        android:id="@+id/buttonLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -81,7 +81,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textCadastrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCadastroUF" />
+        app:layout_constraintTop_toBottomOf="@+id/editLoginSenha" />
 
     <TextView
         android:id="@+id/textCadastrar"
@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toTopOf="@+id/progressLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCadastroProximo" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
     <ProgressBar
         android:id="@+id/progressLogin"

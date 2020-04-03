@@ -4,21 +4,16 @@ public class Membro extends Usuario {
 
     private String escolaridade;
 
-    private String senha;
+    private String CPF;
 
     public Membro() {
     }
 
     //CadastroBase
-    public Membro(String nome,String CPF, String email, String dataNasc){
-        super(nome, CPF, email, dataNasc);
+    public Membro(String nome,String Senha, String email, String dataNasc){
+        super(nome, Senha, email, dataNasc);
     }
     //Cadastro especifico
-    public Membro(String nome, String CPF, String email, String dataNasc, String escolaridade, String senha) {
-        super(nome, CPF, email, dataNasc);
-        this.escolaridade = escolaridade;
-        this.senha = senha;
-    }
 
     public String getEscolaridade() {
         return escolaridade;
@@ -28,11 +23,11 @@ public class Membro extends Usuario {
         this.escolaridade = escolaridade;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getCPF() {
+        return CPF;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 }

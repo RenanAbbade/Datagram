@@ -45,7 +45,7 @@ public class Cadastro2Activity extends AppCompatActivity {
         campoCPF = findViewById(R.id.editCadastroSenha);
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoDataNasc = findViewById((R.id.editCadastroDataNasc));
-        botaoProximo = findViewById(R.id.buttonCadastroProximo);
+        botaoProximo = findViewById(R.id.buttonLogin);
         progressBar = findViewById(R.id.progressBar);
 
     }
