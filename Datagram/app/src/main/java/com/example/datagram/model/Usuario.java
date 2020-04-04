@@ -76,4 +76,7 @@ public  class Usuario {
         this.dataNasc = dataNasc;
     }
 
+    public static int getNumeroUsuarios() {
+        return numeroUsuarios;
+    }
 }
