@@ -11,7 +11,7 @@
     <!--colocando o de login -->
     <style name="AppThemeLogin" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimary">@color/AzulLogin</item>
         <item name="colorPrimaryDark">@color/AzulLogin</item>
         <item name="colorAccent">#FFFFFF</item>
     </style>

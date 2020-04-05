@@ -2,7 +2,6 @@ package com.example.datagram.model;
 
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 
 import java.util.Objects;
 
