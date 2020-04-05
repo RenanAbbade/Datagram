@@ -2,7 +2,10 @@ package com.example.datagram.model;
 
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
+
+import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
 
 import java.util.Objects;
 
@@ -28,6 +31,14 @@ public  class Usuario {
         numeroUsuarios++;
     }
 
+    public void salvar(){
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+        //Criação da entidade que irá salvar o usuário no banco.
+        DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(getId());
+
+        usuarioRef.setValue(this);
+    }
+
     public String getId() {
         return id;
     }
@@ -51,7 +62,8 @@ public  class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+    //Para excluir a senha no momento de salvar no banco de dados - A senha será utilizada somente na autenticação no Firebase
+    @Exclude
     public String getSenha() {
         return Senha;
     }
