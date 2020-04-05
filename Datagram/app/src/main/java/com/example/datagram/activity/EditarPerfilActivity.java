@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.datagram.R;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.helper.UsuarioFirebase;
@@ -39,6 +40,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
     private Usuario usuarioLogado;
     private static final int SELECAO_GALERIA = 200;
     private StorageReference storageRef;
+    private String identificadorUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
         //configuracoes iniciais
         usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
+        identificadorUsuario = UsuarioFirebase.getIdentificadorUsuarioPorID();
 
         //Configura Toolbar
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
@@ -68,6 +71,16 @@ public class EditarPerfilActivity extends AppCompatActivity {
         editNomePerfil.setText(usuarioPerfil.getDisplayName());
         editEmailPerfil.setText(usuarioPerfil.getEmail());
 
+        Uri url = usuarioPerfil.getPhotoUrl();
+        //caso tenhamos um caminho da foto, nos iremos carrega-la
+        if(url != null){
+            Glide.with(EditarPerfilActivity.this)
+                    .load(url)
+                    .into(imageEditarPerfil);
+        }else{
+            imageEditarPerfil.setImageResource(R.drawable.avatar);
+        }
+
         //salvar alteracoes do nome
         buttonSalvarAlteracoes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +93,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
                 Toast.makeText(EditarPerfilActivity.this,
                         "Dados alterados com sucesso!",
                         Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -124,7 +136,7 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     StorageReference imagemRef = storageRef
                             .child("imagens")
                             .child("perfil")
-                            .child("<id-usuario>.jpeg");
+                            .child(identificadorUsuario + ".jpeg");
                     UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -136,6 +148,10 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //recuperar local da foto
+                            Uri url = taskSnapshot.getDownloadUrl();
+                            atualizarFotoUsuario(url);
+
                             Toast.makeText(EditarPerfilActivity.this,
                                     "Sucesso ao fazer upload da imagem",
                                     Toast.LENGTH_LONG).show();
@@ -147,6 +163,19 @@ public class EditarPerfilActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void atualizarFotoUsuario(Uri url){
+        //Atualizar foto no perfil
+        UsuarioFirebase.atualizarFotoUsuario(url);
+
+        //Atualiza a foto no firebase
+        usuarioLogado.setCaminhoFoto(url.toString());
+        usuarioLogado.atualizar();
+
+        Toast.makeText(EditarPerfilActivity.this,
+                "Sua foto foi atualizada!",
+                Toast.LENGTH_LONG).show();
     }
 
     public void inicializarComponentes(){
