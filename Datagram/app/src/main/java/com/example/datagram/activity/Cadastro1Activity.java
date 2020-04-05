@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.datagram.R;
 import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.example.datagram.helper.UsuarioFirebase;
 import com.example.datagram.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -108,9 +109,9 @@ public class Cadastro1Activity extends AppCompatActivity {
 
 
     //Método resp. por cadastrar user com email e senha
-    public void cadastrarUsuario(Usuario usuario){
+    public void cadastrarUsuario(final Usuario usuario){
         System.out.println("Método cadastrar");
-        progressBar.setVisibility(View.VISIBLE);//Quando o user clicar no cadastrar, a progressbar aparecera
+        progressBar.setVisibility(View.VISIBLE);
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(usuario.getEmail(),
                 usuario.getSenha()).addOnCompleteListener(
@@ -119,27 +120,42 @@ public class Cadastro1Activity extends AppCompatActivity {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        System.out.println("Listener");
-                        //Este Listener refere-se a tratativa de erros referente a tentativa de cadastrar um usuario
-                        if(task.isSuccessful()){ //Verifica se a task executou com sucesso
-                            System.out.println("SUC");
-                           //Cenário sucesso
+                        if(task.isSuccessful()){ //Este Listener refere-se a tratativa de erros referente a tentativa de cadastrar um usuario - Verifica se a task executou com sucesso
+
+                            try{//Salvando dados do user no FIREBASE
+
+                                progressBar.setVisibility(View.GONE);
+                                //Pegando o id do usuário gerado pelo firebase
+                                String idUsuario = task.getResult().getUser().getUid();
+                                //Salvando novo usuário no firecloud
+                                usuario.setId(idUsuario);
+
+                                usuario.salvar();
+
+                                //salvar dados no profile do firebase
+
+                                UsuarioFirebase.atualizarNomeUsuario(usuario.getNome());
+
+                                Toast.makeText(Cadastro1Activity.this,
+                                        "Cadastro com sucesso",
+                                        Toast.LENGTH_SHORT).show();
+
+                                //O usuário será enviado para o proximo passo.
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                                finish();
+
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+
+
+
+
+
+
+                        }else{//Tratamento da excessão ao criar user/Cenário falha
                             progressBar.setVisibility(View.GONE);
-
-                            Toast.makeText(Cadastro1Activity.this,
-                                    "Cadastro com sucesso",
-                                    Toast.LENGTH_SHORT).show();
-                            //O usuário será enviado para o proximo passo.
-
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
-                            finish();
-
-
-                        }else{//Tratamento da excessão ao criar user
-                            //Cenário falha
-                            System.out.println("EX");
-                            progressBar.setVisibility(View.GONE);//Tiramos a progressBar
 
                             String erroExcecao = "";
 

@@ -35,12 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Configura Toolbar
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
-
         toolbar.setTitle("DataGram");
-
         toolbar.setTitleTextColor(Color.argb(255,65,105,225));
-
         setSupportActionBar(toolbar);
 
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();

@@ -3,6 +3,6 @@
     <color name="colorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">#4169E1</color><!--Cor da barra de notificações -->
     <color name="colorAccent">#FF00FF</color>
-    <color name="cinza_medio">#0DBDBDBD</color>
+    <color name="cinza_medio">#FDFDFC</color>
     <color name="AzulLogin">#4169E1</color><!--Cor da barra de notificações -->
 </resources>

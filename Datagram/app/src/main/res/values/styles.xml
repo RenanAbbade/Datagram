@@ -6,6 +6,7 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">#FFFFFF</item>
         <item name="colorAccent">@color/AzulLogin</item>
+        <item name="android:colorBackground">@color/cinza_medio</item>
     </style>
 
     <!--colocando o de login -->
