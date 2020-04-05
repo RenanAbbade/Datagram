@@ -10,6 +10,16 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.datagram.R;
+import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.example.datagram.model.Usuario;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +29,9 @@ public class PesquisaFragment extends Fragment {
     //widget
     private SearchView searchViewPesquisa;
     private RecyclerView reacylerViewPesquisa;
+
+    private List<Usuario> listaUsuarios;
+    private DatabaseReference usuariosRef;
 
     public PesquisaFragment() {
         // Required empty public constructor
@@ -35,6 +48,11 @@ public class PesquisaFragment extends Fragment {
         searchViewPesquisa = view.findViewById(R.id.searchViewPesquisa);
         reacylerViewPesquisa = view.findViewById(R.id.recyclerViewPesquisa);
 
+        //configuracoes iniciais
+        listaUsuarios = new ArrayList<>();
+        usuariosRef = ConfiguracaoFirebase.getFirebase().child("usuarios");
+
+
         //Configurar searchview
         searchViewPesquisa.setQueryHint("Digite a sua busca");
         searchViewPesquisa.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -46,10 +64,37 @@ public class PesquisaFragment extends Fragment {
             //aqui "nós" vamos dando resultados conforme o user digita
             @Override
             public boolean onQueryTextChange(String newText) {
-//                Log.d("onQueryTextChange","texto digitado --> "+newText);
+                Log.d("onQueryTextChange","texto digitado --> "+newText);
+                String  textoDigitado = newText.toUpperCase();
+                pesquisarUsuarios(textoDigitado);
                 return true;
             }
         });
         return view;
+    }
+
+    private void pesquisarUsuarios(String texto){
+        listaUsuarios.clear();
+
+        //pesquisa user caso tenha texto na busca
+        if(texto.length() > 0){
+            Query query = usuariosRef.orderByChild("nome")
+                    .startAt(texto)
+                    .endAt(texto+"\uf8ff");
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        listaUsuarios.add(ds.getValue(Usuario.class)); //recuperamos o user do fb
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
     }
 }

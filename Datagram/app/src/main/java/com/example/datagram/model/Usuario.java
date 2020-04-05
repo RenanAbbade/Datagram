@@ -26,7 +26,7 @@ public  class Usuario {
     }
 
     public Usuario(String nome, String Senha, String email, String dataNasc){
-        this.nome = nome;
+        setNome(nome);//iremos sempre criar usuario com o nome em caixa alta, evitando problemas de busca
         this.Senha = Senha;
         this.email = email;
         this.dataNasc = dataNasc;
@@ -80,7 +80,7 @@ public  class Usuario {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.toUpperCase();
     }
     //Para excluir a senha no momento de salvar no banco de dados - A senha será utilizada somente na autenticação no Firebase
     @Exclude
