@@ -2,6 +2,7 @@ package com.example.datagram.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.datagram.R;
+import com.example.datagram.adapter.AdapterPesquisa;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.model.Usuario;
 import com.google.firebase.database.DataSnapshot;
@@ -28,10 +30,11 @@ public class PesquisaFragment extends Fragment {
 
     //widget
     private SearchView searchViewPesquisa;
-    private RecyclerView reacylerViewPesquisa;
+    private RecyclerView recylerViewPesquisa;
 
     private List<Usuario> listaUsuarios;
     private DatabaseReference usuariosRef;
+    private AdapterPesquisa adapterPesquisa;
 
     public PesquisaFragment() {
         // Required empty public constructor
@@ -46,12 +49,19 @@ public class PesquisaFragment extends Fragment {
         //sempre que trabalhamos com fragment, precisamos retornar a view em uma variavel
         //e assim conseguimos manipular os elementos da UI
         searchViewPesquisa = view.findViewById(R.id.searchViewPesquisa);
-        reacylerViewPesquisa = view.findViewById(R.id.recyclerViewPesquisa);
+        recylerViewPesquisa = view.findViewById(R.id.recyclerViewPesquisa);
 
         //configuracoes iniciais
         listaUsuarios = new ArrayList<>();
         usuariosRef = ConfiguracaoFirebase.getFirebase().child("usuarios");
 
+        //configurar RecyclerView
+        recylerViewPesquisa.setHasFixedSize(true);
+        recylerViewPesquisa.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        //configrar adapter
+        adapterPesquisa = new AdapterPesquisa(listaUsuarios,getActivity());
+        recylerViewPesquisa.setAdapter(adapterPesquisa);
 
         //Configurar searchview
         searchViewPesquisa.setQueryHint("Digite a sua busca");
@@ -64,7 +74,7 @@ public class PesquisaFragment extends Fragment {
             //aqui "nós" vamos dando resultados conforme o user digita
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d("onQueryTextChange","texto digitado --> "+newText);
+//                Log.d("onQueryTextChange","texto digitado --> "+newText);
                 String  textoDigitado = newText.toUpperCase();
                 pesquisarUsuarios(textoDigitado);
                 return true;
@@ -84,10 +94,14 @@ public class PesquisaFragment extends Fragment {
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    listaUsuarios.clear();
+
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
                         listaUsuarios.add(ds.getValue(Usuario.class)); //recuperamos o user do fb
                     }
+                    adapterPesquisa.notifyDataSetChanged(); //notificamos ao adapter as mudancas
                 }
+
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
