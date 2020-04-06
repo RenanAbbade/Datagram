@@ -7,11 +7,13 @@ import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public  class Usuario {
+//implementando a interface Serializable é possivel enviar um obj(usuario) de uma view para outra view
+public  class Usuario implements Serializable {
 
     private String id;
     private String nome;

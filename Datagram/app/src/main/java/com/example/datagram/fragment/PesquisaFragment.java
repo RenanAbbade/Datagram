@@ -1,5 +1,6 @@
 package com.example.datagram.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,11 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 
 import com.example.datagram.R;
+import com.example.datagram.activity.PerfilAmigoActivity;
 import com.example.datagram.adapter.AdapterPesquisa;
 import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.example.datagram.helper.RecyclerItemClickListener;
 import com.example.datagram.model.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,9 +63,35 @@ public class PesquisaFragment extends Fragment {
         recylerViewPesquisa.setHasFixedSize(true);
         recylerViewPesquisa.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //configrar adapter
+        //configurar adapter
         adapterPesquisa = new AdapterPesquisa(listaUsuarios,getActivity());
         recylerViewPesquisa.setAdapter(adapterPesquisa);
+
+        //configurar evento do click
+        recylerViewPesquisa.addOnItemTouchListener(new RecyclerItemClickListener(
+                getActivity(),
+                recylerViewPesquisa,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Usuario usuarioSelecionado = listaUsuarios.get(position);//recupero user clicado
+                        Intent i = new Intent(getActivity(), PerfilAmigoActivity.class); //irei trocar da minha activity atual para a outra
+                        i.putExtra("usuarioSelecionado",usuarioSelecionado); // inputo o obj atual na outra activity
+                        startActivity(i); //abro essa nova activity
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
 
         //Configurar searchview
         searchViewPesquisa.setQueryHint("Digite a sua busca");
@@ -102,13 +132,11 @@ public class PesquisaFragment extends Fragment {
                     adapterPesquisa.notifyDataSetChanged(); //notificamos ao adapter as mudancas
                 }
 
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
         }
-
     }
 }
