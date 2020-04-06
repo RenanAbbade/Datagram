@@ -24,7 +24,7 @@ public class PerfilFragment extends Fragment {
     private CircleImageView imagePerfil;
     private GridView gridViewPerfil;
     private TextView textPublicacoes, textSeguidores, textSeguindo;
-    private Button buttonEditarPerfil;
+    private Button buttonAcaoPerfil;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -46,10 +46,10 @@ public class PerfilFragment extends Fragment {
         textPublicacoes = view.findViewById(R.id.textViewNumPub);
         textSeguidores = view.findViewById(R.id.textViewNumSeguidores);
         textSeguindo = view.findViewById(R.id.textViewNumSeguindo);
-        buttonEditarPerfil = view.findViewById(R.id.buttonEditPerfil);
+        buttonAcaoPerfil = view.findViewById(R.id.buttonAcaoPerfil);
 
         //Abre edição de perfil
-        buttonEditarPerfil.setOnClickListener(new View.OnClickListener() {
+        buttonAcaoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EditarPerfilActivity.class);

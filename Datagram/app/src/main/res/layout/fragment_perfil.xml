@@ -7,7 +7,7 @@
     tools:context=".fragment.PerfilFragment">
 
     <Button
-        android:id="@+id/buttonEditPerfil"
+        android:id="@+id/buttonAcaoPerfil"
         android:layout_width="0dp"
         android:layout_height="21dp"
         android:layout_marginTop="16dp"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEditPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAcaoPerfil" />
 
     <ProgressBar
         android:id="@+id/progressBarPefil"
@@ -112,7 +112,7 @@
         android:text="Seguindo"
         android:textColor="@color/AzulLogin"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonEditPerfil"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAcaoPerfil"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toEndOf="@+id/textViewSeguidores" />
 
