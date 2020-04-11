@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< Updated upstream
         <activity android:name=".activity.PerfilAmigoActivity"></activity>
+=======
+        <activity android:name=".activity.Cadastro2Activity" android:theme="@style/AppThemeLogin"></activity>
+        <activity android:name=".activity.PerfilAmigoActivity" />
+>>>>>>> Stashed changes
         <activity
             android:name=".activity.EditarPerfilActivity"
             android:parentActivityName=".activity.MainActivity" />
-        <activity
-            android:name=".activity.Cadastro1Activity"
-            android:theme="@style/AppThemeLogin" />
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppThemeLogin">

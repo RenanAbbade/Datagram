@@ -5,16 +5,27 @@ public class Pesquisador extends Usuario {
     private String dataInicioTrabalho;
     private String estado;
     private String instituicao;
-    private String Formacao;
+    private String formacao;
     private String linkCv;
 
 
     public Pesquisador() {
 
     }
+<<<<<<< Updated upstream
     //CadastroBase
     public Pesquisador(String nome,String Senha, String email, String dataNasc){
         super(nome, Senha, email, dataNasc);
+=======
+
+    public Pesquisador(String nome, String Senha, String email, String dataNasc, String dataInicioTrabalho, String estado, String instituicao, String formacao, String linkCv) {
+        super(nome, Senha, email, dataNasc,"Pesquisador");
+        this.dataInicioTrabalho = dataInicioTrabalho;
+        this.estado = estado;
+        this.instituicao = instituicao;
+        this.formacao = formacao;
+        this.linkCv = linkCv;
+>>>>>>> Stashed changes
     }
 
     public String getDataInicioTrabalho() {
@@ -42,11 +53,11 @@ public class Pesquisador extends Usuario {
     }
 
     public String getFormacao() {
-        return Formacao;
+        return formacao;
     }
 
     public void setFormacao(String formacao) {
-        Formacao = formacao;
+        this.formacao = formacao;
     }
 
     public String getLinkCv() {
@@ -57,4 +68,10 @@ public class Pesquisador extends Usuario {
         this.linkCv = linkCv;
     }
 
+<<<<<<< Updated upstream
+=======
+
+
+
+>>>>>>> Stashed changes
 }
