@@ -133,6 +133,9 @@
             android:layout_marginTop="10dp"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
+            android:onClick="validaData"
+            android:focusable="false"
+            android:enabled="true"
              />
 
         <EditText
@@ -221,6 +224,9 @@
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:visibility="gone"
+            android:focusable="false"
+            android:enabled="true"
+            android:onClick="validaData"
             />
 
         <EditText
