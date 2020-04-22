@@ -1,6 +1,7 @@
 package com.example.datagram.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +12,14 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.datagram.R;
 import com.example.datagram.activity.EditarPerfilActivity;
+import com.example.datagram.activity.PerfilAmigoActivity;
+import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.example.datagram.helper.UsuarioFirebase;
+import com.example.datagram.model.Usuario;
+import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,6 +32,10 @@ public class PerfilFragment extends Fragment {
     private GridView gridViewPerfil;
     private TextView textPublicacoes, textSeguidores, textSeguindo;
     private Button buttonAcaoPerfil;
+    private Usuario usuarioLogado;
+    private StorageReference storageRef;
+    private String identificadorUsuario;
+
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -48,16 +59,29 @@ public class PerfilFragment extends Fragment {
         textSeguindo = view.findViewById(R.id.textViewNumSeguindo);
         buttonAcaoPerfil = view.findViewById(R.id.buttonAcaoPerfil);
 
-        //Abre edição de perfil
+        usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
+        addFotoPerfil();
+
         buttonAcaoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), EditarPerfilActivity.class);
                 startActivity(intent);
 
+
             }
         });
 
         return view;
+    }
+
+    public void addFotoPerfil(){
+        String caminhoFoto = usuarioLogado.getCaminhoFoto();
+        if(caminhoFoto != null){
+            Uri url = Uri.parse(caminhoFoto);
+            Glide.with(PerfilFragment.this)
+                    .load(url)
+                    .into(imagePerfil);
+        }
     }
 }
