@@ -95,7 +95,7 @@ public class Cadastro2Activity extends AppCompatActivity {
 
                                                             try {
                                                                 cadastrarUsuario(pesquisador);
-    
+
                                                             }catch (Exception e){
                                                                 e.getMessage();
                                                                 e.printStackTrace();
@@ -147,7 +147,7 @@ public class Cadastro2Activity extends AppCompatActivity {
                                     if(ValidaIdade.isGreatherThan18(DataNascimento)){
                                         if(!Escolaridade.isEmpty()){
                                             if(!CPF.isEmpty()){
-                                                if(!CPF.contains(".")){
+                                                //if(!CPF.contains(".")){
                                                     if(ValidaCPF.isCPF(CPF)){
                                                         Membro membro = new Membro(Nome,Senha,Email,DataNascimento,Escolaridade,CPF);
 
@@ -163,9 +163,9 @@ public class Cadastro2Activity extends AppCompatActivity {
                                                     }else {
                                                         Toast.makeText(Cadastro2Activity.this, "Digite um CPF válido!", Toast.LENGTH_SHORT).show();
                                                     }
-                                                }else {
-                                                    Toast.makeText(Cadastro2Activity.this, "Preencha o campo CPF sem os pontos!", Toast.LENGTH_SHORT).show();
-                                                }
+                                               // }else {
+                                                   // Toast.makeText(Cadastro2Activity.this, "Preencha o campo CPF sem os pontos!", Toast.LENGTH_SHORT).show();
+                                                //}
                                             }else {
                                                 Toast.makeText(Cadastro2Activity.this, "Preencha o campo CPF!", Toast.LENGTH_SHORT).show();
                                             }
