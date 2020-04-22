@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.example.datagram.R;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.helper.UsuarioFirebase;
+import com.example.datagram.helper.ValidaCPF;
+import com.example.datagram.helper.ValidaIdade;
 import com.example.datagram.model.Membro;
 import com.example.datagram.model.Pesquisador;
 import com.example.datagram.model.Usuario;
@@ -82,37 +84,41 @@ public class Cadastro2Activity extends AppCompatActivity {
                         if(!Senha.isEmpty()) {
                             if(!Email.isEmpty()){
                                 if(!DataNascimento.isEmpty()){
-                                    if(!DataInicioTrabalho.isEmpty()){
-                                        if(!Instituicao.isEmpty()){
-                                            if(!Formacao.isEmpty()){
-                                                if(!LinkCv.isEmpty()){
-                                                    if(!Estado.isEmpty()){
+                                    if(ValidaIdade.isGreatherThan18(DataNascimento)){
+                                        if(!DataInicioTrabalho.isEmpty()){
+                                            if(!Instituicao.isEmpty()){
+                                                if(!Formacao.isEmpty()){
+                                                    if(!LinkCv.isEmpty()){
+                                                        if(!Estado.isEmpty()){
 
-                                                        Pesquisador pesquisador = new Pesquisador(Nome,Senha,Email,DataNascimento,DataInicioTrabalho,Estado,Instituicao,Formacao,LinkCv);
+                                                            Pesquisador pesquisador = new Pesquisador(Nome,Senha,Email,DataNascimento,DataInicioTrabalho,Estado,Instituicao,Formacao,LinkCv);
 
-                                                        try {
-                                                            cadastrarUsuario(pesquisador);
+                                                            try {
+                                                                cadastrarUsuario(pesquisador);
+    
+                                                            }catch (Exception e){
+                                                                e.getMessage();
+                                                                e.printStackTrace();
+                                                            }
 
-                                                        }catch (Exception e){
-                                                            e.getMessage();
-                                                            e.printStackTrace();
+                                                        }else{
+                                                            Toast.makeText(Cadastro2Activity.this, "Preencha o campo Estado/Cidade!", Toast.LENGTH_SHORT).show();
                                                         }
-
                                                     }else{
-                                                        Toast.makeText(Cadastro2Activity.this, "Preencha o campo Estado/Cidade!", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Cadastro2Activity.this, "Preencha o Link do CV!", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }else{
-                                                    Toast.makeText(Cadastro2Activity.this, "Preencha o Link do CV!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Cadastro2Activity.this, "Preencha o campo Formação!", Toast.LENGTH_SHORT).show();
                                                 }
-                                            }else{
-                                                Toast.makeText(Cadastro2Activity.this, "Preencha o campo Formação!", Toast.LENGTH_SHORT).show();
-                                            }
 
-                                        }else{
-                                            Toast.makeText(Cadastro2Activity.this, "Preencha o nome da instituição", Toast.LENGTH_SHORT).show();
+                                            }else{
+                                                Toast.makeText(Cadastro2Activity.this, "Preencha o nome da instituição", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }else {
+                                            Toast.makeText(Cadastro2Activity.this, "Preencha a data em que iniciou os trabalhos com Data Science", Toast.LENGTH_SHORT).show();
                                         }
-                                    }else {
-                                        Toast.makeText(Cadastro2Activity.this, "Preencha a data em que iniciou os trabalhos com Data Science", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(Cadastro2Activity.this, "É necessário ter mais de 18 anos para inscrever-se!", Toast.LENGTH_SHORT).show();
                                     }
                                 }else{
                                 Toast.makeText(Cadastro2Activity.this, "Preencha a Data de Nascimento!", Toast.LENGTH_SHORT).show();
@@ -138,23 +144,36 @@ public class Cadastro2Activity extends AppCompatActivity {
                         if (!Senha.isEmpty()) {
                             if (!Email.isEmpty()) {
                                 if (!DataNascimento.isEmpty()) {
-                                    if(!Escolaridade.isEmpty()){
-                                        if(!CPF.isEmpty()){
-                                            Membro membro = new Membro(Nome,Senha,Email,DataNascimento,Escolaridade,CPF);
+                                    if(ValidaIdade.isGreatherThan18(DataNascimento)){
+                                        if(!Escolaridade.isEmpty()){
+                                            if(!CPF.isEmpty()){
+                                                if(!CPF.contains(".")){
+                                                    if(ValidaCPF.isCPF(CPF)){
+                                                        Membro membro = new Membro(Nome,Senha,Email,DataNascimento,Escolaridade,CPF);
 
-                                            try {
-                                                cadastrarUsuario(membro);
+                                                        try {
+                                                            campoCpf.setText(ValidaCPF.imprimeCPF(CPF));
+                                                            cadastrarUsuario(membro);
 
-                                            }catch (Exception e){
-                                                e.getMessage();
-                                                e.printStackTrace();
+                                                        }catch (Exception e){
+                                                            e.getMessage();
+                                                            e.printStackTrace();
+                                                        }
+
+                                                    }else {
+                                                        Toast.makeText(Cadastro2Activity.this, "Digite um CPF válido!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }else {
+                                                    Toast.makeText(Cadastro2Activity.this, "Preencha o campo CPF sem os pontos!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }else {
+                                                Toast.makeText(Cadastro2Activity.this, "Preencha o campo CPF!", Toast.LENGTH_SHORT).show();
                                             }
-
-                                        }else {
-                                            Toast.makeText(Cadastro2Activity.this, "Preencha o campo CPF!", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(Cadastro2Activity.this, "Preencha o campo Escolaridade!", Toast.LENGTH_SHORT).show();
                                         }
                                     }else{
-                                        Toast.makeText(Cadastro2Activity.this, "Preencha o campo Escolaridade!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Cadastro2Activity.this, "É necessário ter mais de 18 anos para inscrever-se!", Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                                     Toast.makeText(Cadastro2Activity.this, "Preencha a Data de Nascimento!", Toast.LENGTH_SHORT).show();
