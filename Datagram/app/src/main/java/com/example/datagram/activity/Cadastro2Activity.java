@@ -8,13 +8,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.datagram.R;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.helper.UsuarioFirebase;
@@ -38,16 +40,15 @@ import org.w3c.dom.CDATASection;
 import java.util.Calendar;
 
 
-public class Cadastro2Activity extends AppCompatActivity {
+public class Cadastro2Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText campoNome, campoSenha, campoEmail, campoDataNasc; //user comum
     private RadioButton radioSim, radioNao;//Verificador de membro ou pesquisador
     private EditText campoDataInicioTrabalho, campoInstituicao, campoFormacao, campoLinkCv, campoEstado; //pesquisador
-    private EditText campoEscolaridade, campoCpf; //Membro
+    private EditText  campoCpf; Spinner spinnerEscolaridade; String membroEscolaridade;//Membro
     private Button botaoFinalizarCadastro;
     private ProgressBar progressBar02;
-    private Usuario usuario;
-    private DatabaseReference usuariosRef;
+    //Aux
     private String tipoUsuario = "Membro";
     public  EditText campoData;
     DatePickerDialog.OnDateSetListener setListener;
@@ -61,6 +62,7 @@ public class Cadastro2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro02);
 
         inicializarComponentes();
+
         progressBar02.setVisibility(View.GONE);
 
 
@@ -137,7 +139,7 @@ public class Cadastro2Activity extends AppCompatActivity {
 
 
                 }else {
-                    String Escolaridade = campoEscolaridade.getText().toString();
+                    String Escolaridade = membroEscolaridade;
                     String CPF = campoCpf.getText().toString();
 
                     if (!Nome.isEmpty()) {
@@ -266,18 +268,18 @@ public class Cadastro2Activity extends AppCompatActivity {
             //Colocando os campos de pesquisador visiveis.
             campoDataInicioTrabalho.setVisibility(View.VISIBLE);
             campoInstituicao.setVisibility(View.VISIBLE);
-            campoFormacao.setVisibility(View.VISIBLE);
+            //campoFormacao.setVisibility(View.VISIBLE);
             campoLinkCv.setVisibility(View.VISIBLE);
             campoEstado.setVisibility(View.VISIBLE);
             //Colocando os campos de membro como invisiveis, caso o usuário mude de ideia.
-            campoEscolaridade.setVisibility(View.GONE);
+            spinnerEscolaridade.setVisibility(View.VISIBLE);
             campoCpf.setVisibility(View.GONE);
 
         }else if(radioNao.isPressed()){
             radioSim.setChecked(false);
             tipoUsuario = "Membro";
             //Colocando os campos de membro visiveis
-            campoEscolaridade.setVisibility(View.VISIBLE);
+            spinnerEscolaridade.setVisibility(View.VISIBLE);
             campoCpf.setVisibility(View.VISIBLE);
             //Colocando os campos de Pesquisador como invisiveis, caso o usuário mude de ideia.
             campoDataInicioTrabalho.setVisibility(View.GONE);
@@ -285,6 +287,8 @@ public class Cadastro2Activity extends AppCompatActivity {
             campoFormacao.setVisibility(View.GONE);
             campoLinkCv.setVisibility(View.GONE);
             campoEstado.setVisibility(View.GONE);
+
+            CriacaoSpinnerFormacao(spinnerEscolaridade);
 
         }
     }
@@ -308,13 +312,14 @@ public class Cadastro2Activity extends AppCompatActivity {
 
             //Membro
             campoCpf = findViewById(R.id.editCadastroCPF);
-            campoEscolaridade = findViewById(R.id.editCadastroEscolaridade);
+            spinnerEscolaridade = (Spinner)findViewById(R.id.editCadastroEscolaridade);
 
-            //Acessorios tela
+            //AcessoriosTela
             botaoFinalizarCadastro = findViewById(R.id.buttonCadastro02Finalizar);
             progressBar02 = findViewById(R.id.progressBar02);
 
             campoNome.requestFocus();
+
         }
 
         public void validaData(View v){
@@ -352,4 +357,23 @@ public class Cadastro2Activity extends AppCompatActivity {
 
         }
 
+     public void CriacaoSpinnerFormacao(Spinner spinner){
+         ArrayAdapter<CharSequence> spinnerEscolaridadeMembro = ArrayAdapter.createFromResource(this,R.array.escolaridade,R.layout.spinner_item);
+         spinnerEscolaridadeMembro.setDropDownViewResource(R.layout.spinner_dropdown_item);
+         spinner.setAdapter(spinnerEscolaridadeMembro);
+         spinner.setOnItemSelectedListener(this);
+     }
+
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        membroEscolaridade = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(),membroEscolaridade,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        membroEscolaridade = parent.getItemAtPosition(0).toString();
+    }
 }

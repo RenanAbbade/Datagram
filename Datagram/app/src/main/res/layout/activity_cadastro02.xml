@@ -244,22 +244,22 @@
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             />
-
-        <EditText
+<!--Spinner-->
+        <Spinner
             android:id="@+id/editCadastroEscolaridade"
             android:layout_width="345dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:background="@drawable/background_caixa_texto"
             android:ems="10"
             android:hint="Escolaridade"
             android:inputType="text"
             android:padding="8dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:paddingBottom="0dp"
             android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
-            />
+            android:spinnerMode="dropdown"
+            android:textColorHint="@android:color/white" />
         <ProgressBar
             android:id="@+id/progressBar02"
             style="?android:attr/progressBarStyle"
