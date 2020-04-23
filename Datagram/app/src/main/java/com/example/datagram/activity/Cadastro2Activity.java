@@ -63,8 +63,9 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
 
         inicializarComponentes();
 
-        progressBar02.setVisibility(View.GONE);
+        CriacaoSpinnerFormacao(spinnerEscolaridade);
 
+        progressBar02.setVisibility(View.GONE);
 
         botaoFinalizarCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +79,7 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
                 if(tipoUsuario.equalsIgnoreCase("Pesquisador")){
                     String DataInicioTrabalho = campoDataInicioTrabalho.getText().toString();
                     String Instituicao = campoInstituicao.getText().toString();
-                    String Formacao = campoFormacao.getText().toString();
+                    String Formacao = membroEscolaridade;
                     String LinkCv = campoLinkCv.getText().toString();
                     String Estado = campoEstado.getText().toString();
 
