@@ -5,56 +5,64 @@ public class Pesquisador extends Usuario {
     private String dataInicioTrabalho;
     private String estado;
     private String instituicao;
-    private String Formacao;
+    private String formacao;
     private String linkCv;
 
 
     public Pesquisador() {
 
     }
-    //CadastroBase
-    public Pesquisador(String nome,String Senha, String email, String dataNasc){
-        super(nome, Senha, email, dataNasc);
-    }
 
-    public String getDataInicioTrabalho() {
-        return dataInicioTrabalho;
-    }
 
-    public void setDataInicioTrabalho(String dataInicioTrabalho) {
-        this.dataInicioTrabalho = dataInicioTrabalho;
-    }
+    public Pesquisador(String nome, String Senha, String email, String dataNasc, String dataInicioTrabalho, String estado, String instituicao, String formacao, String linkCv)
+        {
+            super(nome, Senha, email, dataNasc, "Pesquisador");
+            this.dataInicioTrabalho = dataInicioTrabalho;
+            this.estado = estado;
+            this.instituicao = instituicao;
+            this.formacao = formacao;
+            this.linkCv = linkCv;
+        }
 
-    public String getEstado() {
-        return estado;
-    }
+        public String getDataInicioTrabalho () {
+            return dataInicioTrabalho;
+        }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+        public void setDataInicioTrabalho (String dataInicioTrabalho){
+            this.dataInicioTrabalho = dataInicioTrabalho;
+        }
 
-    public String getInstituicao() {
-        return instituicao;
-    }
+        public String getEstado () {
+            return estado;
+        }
 
-    public void setInstituicao(String instituicao) {
-        this.instituicao = instituicao;
-    }
+        public void setEstado (String estado){
+            this.estado = estado;
+        }
 
-    public String getFormacao() {
-        return Formacao;
-    }
+        public String getInstituicao () {
+            return instituicao;
+        }
 
-    public void setFormacao(String formacao) {
-        Formacao = formacao;
-    }
+        public void setInstituicao (String instituicao){
+            this.instituicao = instituicao;
+        }
 
-    public String getLinkCv() {
-        return linkCv;
-    }
+        public String getFormacao () {
+            return formacao;
+        }
 
-    public void setLinkCv(String linkCv) {
-        this.linkCv = linkCv;
-    }
+        public void setFormacao (String formacao){
+            this.formacao = formacao;
+        }
 
-}
+        public String getLinkCv () {
+            return linkCv;
+        }
+
+        public void setLinkCv (String linkCv){
+            this.linkCv = linkCv;
+        }
+
+
+    }

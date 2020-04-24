@@ -9,11 +9,11 @@ public class Membro extends Usuario {
     public Membro() {
     }
 
-    //CadastroBase
-    public Membro(String nome,String Senha, String email, String dataNasc){
-        super(nome, Senha, email, dataNasc);
+    public Membro(String nome, String Senha, String email, String dataNasc, String escolaridade, String CPF) {
+        super(nome, Senha, email, dataNasc, "Membro");
+        this.escolaridade = escolaridade;
+        this.CPF = CPF;
     }
-    //Cadastro especifico
 
     public String getEscolaridade() {
         return escolaridade;

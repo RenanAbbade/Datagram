@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Cadastro02"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_degrade"
+    tools:context=".activity.Cadastro2Activity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-62dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="147dp"
+            app:srcCompat="@drawable/logo"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/textCadastrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Deseja se cadastrar como pesquisador?"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+             />
+
+        <RadioButton
+            android:id="@+id/radioButtonCadastroSim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:checked="false"
+            android:duplicateParentState="false"
+            android:text="Sim"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textColorHighlight="@android:color/white"
+            android:textStyle="bold"
+            android:onClick="checkButton"
+             />
+
+        <RadioButton
+            android:id="@+id/radioButtonCadastroNao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:duplicateParentState="false"
+            android:text="Não"
+            android:textColor="@android:color/white"
+            android:textColorHighlight="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="#FFFFFF"
+            android:textCursorDrawable="@android:color/white"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:onClick="checkButton"
+             />
+
+        <EditText
+            android:id="@+id/editCadastroNome"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Nome"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:paddingTop="30dp"
+            android:paddingBottom="0dp"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+             />
+
+        <EditText
+            android:id="@+id/editCadastroSenha"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Senha"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="0dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+         />
+
+        <EditText
+            android:id="@+id/editCadastroEmail"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:paddingBottom="0dp"
+            android:text=""
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+             />
+
+        <EditText
+            android:id="@+id/editCadastroDataNasc"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Data de nascimento"
+            android:inputType="date"
+            android:padding="8dp"
+            android:paddingBottom="0dp"
+            android:text=""
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:onClick="validaData"
+            android:focusable="false"
+            android:enabled="true"
+             />
+
+        <EditText
+            android:id="@+id/editCadastro02Estado"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Digite a cidade/estado onde reside"
+            android:inputType="text"
+            android:padding="8dp"
+            android:paddingBottom="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+
+            android:visibility="gone"
+             />
+
+        <EditText
+            android:id="@+id/editCadastro02CV"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Link CV"
+            android:inputType="text"
+            android:padding="8dp"
+            android:paddingBottom="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:visibility="gone"
+          />
+
+        <EditText
+            android:id="@+id/editCadastro02Formacao"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Titulo / Formação academica"
+            android:inputType="text"
+            android:padding="8dp"
+            android:paddingBottom="0dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/editCadastro02Instituicao"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Instituição onde trabalha"
+            android:inputType="text"
+            android:padding="8dp"
+            android:paddingBottom="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:visibility="gone"
+             />
+
+        <EditText
+            android:id="@+id/editCadastro02DataTrabalho"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Data que iniciou como Cientista de dados"
+            android:inputType="datetime"
+            android:padding="8dp"
+            android:textSize="17dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="0dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:visibility="gone"
+            android:focusable="false"
+            android:enabled="true"
+            android:onClick="validaData"
+            />
+
+        <EditText
+            android:id="@+id/editCadastroCPF"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="CPF"
+            android:inputType="number"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="0dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            />
+<!--Spinner-->
+        <Spinner
+            android:id="@+id/editCadastroEscolaridade"
+            android:layout_width="345dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_caixa_texto"
+            android:ems="10"
+            android:hint="Escolaridade"
+            android:inputType="text"
+            android:padding="8dp"
+            android:paddingBottom="0dp"
+            android:textColor="@android:color/white"
+            android:spinnerMode="dropdown"
+            android:textColorHint="@android:color/white" />
+        <ProgressBar
+            android:id="@+id/progressBar02"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonCadastro02Finalizar" />
+        <Button
+            android:id="@+id/buttonCadastro02Finalizar"
+            android:layout_width="345dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Cadastrar"
+            android:textColor="@android:color/white" />
+
+
+
+    </LinearLayout>
+</ScrollView>

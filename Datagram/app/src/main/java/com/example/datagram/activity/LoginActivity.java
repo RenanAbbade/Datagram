@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirCadastro(View view){
 
-        Intent i= new Intent(LoginActivity.this, Cadastro1Activity.class);
+        Intent i= new Intent(LoginActivity.this, Cadastro2Activity.class);
         startActivity(i);
     }
 

@@ -21,17 +21,19 @@ public  class Usuario implements Serializable {
     private String email;
     private String dataNasc;
     private String caminhoFoto;
+    private String tipoUsuario;
     public static int numeroUsuarios;
 
 
     public Usuario() {
     }
 
-    public Usuario(String nome, String Senha, String email, String dataNasc){
+    public Usuario(String nome, String Senha, String email, String dataNasc, String tipoUsuario){
         setNome(nome);//iremos sempre criar usuario com o nome em caixa alta, evitando problemas de busca
         this.Senha = Senha;
         this.email = email;
         this.dataNasc = dataNasc;
+        this.tipoUsuario = tipoUsuario;
         numeroUsuarios++;
     }
 
