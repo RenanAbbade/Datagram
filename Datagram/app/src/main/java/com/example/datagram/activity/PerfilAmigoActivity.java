@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.datagram.R;
 import com.example.datagram.fragment.PerfilFragment;
 import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.example.datagram.helper.UsuarioFirebase;
 import com.example.datagram.model.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,9 +31,13 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private CircleImageView imagePerfil;
     private TextView textPublicacoes, textSeguidores, textSeguindo;
 
+    private DatabaseReference firebaseRef;
     private DatabaseReference usuariosRef;
     private DatabaseReference usuarioAmigoRef;
+    private DatabaseReference seguidoresRef;
     private ValueEventListener valueEventListenerPerfilAmigo;
+
+    private String idUsuarioLogado;
 
 
     @Override
@@ -39,7 +45,11 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_amigo);
 
-        usuariosRef = ConfiguracaoFirebase.getFirebase().child("usuarios"); // <-- acessa os users do firebase
+        //configurcoes iniciais
+        firebaseRef = ConfiguracaoFirebase.getFirebase(); // <-- obtenho um objeto do banco
+        usuariosRef = firebaseRef.child("usuarios"); // <-- acessa os users do banco
+        seguidoresRef = firebaseRef.child("seguidores");
+        idUsuarioLogado = UsuarioFirebase.getIdentificadorUsuarioPorID();
 
         inicializaComponentes();
 
@@ -63,7 +73,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
             addFotoPerfil();
 
-
+            verificaSegueUserAmigo();
         }
     }
 
@@ -80,6 +90,36 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return false;
+    }
+
+    private void verificaSegueUserAmigo(){
+        DatabaseReference seguidorRef = seguidoresRef
+                .child(idUsuarioLogado)
+                .child(usuarioSelecionado.getId());
+        seguidorRef.addListenerForSingleValueEvent(new ValueEventListener() { //forSingle recupera os dados apenas uma unica vez
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){ //verifica se existe dados dentro do userLogado se sim entao estou seguindo o usuarioSelecionado
+                    habilitarBotaoSeguir(true);
+                }else{
+                    //nao esta seguindo
+                    habilitarBotaoSeguir(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void habilitarBotaoSeguir(boolean segueUsuario){
+        if(segueUsuario){
+            buttonAcaoPerfil.setText(("Seguindo"));
+        }else{
+            buttonAcaoPerfil.setText(("Seguir"));
+        }
     }
 
     //metodo executado sempre apos o onCreate no ciclo de vida de uma activity
@@ -128,5 +168,4 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                     .into(imagePerfil);
         }
     }
-
 }
