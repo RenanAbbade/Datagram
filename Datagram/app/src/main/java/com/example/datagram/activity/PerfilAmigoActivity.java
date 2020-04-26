@@ -6,11 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.datagram.R;
 import com.example.datagram.fragment.PerfilFragment;
+import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.model.Usuario;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.net.URI;
 
@@ -21,16 +27,21 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private Usuario usuarioSelecionado;
     private Button buttonAcaoPerfil;
     private CircleImageView imagePerfil;
+    private TextView textPublicacoes, textSeguidores, textSeguindo;
+
+    private DatabaseReference usuariosRef;
+    private DatabaseReference usuarioAmigoRef;
+    private ValueEventListener valueEventListenerPerfilAmigo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_amigo);
 
-        //inicializa os componentes
-        imagePerfil = findViewById(R.id.imagePerfil);
-        buttonAcaoPerfil = findViewById(R.id.buttonAcaoPerfil);
-        buttonAcaoPerfil.setText("Seguir");
+        usuariosRef = ConfiguracaoFirebase.getFirebase().child("usuarios"); // <-- acessa os users do firebase
+
+        inicializaComponentes();
 
         //Configurar toolbar
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
@@ -52,13 +63,60 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
             addFotoPerfil();
 
+
         }
+    }
+
+    private void inicializaComponentes(){
+        imagePerfil = findViewById(R.id.imagePerfil);
+        buttonAcaoPerfil = findViewById(R.id.buttonAcaoPerfil);
+        textPublicacoes = findViewById(R.id.textViewNumPub);
+        textSeguidores = findViewById(R.id.textViewNumSeguidores);
+        textSeguindo = findViewById(R.id.textViewNumSeguindo);
+        buttonAcaoPerfil.setText("Seguir");
     }
 
     @Override
     public boolean onSupportNavigateUp(){
         finish();
         return false;
+    }
+
+    //metodo executado sempre apos o onCreate no ciclo de vida de uma activity
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarDadosPerfilAmigo();
+    }
+    //caso o user saia da activity desativamos esta pagina(evento), economizando recursos do sistema
+    @Override
+    protected void onStop() {
+        super.onStop();
+        usuarioAmigoRef.removeEventListener(valueEventListenerPerfilAmigo);
+    }
+
+    private void recuperarDadosPerfilAmigo(){
+        usuarioAmigoRef = usuariosRef.child(usuarioSelecionado.getId()); // <-- acesso o user por id, naquele que foi selecionado na busca
+        valueEventListenerPerfilAmigo = usuarioAmigoRef.addValueEventListener(
+        new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class); // recupero nosso user
+                String postagens = String.valueOf(usuario.getPostagens());
+                String seguindo = String.valueOf(usuario.getSeguindo());
+                String seguidores = String.valueOf(usuario.getSeguidores());
+
+                //configura valores recuperados, inserindo estes valores no perfil do usuario
+                textPublicacoes.setText(postagens);
+                textSeguindo.setText(seguindo);
+                textSeguidores.setText(seguidores);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void addFotoPerfil(){
@@ -70,4 +128,5 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                     .into(imagePerfil);
         }
     }
+
 }
