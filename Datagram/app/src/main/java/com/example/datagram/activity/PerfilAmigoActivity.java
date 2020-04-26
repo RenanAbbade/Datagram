@@ -87,7 +87,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         textPublicacoes = findViewById(R.id.textViewNumPub);
         textSeguidores = findViewById(R.id.textViewNumSeguidores);
         textSeguindo = findViewById(R.id.textViewNumSeguindo);
-        buttonAcaoPerfil.setText("Seguir");
+        buttonAcaoPerfil.setText("Carregando");
     }
 
     @Override
@@ -159,7 +159,24 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                 .child(uAmigo.getId());
                 seguidorRef.setValue(dadosAmigo);
 
+                //alterar botao para seguindo
+                buttonAcaoPerfil.setText("Seguindo");
+                //depois de seguir o user, o botao de seguir e desabilitado
+                buttonAcaoPerfil.setOnClickListener(null);
 
+                //incrementar seguindo do user logado
+                int qtdSeguindo = uLogado.getSeguindo()+1;
+                HashMap<String,Object> dadosSeguindo = new HashMap<>();
+                dadosSeguindo.put("seguindo",qtdSeguindo);
+                DatabaseReference usuarioSeguindo = usuariosRef.child(uLogado.getId());
+                usuarioSeguindo.updateChildren(dadosSeguindo);
+
+                //incrementar seguidores do amigos
+                int qtdSeguidores = uAmigo.getSeguidores()+1;
+                HashMap<String,Object> dadosSeguidores = new HashMap<>();
+                dadosSeguidores.put("seguidores",qtdSeguidores);
+                DatabaseReference usuarioSeguidores = usuariosRef.child(uAmigo.getId());
+                usuarioSeguidores.updateChildren(dadosSeguidores);
     }
 
     private void habilitarBotaoSeguir(boolean segueUsuario){
