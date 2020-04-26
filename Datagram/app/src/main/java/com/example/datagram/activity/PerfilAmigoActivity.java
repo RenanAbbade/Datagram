@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,12 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.net.URI;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PerfilAmigoActivity extends AppCompatActivity {
 
     private Usuario usuarioSelecionado;
+    private Usuario usuarioLogado;
+
     private Button buttonAcaoPerfil;
     private CircleImageView imagePerfil;
     private TextView textPublicacoes, textSeguidores, textSeguindo;
@@ -34,7 +38,9 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private DatabaseReference firebaseRef;
     private DatabaseReference usuariosRef;
     private DatabaseReference usuarioAmigoRef;
+    private DatabaseReference usuarioLogadoRef;
     private DatabaseReference seguidoresRef;
+
     private ValueEventListener valueEventListenerPerfilAmigo;
 
     private String idUsuarioLogado;
@@ -72,8 +78,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(usuarioSelecionado.getNome());
 
             addFotoPerfil();
-
-            verificaSegueUserAmigo();
         }
     }
 
@@ -92,6 +96,24 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         return false;
     }
 
+    private void recuperarDadosUsuarioLogado(){
+        usuarioLogadoRef = usuariosRef.child(idUsuarioLogado);
+        usuarioLogadoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //como precisamos de mais dados alem do que temos no usuariosRef, precisamos de um obj do tipo Usuario
+                //para entao conseguir acesso aos dados de postagen,seguidor...
+                usuarioLogado = dataSnapshot.getValue(Usuario.class);
+                verificaSegueUserAmigo();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void verificaSegueUserAmigo(){
         DatabaseReference seguidorRef = seguidoresRef
                 .child(idUsuarioLogado)
@@ -104,6 +126,13 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                 }else{
                     //nao esta seguindo
                     habilitarBotaoSeguir(false);
+                    //add evento para seguir
+                    buttonAcaoPerfil.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            salvarSeguidor(usuarioLogado, usuarioSelecionado);
+                        }
+                    });
                 }
             }
 
@@ -112,6 +141,25 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void salvarSeguidor(Usuario uLogado, Usuario uAmigo){
+        /*
+        ESTRUTURA REFERENTE A LOGICA DE SEGUIR
+        seguidores
+        id_userlogado <--
+            id_userSelecionado < -- user que foi buscado
+                dados da pessoa que esta sendo seguida
+         */
+        HashMap<String,Object> dadosAmigo = new HashMap<>();
+        dadosAmigo.put("nome",uAmigo.getNome());
+        dadosAmigo.put("caminhoFoto",uAmigo.getCaminhoFoto());
+
+        DatabaseReference seguidorRef = seguidoresRef
+                .child(uLogado.getId())
+                .child(uAmigo.getId());
+                seguidorRef.setValue(dadosAmigo);
+
+
     }
 
     private void habilitarBotaoSeguir(boolean segueUsuario){
@@ -122,11 +170,14 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         }
     }
 
-    //metodo executado sempre apos o onCreate no ciclo de vida de uma activity
+    //metodo executado sempre apos o onCreate no ciclo de vida de uma activity, com isso
+    //mantemos os dados sempre o mais atualizado possivel.
     @Override
     protected void onStart() {
         super.onStart();
         recuperarDadosPerfilAmigo();
+        recuperarDadosUsuarioLogado();
+
     }
     //caso o user saia da activity desativamos esta pagina(evento), economizando recursos do sistema
     @Override
