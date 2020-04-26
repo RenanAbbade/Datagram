@@ -1,5 +1,6 @@
 package com.example.datagram.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.datagram.R;
 import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.example.datagram.helper.Permissao;
 import com.example.datagram.helper.UsuarioFirebase;
 import com.example.datagram.model.Usuario;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,10 +44,17 @@ public class EditarPerfilActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private String identificadorUsuario;
 
+    private String[] permissoesNecessarias = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
+
+        //validar permissoes
+        Permissao.validarPermissoes(permissoesNecessarias,this,1);
 
         //configuracoes iniciais
         usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
