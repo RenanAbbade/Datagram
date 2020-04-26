@@ -15,6 +15,7 @@ import com.example.datagram.R;
 import com.example.datagram.fragment.PerfilFragment;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.helper.UsuarioFirebase;
+import com.example.datagram.model.Postagem;
 import com.example.datagram.model.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -40,6 +43,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private DatabaseReference usuarioAmigoRef;
     private DatabaseReference usuarioLogadoRef;
     private DatabaseReference seguidoresRef;
+    private DatabaseReference postagensUsuarioRef;
 
     private ValueEventListener valueEventListenerPerfilAmigo;
 
@@ -74,10 +78,17 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         if(bundle != null){
             usuarioSelecionado = (Usuario) bundle.getSerializable("usuarioSelecionado");
 
+            //Configurar referencia de postagens do usuario
+            postagensUsuarioRef = ConfiguracaoFirebase.getFirebase()
+                    .child("postagens")
+                    .child(usuarioSelecionado.getId());
+
             //Configurar nome do user na toolbar
             getSupportActionBar().setTitle(usuarioSelecionado.getNome());
 
             addFotoPerfil();
+
+            carregarFotosPostagem();
         }
     }
 
@@ -94,6 +105,27 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return false;
+    }
+
+    public void carregarFotosPostagem(){
+        postagensUsuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> urlFotos = new ArrayList<>();
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    Postagem postagem = ds.getValue(Postagem.class);
+                    urlFotos.add(postagem.getCaminhoFoto());
+                }
+
+                int qtdPostagem = urlFotos.size();
+                textPublicacoes.setText((String.valueOf(qtdPostagem)));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void recuperarDadosUsuarioLogado(){
@@ -210,12 +242,12 @@ public class PerfilAmigoActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class); // recupero nosso user
-                String postagens = String.valueOf(usuario.getPostagens());
+//                String postagens = String.valueOf(usuario.getPostagens());
                 String seguindo = String.valueOf(usuario.getSeguindo());
                 String seguidores = String.valueOf(usuario.getSeguidores());
 
                 //configura valores recuperados, inserindo estes valores no perfil do usuario
-                textPublicacoes.setText(postagens);
+//                textPublicacoes.setText(postagens);
                 textSeguindo.setText(seguindo);
                 textSeguidores.setText(seguidores);
             }
