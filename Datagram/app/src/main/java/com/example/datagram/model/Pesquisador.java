@@ -1,5 +1,7 @@
 package com.example.datagram.model;
 
+import java.util.List;
+
 public class Pesquisador extends Usuario {
 
     private String dataInicioTrabalho;
@@ -7,6 +9,8 @@ public class Pesquisador extends Usuario {
     private String instituicao;
     private String formacao;
     private String linkCv;
+    private String municipio;
+    private List<String> topicosInteresse;
 
 
     public Pesquisador() {
@@ -14,13 +18,14 @@ public class Pesquisador extends Usuario {
     }
 
 
-    public Pesquisador(String nome, String Senha, String email, String dataNasc, String dataInicioTrabalho, String estado, String instituicao, String formacao, String linkCv)
+    public Pesquisador(String nome, String Senha, String email, String dataNasc, String dataInicioTrabalho, String estado, String Municipio, String instituicao, String formacao, String linkCv)
         {
             super(nome, Senha, email, dataNasc, "Pesquisador");
             this.dataInicioTrabalho = dataInicioTrabalho;
             this.estado = estado;
             this.instituicao = instituicao;
             this.formacao = formacao;
+            this.municipio = Municipio;
             this.linkCv = linkCv;
         }
 
@@ -40,7 +45,15 @@ public class Pesquisador extends Usuario {
             this.estado = estado;
         }
 
-        public String getInstituicao () {
+        public String getMunicipio() {
+            return municipio;
+        }
+
+        public void setMunicipio(String municipio) {
+            this.municipio = municipio;
+        }
+
+    public String getInstituicao () {
             return instituicao;
         }
 

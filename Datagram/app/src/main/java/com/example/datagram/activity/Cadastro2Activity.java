@@ -114,7 +114,7 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
                                                         if(!Estado.equalsIgnoreCase("UF")){
                                                             if(!Municipio.equalsIgnoreCase("Municipio")){
 
-                                                                Pesquisador pesquisador = new Pesquisador(Nome,Senha,Email,DataNascimento,DataInicioTrabalho,Estado,Instituicao,Formacao,LinkCv);
+                                                                Pesquisador pesquisador = new Pesquisador(Nome,Senha,Email,DataNascimento,DataInicioTrabalho,Estado,Municipio,Instituicao,Formacao,LinkCv);
 
                                                                 try {
                                                                     cadastrarUsuario(pesquisador);
