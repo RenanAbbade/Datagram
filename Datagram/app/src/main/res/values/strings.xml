@@ -1,14 +1,4 @@
 <resources>
     <string name="app_name">Datagram</string>
 
-    <string-array name="escolaridade">
-        <item>Escolaridade..</item>
-        <item >Doutorado/Pós-Doutorado(PhD)</item>
-        <item>Mestrado (Msc)</item>
-        <item>Graduação</item>
-        <item>Ensino Médio</item>
-        <item>Ensino Fundamental</item>
-        <item>Não Frequentou</item>
-    </string-array>
-
 </resources>

@@ -77,13 +77,11 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
 
         inicializarComponentes();
 
-        CriacaoSpinnerFormacao(spinnerEscolaridade);
+        CriacaoSpinnerFormacao(spinnerEscolaridade,tipoUsuario);
         //campoEstado
         UfApiTask UfService = new UfApiTask();
         //Chamando API do IBGE para consulta de estado/municipio
         UfService.execute();
-
-
 
         progressBar02.setVisibility(View.GONE);
 
@@ -301,6 +299,7 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
             campoCpf.setVisibility(View.GONE);
             spinnerCampoUF.setVisibility(View.VISIBLE);
             spinnerCampoMunicipio.setVisibility(View.VISIBLE);
+            CriacaoSpinnerFormacao(spinnerEscolaridade,tipoUsuario);
 
         }else if(radioNao.isPressed()){
             radioSim.setChecked(false);
@@ -315,6 +314,7 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
             campoLinkCv.setVisibility(View.GONE);
             spinnerCampoUF.setVisibility(View.GONE);
             spinnerCampoMunicipio.setVisibility(View.GONE);
+            CriacaoSpinnerFormacao(spinnerEscolaridade,tipoUsuario);
 
         }
     }
@@ -407,13 +407,36 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
     }
 
         //Reusar para lista de estados/uf
-     public void CriacaoSpinnerFormacao(Spinner spinner){
-         ArrayAdapter<CharSequence> spinnerEscolaridadeMembro = ArrayAdapter.createFromResource(this,R.array.escolaridade, R.layout.spinner_item);
+     public void CriacaoSpinnerFormacao(Spinner spinner, String tipoUsuario){
+         List<String> Formacoes;
+        if(tipoUsuario.equalsIgnoreCase("Pesquisador")){
+            Formacoes = new ArrayList<String>(){
+                {
+                    add("Escolaridade");
+                    add("Doutorado/Pós-Doutorado(PhD)");
+                    add("Mestrado (Msc)");
+                    add("Graduação");
+                }
+            };
+        }else{
+            Formacoes = new ArrayList<String>(){
+                {
+                    add("Escolaridade");
+                    add("Doutorado/Pós-Doutorado(PhD)");
+                    add("Mestrado (Msc)");
+                    add("Graduação");
+                    add("Ensino Médio");
+                    add("Ensino Fundamental");
+                    add("Não frequentei");
+                }
+        };}
+
+         ArrayAdapter<String> spinnerEscolaridadeMembro = new ArrayAdapter<String>(this, R.layout.spinner_item,Formacoes);
          spinnerEscolaridadeMembro.setDropDownViewResource(R.layout.spinner_dropdown_item);
          spinner.setAdapter(spinnerEscolaridadeMembro);
          spinner.setOnItemSelectedListener(this);
-         membroEscolaridade = "Escolaridade";
      }
+
     public void CriacaoSpinnerUF(Spinner spinner, List<String> s){
         s.add(0,"UF");
         ArrayAdapter<String> spinnerUfs = new ArrayAdapter<String>(this, R.layout.spinner_item,s);
@@ -435,7 +458,8 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(parent.getItemAtPosition(0).toString() == "Escolaridade"){
             membroEscolaridade = parent.getItemAtPosition(position).toString();
-            Toast.makeText(parent.getContext(),membroEscolaridade,Toast.LENGTH_SHORT).show();
+            if(!membroEscolaridade.equalsIgnoreCase("Escolaridade"))
+                Toast.makeText(parent.getContext(),membroEscolaridade,Toast.LENGTH_SHORT).show();
 
         }if(parent.getItemAtPosition(0).toString() == "UF"){
             pesquisadorUF = parent.getItemAtPosition(position).toString();
