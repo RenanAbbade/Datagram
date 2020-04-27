@@ -47,6 +47,16 @@ public  class Usuario implements Serializable {
         usuarioRef.setValue(this);
     }
 
+    public void atualizarQtdPostagem(){
+        //entramos no database
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+        //e depois na arvore de usuarios, e filtramos apenas 1 user pelo id
+        DatabaseReference usuarioRef = firebaseRef.child("usuarios").child(getId());
+        HashMap<String,Object> dados = new HashMap<>();
+        dados.put("postagens",getPostagens());
+        usuarioRef.updateChildren(dados);
+    }
+
     public void atualizar(){
         //entramos no database
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
