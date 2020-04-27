@@ -31,9 +31,15 @@ public class ValidaIdade {
 
         final int year = calendar.get(Calendar.YEAR);
 
+        if(anoEmp > year)
+            return false;
+        if(anoNasc > year)
+            return false;
+
         if(anoEmp-anoNasc>=18)
             return true;
-        else return false;
+        else
+            return false;
     }
 
 
