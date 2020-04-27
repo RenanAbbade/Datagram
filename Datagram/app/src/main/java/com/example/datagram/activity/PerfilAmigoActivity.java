@@ -1,5 +1,6 @@
 package com.example.datagram.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
@@ -58,6 +60,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private ValueEventListener valueEventListenerPerfilAmigo;
 
     private String idUsuarioLogado;
+    private List<Postagem> postagens;
 
 
     @Override
@@ -101,6 +104,19 @@ public class PerfilAmigoActivity extends AppCompatActivity {
             inicializarImageLoader();
 
             carregarFotosPostagem();
+
+            //aqui saberemos qual dos itens de postagen foi selecionado
+            gridViewPerfil.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Postagem postagem = postagens.get(position);
+                    Intent i = new Intent(getApplicationContext(),VizualizarPostagemActivity.class);
+                    i.putExtra("postagem",postagem);
+                    i.putExtra("usuario",usuarioSelecionado);
+                    startActivity(i);
+
+                }
+            });
         }
     }
 
@@ -137,6 +153,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     }
 
     public void carregarFotosPostagem(){
+        postagens = new ArrayList<>();
         postagensUsuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -148,7 +165,8 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                 List<String> urlFotos = new ArrayList<>();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Postagem postagem = ds.getValue(Postagem.class);
-                    urlFotos.add(postagem.getCaminhoFoto());
+                    postagens.add(postagem); // <--array de postagens
+                    urlFotos.add(postagem.getCaminhoFoto()); // <--array de urlfotos
                 }
 
                 int qtdPostagem = urlFotos.size();

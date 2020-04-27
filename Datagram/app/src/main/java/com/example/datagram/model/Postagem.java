@@ -13,7 +13,9 @@ package com.example.datagram.model;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.google.firebase.database.DatabaseReference;
 
-public class Postagem {
+import java.io.Serializable;
+
+public class Postagem implements Serializable {
     private String id;
     private String idUsuario;
     private String descricao;
