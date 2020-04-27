@@ -17,6 +17,7 @@ import com.example.datagram.activity.PerfilAmigoActivity;
 import com.example.datagram.adapter.AdapterPesquisa;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.helper.RecyclerItemClickListener;
+import com.example.datagram.helper.UsuarioFirebase;
 import com.example.datagram.model.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,8 @@ public class PesquisaFragment extends Fragment {
     private DatabaseReference usuariosRef;
     private AdapterPesquisa adapterPesquisa;
 
+    private String idUsuarioLogado;
+
     public PesquisaFragment() {
         // Required empty public constructor
     }
@@ -58,6 +61,8 @@ public class PesquisaFragment extends Fragment {
         //configuracoes iniciais
         listaUsuarios = new ArrayList<>();
         usuariosRef = ConfiguracaoFirebase.getFirebase().child("usuarios");
+        idUsuarioLogado = UsuarioFirebase.getIdentificadorUsuarioPorID();
+
 
         //configurar RecyclerView
         recylerViewPesquisa.setHasFixedSize(true);
@@ -127,7 +132,10 @@ public class PesquisaFragment extends Fragment {
                     listaUsuarios.clear();
 
                     for(DataSnapshot ds : dataSnapshot.getChildren()){
-                        listaUsuarios.add(ds.getValue(Usuario.class)); //recuperamos o user do fb
+                        Usuario usuario = ds.getValue(Usuario.class);  // <-- recupera usuario do fb
+                        if(idUsuarioLogado.equals(usuario.getId()))
+                            continue;
+                        listaUsuarios.add(usuario);
                     }
                     adapterPesquisa.notifyDataSetChanged(); //notificamos ao adapter as mudancas
                 }
