@@ -8,10 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.datagram.R;
+import com.example.datagram.adapter.AdapterGrid;
 import com.example.datagram.fragment.PerfilFragment;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.helper.UsuarioFirebase;
@@ -21,6 +24,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,6 +45,8 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private Button buttonAcaoPerfil;
     private CircleImageView imagePerfil;
     private TextView textPublicacoes, textSeguidores, textSeguindo;
+    private GridView gridViewPerfil;
+    private AdapterGrid adapterGrid;
 
     private DatabaseReference firebaseRef;
     private DatabaseReference usuariosRef;
@@ -88,11 +98,14 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
             addFotoPerfil();
 
+            inicializarImageLoader();
+
             carregarFotosPostagem();
         }
     }
 
     private void inicializaComponentes(){
+        gridViewPerfil = findViewById(R.id.GridViewPerfil);
         imagePerfil = findViewById(R.id.imagePerfil);
         buttonAcaoPerfil = findViewById(R.id.buttonAcaoPerfil);
         textPublicacoes = findViewById(R.id.textViewNumPub);
@@ -107,10 +120,31 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
+    Instancia a UniversalImageLoader passando uma configuracao inicial Obrigatorio! para seu uso
+    alem disso fazemos algumas configs a mais relacionado ao memorycache, para um carregamento mais rapido das img's
+     */
+    public void inicializarImageLoader(){
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+                .memoryCacheSize(2 * 1024 * 1024)
+                .memoryCacheSizePercentage(13) // default
+                .diskCacheSize(50 * 1024 * 1024)
+                .diskCacheFileCount(100)
+                .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
+			.build();
+        ImageLoader.getInstance().init(config);
+    }
+
     public void carregarFotosPostagem(){
         postagensUsuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                //Configurar o tamanho do grid
+                int tamanhoGrid = getResources().getDisplayMetrics().widthPixels; // <-- recupero a largura que temos na tela pelo aparelho do user
+                int tamanhoImagem = tamanhoGrid/3; // <-- divido por 3 pois na minha gridView foi definido 3 fotos por linha
+                gridViewPerfil.setColumnWidth(tamanhoImagem);
+                
                 List<String> urlFotos = new ArrayList<>();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     Postagem postagem = ds.getValue(Postagem.class);
@@ -119,6 +153,11 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
                 int qtdPostagem = urlFotos.size();
                 textPublicacoes.setText((String.valueOf(qtdPostagem)));
+
+                //configurar adapter
+                adapterGrid = new AdapterGrid(getApplicationContext(),R.layout.grid_postagem,urlFotos);
+                gridViewPerfil.setAdapter(adapterGrid);
+
             }
 
             @Override
