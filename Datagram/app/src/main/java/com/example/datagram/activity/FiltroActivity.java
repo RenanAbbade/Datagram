@@ -47,6 +47,10 @@ public class FiltroActivity extends AppCompatActivity {
 
     private DatabaseReference usuariosRef;
     private DatabaseReference usuarioLogadoRef;
+    private DatabaseReference firebaseRef;
+
+    private DataSnapshot seguidoresSnapshot;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class FiltroActivity extends AppCompatActivity {
         //config inicias
         idUsuarioLogado = UsuarioFirebase.getIdentificadorUsuarioPorID();
         usuariosRef = ConfiguracaoFirebase.getFirebase().child("usuarios");
+        firebaseRef = ConfiguracaoFirebase.getFirebase();
 
         //inicializar componentes
         imageFotoEscolhida = findViewById(R.id.imageFotoEscolhida);
@@ -63,7 +68,7 @@ public class FiltroActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressFiltro);
 
         //recuperar dados user logado
-        recuperarDadosUsuarioLogado();
+        recuperarDadosPostagem();
 
         //Configura Toolbar
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
@@ -93,7 +98,7 @@ public class FiltroActivity extends AppCompatActivity {
 
     }
 
-    private void recuperarDadosUsuarioLogado(){
+    private void recuperarDadosPostagem(){
         carregando(true);
         usuarioLogadoRef = usuariosRef.child(idUsuarioLogado);
         usuarioLogadoRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -101,6 +106,24 @@ public class FiltroActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 usuarioLogado = dataSnapshot.getValue(Usuario.class);
                 carregando(false);
+
+                //recuperar seguidores
+                final DatabaseReference seguidoresRef = firebaseRef
+                        .child("seguidores")
+                        .child(idUsuarioLogado);
+                seguidoresRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //iremos recuperar os seguidores
+                        seguidoresSnapshot = dataSnapshot;
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -145,16 +168,16 @@ public class FiltroActivity extends AppCompatActivity {
                     Uri url = taskSnapshot.getDownloadUrl();
                     postagem.setCaminhoFoto(url.toString());
 
+                    int qtdPostagem = usuarioLogado.getPostagens()+1;
+                    usuarioLogado.setPostagens(qtdPostagem);
+                    usuarioLogado.atualizarQtdPostagem();
+
                     //salvar postagem
-                    if(postagem.salvar()){
-                        int qtdPostagem = usuarioLogado.getPostagens()+1;
-                        usuarioLogado.setPostagens(qtdPostagem);
-                        usuarioLogado.atualizarQtdPostagem();
+                    if(postagem.salvar(seguidoresSnapshot)){
                         Toast.makeText(FiltroActivity.this,
                                 "Sucesso ao salvar postagem ",
                                 Toast.LENGTH_LONG).show();
                         finish();
-
                     }
                 }
             });

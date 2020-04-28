@@ -11,9 +11,13 @@ package com.example.datagram.model;
     */
 
 import com.example.datagram.helper.ConfiguracaoFirebase;
+import com.example.datagram.helper.UsuarioFirebase;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Postagem implements Serializable {
     private String id;
@@ -28,12 +32,38 @@ public class Postagem implements Serializable {
         setId(idPostagem);
     }
 
-    public boolean salvar(){
+    public boolean salvar(DataSnapshot seguidoresSnapshot){
+        Map objeto = new HashMap();
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference postagensRef = firebaseRef.child("postagens")
-                .child(getIdUsuario())
-                .child(getId());
-        postagensRef.setValue(this);
+        String idSeguidor = seguidoresSnapshot.getKey();
+
+        //referencia para postagem
+        //alem disso estamos aplicando a tecnica de espalhamento, salvando um objeto em dois lugares (postagens e feed)
+        String combinaId = "/" + getIdUsuario() + "/" + getId();
+        objeto.put("/postagens"+combinaId,this); // <-- salvando a postagem dentro de postagens =  /postagens/id_user/id_postagem
+
+        for(DataSnapshot seguidores : seguidoresSnapshot.getChildren()){
+            /*
+            ESTRUTURA FEED
+                id_seguidor --> id_user logado
+                    id_postagem
+                        postagem(ou varias postagens) por jamilton
+             */
+
+            //monta obj para salvar
+            Usuario usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
+            HashMap<String, Object> dadosSeguidor = new HashMap<>();
+            dadosSeguidor.put("fotoPostagem",getCaminhoFoto());
+            dadosSeguidor.put("descricaoPostagem",getDescricao());
+            dadosSeguidor.put("idPostagem",getId());
+            dadosSeguidor.put("nomeUsuario",usuarioLogado.getNome());
+            dadosSeguidor.put("fotoUsuario",usuarioLogado.getCaminhoFoto());
+
+            String idsAtualizacao = "/" + idSeguidor + "/" + getId();
+            objeto.put("/feed"+idsAtualizacao,dadosSeguidor); // <-- salvando a postagem dentro do feed
+        }
+
+        firebaseRef.updateChildren(objeto); // joga os filhos ^^ dentro da raiz do database
         return true;
 
     }

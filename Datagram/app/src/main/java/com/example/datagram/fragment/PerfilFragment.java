@@ -188,7 +188,7 @@ public class PerfilFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Usuario usuario = dataSnapshot.getValue(Usuario.class); // recupero nosso user
-                        //String postagens = String.valueOf(usuario.getPostagens());
+//                        String postagens = String.valueOf(usuario.getPostagens());
                         String seguindo = String.valueOf(usuario.getSeguindo());
                         String seguidores = String.valueOf(usuario.getSeguidores());
 
