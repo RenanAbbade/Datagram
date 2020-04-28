@@ -205,8 +205,8 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
     private void verificaSegueUserAmigo(){
         DatabaseReference seguidorRef = seguidoresRef
-                .child(idUsuarioLogado)
-                .child(usuarioSelecionado.getId());
+                .child(usuarioSelecionado.getId())
+                .child(idUsuarioLogado);
         seguidorRef.addListenerForSingleValueEvent(new ValueEventListener() { //forSingle recupera os dados apenas uma unica vez
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -235,18 +235,18 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         /*
         ESTRUTURA REFERENTE A LOGICA DE SEGUIR
         seguidores
-        id_userlogado <--
-            id_userSelecionado < -- user que foi buscado
-                dados da pessoa que esta sendo seguida
+        id_jamilton(amigoSEGUIDO)
+            id_logado
+                dados_LOGADO
          */
-        HashMap<String,Object> dadosAmigo = new HashMap<>();
-        dadosAmigo.put("nome",uAmigo.getNome());
-        dadosAmigo.put("caminhoFoto",uAmigo.getCaminhoFoto());
+        HashMap<String,Object> dadosUserLogado = new HashMap<>();
+        dadosUserLogado.put("nome",uLogado.getNome());
+        dadosUserLogado.put("caminhoFoto",uLogado.getCaminhoFoto());
 
         DatabaseReference seguidorRef = seguidoresRef
-                .child(uLogado.getId())
-                .child(uAmigo.getId());
-                seguidorRef.setValue(dadosAmigo);
+                .child(uAmigo.getId())
+                .child(uLogado.getId());
+                seguidorRef.setValue(dadosUserLogado);
 
                 //alterar botao para seguindo
                 buttonAcaoPerfil.setText("Seguindo");
