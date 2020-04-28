@@ -2,8 +2,8 @@ package com.example.datagram.activity;
 
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,8 +12,6 @@ import com.bumptech.glide.Glide;
 import com.example.datagram.R;
 import com.example.datagram.model.Postagem;
 import com.example.datagram.model.Usuario;
-
-import java.net.URI;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -64,7 +62,6 @@ public class VizualizarPostagemActivity extends AppCompatActivity {
         textPerfilPostagem = findViewById(R.id.textPerfilPostagem);
         TextQtdCurtidasPostagem = findViewById(R.id.textQtdCurtidas);
         textDescricaoPostagem = findViewById(R.id.textDescricaoPostagem);
-        textVisualizarComentariosPostagem = findViewById(R.id.textVisualizarComentariosPostagem);
         imagePostagemSelecionada = findViewById(R.id.ImagePostagemSelecionada);
         imagePerfilPostagem = findViewById(R.id.ImagePerfilPostagem);
     }

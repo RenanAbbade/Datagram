@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.datagram.R;
 import com.example.datagram.activity.EditarPerfilActivity;
-import com.example.datagram.activity.PerfilAmigoActivity;
 import com.example.datagram.adapter.AdapterGrid;
 import com.example.datagram.helper.ConfiguracaoFirebase;
 import com.example.datagram.helper.UsuarioFirebase;
