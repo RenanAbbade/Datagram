@@ -53,7 +53,7 @@ public class Pesquisador extends Usuario {
             this.municipio = municipio;
         }
 
-    public String getInstituicao () {
+        public String getInstituicao () {
             return instituicao;
         }
 
