@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-DemoApplication<datagram-web>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.datagram.datagramweb.DemoApplication",
+      "projectName": "datagram-web",
+      "args": ""
+    }
+  ]
+}
