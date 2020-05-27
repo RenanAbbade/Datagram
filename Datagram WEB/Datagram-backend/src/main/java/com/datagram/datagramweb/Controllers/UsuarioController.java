@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
   @CrossOrigin
   @RestController
+  @RequestMapping(value="/")
   public class UsuarioController {
 
     @Autowired
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 	}
 
     @PostMapping
+    @CrossOrigin
     @RequestMapping(value="/insert")
     public ResponseEntity<String> insert(@RequestBody Usuario obj) {
       
@@ -52,6 +54,7 @@ import org.springframework.web.bind.annotation.PutMapping;
       
       return ResponseEntity.ok("created");
     } 
+
     @PostMapping
     @RequestMapping(value="/login")
     public ResponseEntity<Usuario>login(@RequestBody Usuario obj) {
