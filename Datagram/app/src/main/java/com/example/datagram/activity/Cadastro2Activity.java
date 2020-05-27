@@ -284,7 +284,6 @@ public class Cadastro2Activity extends AppCompatActivity implements AdapterView.
                 });
     }
 
-
     public void checkButton(View v){
         if(radioSim.isPressed()){
             radioNao.setChecked(false);
