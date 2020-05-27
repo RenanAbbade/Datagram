@@ -1,0 +1,21 @@
+.btn-group
+{
+  text-align: center;
+  display: inline-block;
+}
+
+#escolha{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+   align-items: center
+}
+
+.ng-valid[required], .ng-valid.required {
+  border-left: 5px solid #42A948;
+}
+.ng-invalid:not(form){
+  border-left: 5px solid #a94442;
+}
+#botaoMembro, #botaoPesquisador{ text-align: center }
