@@ -1,0 +1,165 @@
+<html>
+<div  style="padding: 1% 20% 0% 20%; ">
+  <h6 style="text-align: center;">Selecione o tipo de usuário que deseja cadastrar!</h6>
+</div>
+<div style="padding: 1% 20% 0% 20%; " class="btn-group" id="escolha" role="group" aria-label="Basic example">
+
+  <button type="button" class="btn btn-secondary" id="Pesquisador" value="Pesquisador" (click)="mudaTipo('Pesquisador')">Pesquisador</button>
+  <button type="button" class="btn btn-secondary" id="Membro" value="Membro" (click)="mudaTipo('Membro')">Membro</button>
+</div>
+
+
+<form style="padding: 5% 20% 10% 20%; " name="f1">
+  <div class="form-row">
+
+
+
+    <div class="form-group col-md-6" id="membroNome" style="display: none;">
+      <label for="inputEmail4">Nome</label>
+      <input type="text" class="form-control" #membroNome = "ngModel" [(ngModel)] = "membro.nome" name="nome" id="nome" placeholder="Ex: Ana Silveira" required>
+      <div *ngIf="membroNome.invalid" class="alert alert-danger"> Nome deve ser informado! </div>
+    </div>
+
+    <div class="form-group col-md-6" id="pesquisadorNome" style="display: none;">
+      <label for="inputEmail4">Nome</label>
+      <input type="text" class="form-control" #pesquisadorNome = "ngModel" [(ngModel)] = "pesquisador.nome" name="nome" id="nome" placeholder="Ex: Ana Silveira" required>
+      <div *ngIf="pesquisadorNome.invalid" class="alert alert-danger"> Nome deve ser informado! </div>
+    </div>
+
+    <div class="form-group col-md-6" id="membroSenha" style="display: none;">
+      <label for="inputPassword4">Senha</label>
+      <input type="password" class="form-control" #membroSenha = "ngModel" [(ngModel)] = "membro.senha"  name="senha" id="senha" placeholder="*******" required>
+      <div *ngIf="membroSenha.invalid" class="alert alert-danger"> Senha deve ser informado! </div>
+    </div>
+
+    <div class="form-group col-md-6" id="pesquisadorSenha" style="display: none;">
+      <label for="inputPassword4">Senha</label>
+      <input type="password" class="form-control" #pesquisadorSenha = "ngModel" [(ngModel)] = "pesquisador.senha"  name="senha" id="senha" placeholder="*******" required>
+      <div *ngIf="pesquisadorSenha.invalid" class="alert alert-danger"> Senha deve ser informado! </div>
+    </div>
+
+  </div>
+
+  <div class="form-group" id="membroEmail" style="display: none;">
+    <label for="inputAddress">Email</label>
+    <input type="email" class="form-control" email maxlength="60" size='65'  #membroEmail = "ngModel" [(ngModel)] = "membro.email" name="email"  id="email" placeholder="Ex: rafael.sanzio@email.com" required>
+    <div *ngIf="membroEmail.invalid" class="alert alert-danger"> Email deve ser informado! </div>
+  </div>
+
+  <div class="form-group" id="pesquisadorEmail" style="display: none;">
+    <label for="inputAddress">Email</label>
+    <input type="email" class="form-control" email #pesquisadorEmail = "ngModel" [(ngModel)] = "pesquisador.email" name="email"  id="email" placeholder="Ex: rafael.sanzio@email.com" required>
+    <div *ngIf="pesquisadorEmail.invalid" class="alert alert-danger"> Email deve ser informado! </div>
+  </div>
+
+  <div class="form-row">
+
+  <div class="form-group col-md-6" id="membroNasc" style="display: none;">
+    <label for="inputAddress2">Data de nascimento</label>
+    <input type="date" class="form-control" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);"  #membroNasc = "ngModel" [(ngModel)] = "membro.dataNasc" name="dataNasc"  id="dataNasc" required >
+    <div *ngIf="membroNasc.invalid" class="alert alert-danger"> Data de nascimento deve ser informada! </div>
+  </div>
+
+  <div class="form-group col-md-6" id="pesquisadorNasc" style="display: none;">
+    <label for="inputAddress2">Data de nascimento</label>
+    <input type="date" class="form-control"  oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);" #pesquisadorNasc = "ngModel" [(ngModel)] = "pesquisador.dataNasc" name="dataNasc"  id="dataNasc" required >
+    <div *ngIf="pesquisadorNasc.invalid" class="alert alert-danger"> Data de nascimento deve ser informada! </div>
+  </div>
+
+  <div class="form-group col-md-6" id="membroCPF" style="display: none;" >
+    <label for="inputCity">CPF</label>
+    <input type="number" class="form-control"  oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);"  #membroCPF = "ngModel" [(ngModel)] = "membro.cpf" name="cpf" id="cpf" placeholder="Ex.: 00000000000 (só números)" required>
+    <div *ngIf="membroCPF.invalid" class="alert alert-danger"> CPF deve ser informado! </div>
+  </div>
+
+  <div class="form-group col-md-2" id="PesquisadorEstado" style="display: none;">
+    <label for="estado">Estado</label>
+    <select id="estado" class="form-control" #PesquisadorEstado = "ngModel" [(ngModel)] = "pesquisador.estado" name="estado" required>
+      <option selected>Choose...</option>
+      <option selected>SP</option>
+    </select>
+    <div *ngIf="PesquisadorEstado.invalid" class="alert alert-danger"> </div>
+  </div>
+
+
+  <div class="form-group col-md-4" id="PesquisadorMunicipio" style="display: none;">
+    <label for="municipio">Municipio</label>
+    <select id="municipio" class="form-control" #PesquisadorMunicipio = "ngModel" [(ngModel)] = "pesquisador.municipio" name="municipio" required>
+      <option selected>Choose...</option>
+      <option selected>São Paulo</option>
+    </select>
+    <div *ngIf="PesquisadorMunicipio.invalid" class="alert alert-danger">  </div>
+  </div>
+  </div>
+
+  <div class="form-row">
+
+    <div class="form-group col-md-6" id="membroEscolaridade" style="display: none;">
+      <label for="inputState">Escolaridade</label>
+      <select id="escolaridade" class="form-control" #membroEscolaridade = "ngModel" [(ngModel)] = "membro.escolaridade" name="escolaridade"  required>
+        <option selected>Doutorado (PhD)</option>
+        <option>Mestrado (MsC)</option>
+        <option>Graduação</option>
+        <option>Ensino Técnico</option>
+        <option>Ensino médio</option>
+        <option>Ensino fundamental</option>
+        <option>Não completei</option>
+      </select>
+      <div *ngIf="membroEscolaridade.invalid" class="alert alert-danger"> Escolaridade deve ser informada! </div>
+    </div>
+
+
+
+ <!-- Pesquisador exclusivos -->
+
+ <div class="form-group col-md-6" id="pesquisadorEscolaridade" style="display: none;">
+  <label for="inputState">Escolaridade</label>
+  <select id="escolaridade" class="form-control" #pesquisadorEscolaridade = "ngModel" [(ngModel)] = "pesquisador.escolaridade" name="escolaridade"  required>
+    <option selected>Doutorado (PhD)</option>
+    <option>Mestrado (MsC)</option>
+    <option>Graduação</option>
+    <option>Ensino Técnico</option>
+    <option>Ensino médio</option>
+    <option>Ensino fundamental</option>
+    <option>Não completei</option>
+  </select>
+  <div *ngIf="pesquisadorEscolaridade.invalid" class="alert alert-danger"> Escolaridade deve ser informada! </div>
+
+</div>
+
+    <div class="form-group col-md-6" id="PesquisadorInstituicao" style="display: none;">
+      <label for="inputEmail4">   Instituição onde realiza pesquisas</label>
+      <input type="text" class="form-control" #PesquisadorInstituicao = "ngModel" [(ngModel)] = "pesquisador.instituicao" name="instituicao" id="instituicao" placeholder="Ex: Mackenzie" required>
+
+    </div>
+
+  </div>
+
+  <div class="form-row">
+
+    <div class="form-group col-md-6" id="PesquisadorLink" style="display: none;">
+      <label for="linkcv">   Link CV</label>
+      <input type="text"  class="form-control" #PesquisadorLink = "ngModel" [(ngModel)] = "pesquisador.linkCv" name="linkCv" id="linkCv" placeholder="Ex: https://www.linkedin.com/renan.abbade" required>
+      <div *ngIf="PesquisadorLink.invalid" class="alert alert-danger"> link do CV deve ser informado! </div>
+    </div>
+
+    <div class="form-group col-md-6" id="PesquisadorDataInic" style="display: none;">
+      <label for="inputAddress2">Data que iniciou como cientista de dados</label>
+      <input type="date" class="form-control" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);"  #PesquisadorDataInic = "ngModel" [(ngModel)] = "pesquisador.dataInicio" name="dataInicio"  id="dataInicio" required >
+      <div *ngIf="PesquisadorDataInic.invalid" class="alert alert-danger"> A Data deve ser informada! </div>
+    </div>
+  </div>
+
+
+  <br>
+
+<div id="botaoPesquisador" style="display: none;">
+  <button  type="submit" [disabled]="pesquisadorNome.invalid || pesquisadorSenha.invalid || pesquisadorEmail.invalid || pesquisadorNasc.invalid  || PesquisadorEstado.invalid  || PesquisadorMunicipio.invalid  || PesquisadorInstituicao.invalid  || PesquisadorLink.invalid  || PesquisadorDataInic.invalid   ||  pesquisadorEscolaridade.invalid "  class="btn btn-primary" (click) ="efetuaCadastro()">Cadastrar</button>
+</div>
+
+<div id="botaoMembro" style="display: none;">
+  <button  type="submit" [disabled]="membroNome.invalid || membroSenha.invalid || membroEmail.invalid || membroNasc.invalid || membroCPF.invalid || membroEscolaridade.invalid" class="btn btn-primary" (click) ="efetuaCadastro()">Cadastrar</button>
+</div>
+
+</form>
+</html>
