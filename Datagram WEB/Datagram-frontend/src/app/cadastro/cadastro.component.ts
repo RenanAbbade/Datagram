@@ -17,6 +17,10 @@ export class CadastroComponent implements OnInit {
   // tslint:disable-next-line: max-line-length
   pesquisador = {nome: '', senha: '', email: '', dataNasc: '', estado: '',  municipio: '', instituicao: '', linkCv: '', dataInicio: '', escolaridade: '', tipoUsuario: ''};
 
+  UFS: Array<string> = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
+
+  Municipios: Array<string> = [];
+
 
   public mudaTipo(tipo){
     if (tipo === 'Pesquisador'){
@@ -94,6 +98,10 @@ export class CadastroComponent implements OnInit {
       this.cadastroService.cadastro(this.membro);
     }
   }
+/*
+  public initMunicipio(){
+
+  }*/
 
   ngOnInit(): void {
 

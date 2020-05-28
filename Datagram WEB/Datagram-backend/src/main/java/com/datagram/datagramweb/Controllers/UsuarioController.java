@@ -4,9 +4,12 @@ import java.net.URI;
 
 import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Services.UsuarioService;
+import com.datagram.datagramweb.Services.validation.UsuarioValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,48 +21,74 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+@CrossOrigin
+@RestController
+@RequestMapping(value = "/")
+public class UsuarioController {
 
+  @Autowired
+  UsuarioService service;
+
+  @Autowired
+  UsuarioValidator validator;
+
+  // GET Index
+
+  @GetMapping
+  public ResponseEntity<String> index() {
+    return ResponseEntity.ok().body("Index da app");
+  }
+
+  // GET id
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<Usuario> find(@PathVariable Integer id) {
+    Usuario obj = service.find(id);
+    return ResponseEntity.ok().body(obj);
+  }
+
+  @PostMapping
   @CrossOrigin
-  @RestController
-  @RequestMapping(value="/")
-  public class UsuarioController {
-
-    @Autowired
-    UsuarioService service;
-
-    //GET Index
-    
-    @GetMapping
-    public ResponseEntity<String> index() {
-        return ResponseEntity.ok().body("Index da app");
-    }
-
-        //GET id
-    @GetMapping(value="/{id}")
-	  public ResponseEntity<Usuario> find(@PathVariable Integer id) {
-      Usuario obj = service.find(id);
-      return ResponseEntity.ok().body(obj);
-	}
-
-    @PostMapping
-    @CrossOrigin
-    @RequestMapping(value="/insert")
-    public ResponseEntity<String> insert(@RequestBody Usuario obj) {
+  @RequestMapping(value = "/insert")
+  public ResponseEntity<String> insert(@RequestBody Usuario obj) {
       
-      obj = service.insert(obj);
+      if(!service.validaExistenciaEmail(obj.getEmail())){
+
+        if(obj.getTipoUsuario().equalsIgnoreCase("Pesquisador"))
+          if(validator.isGreatherThan18(obj.getDataNasc(), obj.getDataInicio()))
+            obj = service.insert(obj);
+
+          else 
+            return ResponseEntity.ok("DATE");
+           
+        else if(validator.isCPF(obj.getCpf())){
+          if(validator.isGreatherThan18(obj.getDataNasc()))
+            obj = service.insert(obj);
+          else 
+            return ResponseEntity.ok("DATE");
+        }
+        else 
+          return ResponseEntity.ok("CPF");
+
+      }else 
+        return ResponseEntity.ok("EMAIL");
+  
 
       URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         
       ResponseEntity.created(uri).build();
       
-      return ResponseEntity.ok("created");
+      return ResponseEntity.ok("CREATED");
     } 
 
     @PostMapping
     @RequestMapping(value="/login")
-    public ResponseEntity<Usuario>login(@RequestBody Usuario obj) {
-    Usuario usuario = service.login(obj.getEmail());
-    return ResponseEntity.ok().body(usuario);
+    public ResponseEntity<String>login(@RequestBody Usuario obj) {
+    Usuario usuario = service.login(obj.getEmail(), obj.getSenha());
+    if(usuario == null){
+      return ResponseEntity.ok("NoAuth");
+    }
+    //return ResponseEntity.ok().body(usuario);
+    return ResponseEntity.ok("auth");
     } 
     
     //UPDATE

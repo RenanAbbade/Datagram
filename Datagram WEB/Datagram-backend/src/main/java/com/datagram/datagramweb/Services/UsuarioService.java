@@ -9,56 +9,66 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-@Service
+  @Service
 public class UsuarioService {
 
   @Autowired
   private UsuarioRepository repo;
 
-  //CREATE
-  public Usuario insert(Usuario obj){
-		obj.setId(null); 
-		return repo.save(obj);
+  // CREATE
+  public Usuario insert(Usuario obj) {
+    obj.setId(null);
+    return repo.save(obj);
   }
 
-  //READ
+  // READ
   public Usuario find(Integer id) {
     Optional<Usuario> obj = repo.findById(id);
     return obj.orElse(null);
   }
 
-  //READ ALL
+  // READ ALL
   public Iterable<Usuario> findAll() {
     return repo.findAll();
   }
 
- 
-  //UPDATE
-  public Usuario update(Usuario obj){
+  // UPDATE
+  public Usuario update(Usuario obj) {
     find(obj.getId());
     return repo.save(obj);
   }
 
-  //DELETE
+  // DELETE
   public void delete(Integer id) {
 
     find(id);
-      try{
-        repo.deleteById(id);
-      }catch(DataIntegrityViolationException e){
-        throw new DataIntegrityViolationException("Não é possível excluir essa entidade!");
-      }
+    try {
+      repo.deleteById(id);
+    } catch (DataIntegrityViolationException e) {
+      throw new DataIntegrityViolationException("Não é possível excluir essa entidade!");
+    }
+  }
+
+  // Verifica se tentativa de login é válida
+  public Usuario login(String email, String senha) {
+    Usuario obj = repo.findByEmail(email);
+    if (obj == null) {
+      return null;
     }
 
-  //Verifica se tentativa de login é válida 
-public Usuario login(String email){
-  Usuario obj = repo.findByEmail(email);
-  if(obj == null){
-  return null;
-  }
-  return obj;
-  }
-  
+    else if (!obj.getSenha().equalsIgnoreCase(senha)) {
+      return null;
+    }
 
-  
+    return obj;
+  }
+
+  public boolean validaExistenciaEmail(String email) {
+    Usuario obj = repo.findByEmail(email);
+    if (obj == null)// Ainda não existe esse email no BD
+      return false;
+    return true;
+  }
+
+
 }

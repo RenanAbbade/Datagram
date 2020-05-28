@@ -15,7 +15,7 @@ export class LoginServiceService {
     console.log(JSON.stringify(usuario));
 
 
-    return this.http.post(AppConstants.baseLoginInsert, usuario, {responseType: 'text'}).subscribe(data => {
+    return this.http.post(AppConstants.baseLogin, usuario, {responseType: 'text'}).subscribe(data => {
      console.log(data);
     // Implementar auth jwt spring security
      if (data === 'auth'){

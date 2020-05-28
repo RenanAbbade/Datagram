@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 @Entity
 public class Usuario implements Serializable {
 
@@ -16,11 +17,13 @@ public class Usuario implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  private String email;
+
   private String nome;
 
   private String senha;
 
-  private String email;
+  private String dataNasc;
 
   private String cpf;
 
@@ -40,14 +43,15 @@ public class Usuario implements Serializable {
 
   public Usuario() {
   }
-
+  
   //Pesquisador constructor
-  public Usuario(Integer id, String nome, String senha, String email, String escolaridade, String estado,
+  public Usuario(Integer id, String nome, String senha, String email, String dataNasc, String escolaridade, String estado,
       String municipio, String instituicao, String linkCv, String dataInicio, String tipoUsuario) {
     this.id = id;
     this.nome = nome;
     this.senha = senha;
     this.email = email;
+    this.dataNasc = dataNasc;
     this.escolaridade = escolaridade;
     this.estado = estado;
     this.municipio = municipio;
@@ -109,6 +113,14 @@ public class Usuario implements Serializable {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getDataNasc() {
+    return dataNasc;
+  }
+
+  public void setDataNasc(String dataNasc) {
+    this.dataNasc = dataNasc;
   }
 
   public String getCpf() {
@@ -201,4 +213,6 @@ public class Usuario implements Serializable {
       return false;
     return true;
   }
+
+
 }
