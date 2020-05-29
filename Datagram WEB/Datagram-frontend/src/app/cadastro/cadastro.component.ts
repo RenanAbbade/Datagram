@@ -1,3 +1,5 @@
+import { AppConstants } from './../app-constants';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CadastroServiceService } from '../services/cadastro-service.service';
 
@@ -10,7 +12,7 @@ export class CadastroComponent implements OnInit {
 
   tipoUsuario;
 
-  constructor(private cadastroService: CadastroServiceService){}
+  constructor(private cadastroService: CadastroServiceService , private http: HttpClient){}
 
   membro = {nome: '', senha: '', email: '', dataNasc: '', cpf: '', escolaridade: '', tipoUsuario: ''};
 
@@ -98,10 +100,16 @@ export class CadastroComponent implements OnInit {
       this.cadastroService.cadastro(this.membro);
     }
   }
-/*
+
   public initMunicipio(){
 
-  }*/
+    if (this.pesquisador.estado != null){
+      this.http.post(AppConstants.consultaMunicipio, this.pesquisador.estado).subscribe(data => {
+
+          this.Municipios = JSON.parse(JSON.stringify(data));
+      });
+    }
+  }
 
   ngOnInit(): void {
 

@@ -8,7 +8,9 @@ export class AppConstants {
 
   public static get baseLogin(): string {return this.baseServidor + 'login/'; }
 
-  public static get consultaMunicipio(): string {return this.baseServidor + 'login/'; }
+  public static get consultaMunicipio(): string {return this.baseServidor + 'municipios/'; }
+
+
 
 
 

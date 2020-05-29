@@ -74,7 +74,7 @@
 
   <div class="form-group col-md-2" id="PesquisadorEstado" style="display: none;">
     <label for="estado">Estado</label>
-    <select id="estado" class="form-control" #PesquisadorEstado = "ngModel" [(ngModel)] = "pesquisador.estado" name="estado" required>
+    <select id="estado" class="form-control" #PesquisadorEstado = "ngModel" [(ngModel)] = "pesquisador.estado" name="estado" (change)="initMunicipio()" required>
       <option selected>Choose...</option>
       <option *ngFor="let uf of UFS"> {{uf}} </option>
     </select>
@@ -84,9 +84,9 @@
 
   <div class="form-group col-md-4" id="PesquisadorMunicipio" style="display: none;">
     <label for="municipio">Municipio</label>
-    <select id="municipio" class="form-control" #PesquisadorMunicipio = "ngModel" [(ngModel)] = "pesquisador.municipio" name="municipio" required>
+    <select id="municipio" class="form-control" #PesquisadorMunicipio = "ngModel" [(ngModel)] = "pesquisador.municipio" name="municipio"  required>
       <option selected>Choose...</option>
-      <option >{{pesquisador.estado}}</option>
+      <option *ngFor="let m of Municipios" >{{m}}</option>
     </select>
     <div *ngIf="PesquisadorMunicipio.invalid" class="alert alert-danger">  </div>
   </div>
