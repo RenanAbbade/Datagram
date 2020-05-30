@@ -3,6 +3,7 @@ package com.datagram.datagramweb.Controllers;
 import java.net.URI;
 import java.util.List;
 
+import com.datagram.datagramweb.Models.Postagem;
 import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Services.UsuarioService;
 import com.datagram.datagramweb.Services.validation.UsuarioValidator;
@@ -107,6 +108,16 @@ public class UsuarioController {
     public ResponseEntity<Usuario> delete(@PathVariable Integer id) {
       service.delete(id);
       return ResponseEntity.noContent().build();
-	}
+  }
+  
+  //OBTEM TODOS OS POSTS DE UM USUARIO
+  @GetMapping(value = "{id}/posts")
+  public ResponseEntity<List<Postagem>> findPosts(@PathVariable Integer id) {
+    Usuario usuario = service.find(id);
+    return ResponseEntity.ok().body(usuario.getPostagem());
+  }
+
 
 }
+
+
