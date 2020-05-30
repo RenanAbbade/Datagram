@@ -30,4 +30,5 @@ public class PostagemController {
         Postagem postagem = postagemService.findById(id);
         return ResponseEntity.ok().body(postagem);
     }
+    
 }

@@ -19,7 +19,7 @@ public class Usuario implements Serializable {
   private Integer id;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "usuario")
+  @OneToMany(mappedBy = "autor")
   private List<Postagem> postagem = new ArrayList<>();
 
   private String email;

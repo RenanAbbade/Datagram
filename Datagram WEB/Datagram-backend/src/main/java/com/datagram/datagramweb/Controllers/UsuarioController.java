@@ -90,7 +90,7 @@ public class UsuarioController {
   @RequestMapping(value = "/login")
   public ResponseEntity<String> login(@RequestBody Usuario obj) {
     Usuario usuario = service.login(obj.getEmail(), obj.getSenha());
-    if (usuario == null) {
+    if(usuario == null) {
       return ResponseEntity.ok("NoAuth");
     }
     //return ResponseEntity.ok().body(usuario);

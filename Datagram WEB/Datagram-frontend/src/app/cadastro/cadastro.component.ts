@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CadastroServiceService } from '../services/cadastro-service.service';
 
+
 @Component({
   selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
@@ -11,6 +12,7 @@ import { CadastroServiceService } from '../services/cadastro-service.service';
 export class CadastroComponent implements OnInit {
 
   tipoUsuario;
+
 
   constructor(private cadastroService: CadastroServiceService , private http: HttpClient){}
 
@@ -87,6 +89,7 @@ export class CadastroComponent implements OnInit {
       // setando button
       document.getElementById('botaoMembro').style.display = 'block';
       document.getElementById('botaoMembro').style.textAlign = 'center';
+
 
     }
   }

@@ -1,5 +1,6 @@
 package com.datagram.datagramweb.config;
 
+import com.datagram.datagramweb.Models.Comentario;
 import com.datagram.datagramweb.Models.Postagem;
 import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Repositories.PostagemRepository;
@@ -9,8 +10,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @Profile("test")
@@ -25,23 +29,39 @@ public class TestConfig implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
+
+		// USUARIOS PARA TESTE
 		Usuario usuario1 = new Usuario(null,"rafa sanzio","1234","rafa@gmail.com","478.393.188-78",
 				"ensino superior","membro");
 
 		Usuario usuario2 = new Usuario(null,"renan abbade","1234","renan@gmail.com","345.909.654-02",
 				"mestrado","membro");
 
+		Usuario usuario3 = new Usuario(null,"augusto carrara","1234","augusto@gmail.com","652.785.000-22",
+				"doutorado","membro");
+
+		Usuario usuario4 = new Usuario(null,"gabriel caskolino","1234","gabriel@gmail.com","246.567.194-76",
+				"mestre","membro");
+
 		usuarioRepository.saveAll(Arrays.asList(usuario1,usuario2));
 
+		//COMENTARIOS PARA TESTE
+		Comentario comentario1 = new Comentario(usuario2,"muito bom parabens",sdf.parse("02/08/1970"));
+		Comentario comentario2 = new Comentario(usuario2,"belo artigo!",sdf.parse("20/11/2020"));
+		Comentario comentario3 = new Comentario(usuario3,"BACANAO MEU AMIGO!",sdf.parse("20/11/2020"));
+		Comentario comentario4 = new Comentario(usuario2,"BELOS ARGUMENTOS",sdf.parse("20/11/2020"));
+
+		//POSTAGEMS PARA TESTE
 		Postagem postagem1 = new Postagem(null,usuario1,"Artigo publicado por volta de ...",
-				"muito bacana!",sdf.parse("02/08/1970"),0);
+				sdf.parse("02/08/1970"),0);
 
 		Postagem postagem2 = new Postagem(null,usuario1,"Pessoal boa tarde!, irei publicar nesta semana ...",
-				"estou ansioso para a nova versao",sdf.parse("02/08/1970"),0);
+				sdf.parse("02/08/1970"),0);
 
-		postagemRepository.saveAll(Arrays.asList(postagem1,postagem2));
-		System.out.println("salvei");
+		//POSTAGEM OBTEM COMENTARIOS
+		postagem1.getComentario().addAll(Arrays.asList(comentario1,comentario3));
+		postagem2.getComentario().addAll(Arrays.asList(comentario3,comentario4));
 
+		postagemRepository.saveAll(Arrays.asList(postagem1));
 	}
 }
