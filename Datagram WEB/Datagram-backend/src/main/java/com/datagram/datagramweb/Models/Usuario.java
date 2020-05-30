@@ -1,11 +1,12 @@
 package com.datagram.datagramweb.Models;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
 
 
 @Entity
@@ -16,6 +17,10 @@ public class Usuario implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "usuario")
+  private List<Postagem> postagem = new ArrayList<>();
 
   private String email;
 
@@ -187,7 +192,13 @@ public class Usuario implements Serializable {
     this.tipoUsuario = tipoUsuario;
   }
 
-  
+  public List<Postagem> getPostagem() {
+    return postagem;
+  }
+
+  public void setPostagem(List<Postagem> postagem) {
+    this.postagem = postagem;
+  }
 
   @Override
   public int hashCode() {
