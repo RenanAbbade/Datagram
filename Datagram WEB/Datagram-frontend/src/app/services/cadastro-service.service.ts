@@ -18,7 +18,6 @@ export class CadastroServiceService {
 
 
     return this.http.post(AppConstants.baseLoginInsert, usuario, {responseType: 'text'}).subscribe(data => {
-      console.log(data);
 
 
       if (data === 'CREATED'){

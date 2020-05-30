@@ -1,6 +1,7 @@
 package com.datagram.datagramweb.Controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Services.UsuarioService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/")
+@RequestMapping(value="/users")
 public class UsuarioController {
 
   @Autowired
@@ -32,19 +35,19 @@ public class UsuarioController {
   @Autowired
   UsuarioValidator validator;
 
-  // GET Index
-
-  @GetMapping
-  public ResponseEntity<String> index() {
-    return ResponseEntity.ok().body("Index da app");
-  }
-
   // GET id
   @GetMapping(value = "/{id}")
   public ResponseEntity<Usuario> find(@PathVariable Integer id) {
     Usuario obj = service.find(id);
     return ResponseEntity.ok().body(obj);
   }
+
+  @GetMapping
+    public ResponseEntity <List<Usuario>> findAll(){
+      List<Usuario> list = (List<Usuario>) service.findAll();
+      return ResponseEntity.ok().body(list);
+    }
+
 
   @PostMapping
   @CrossOrigin
