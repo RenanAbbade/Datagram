@@ -1,3 +1,4 @@
+import { CadastroComponent } from './cadastro/cadastro.component';
 export class AppConstants {
 
   // Método que retorna o local da minha api spring
@@ -11,6 +12,8 @@ export class AppConstants {
   public static get baseLogin(): string {return this.baseUsuarios + 'login/'; }
 
   public static get consultaMunicipio(): string {return this.baseServidor + 'municipios/'; }
+
+  public static get consultaUserLogado(): string {return this.baseUsuarios + 'userLogado/'; }
 
 
 

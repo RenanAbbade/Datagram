@@ -21,8 +21,8 @@ export class CadastroServiceService {
 
 
       if (data === 'CREATED'){
-      alert('Usuário cadastrado com sucesso!');
-      this.router.navigate(['home']);
+      alert('Usuário cadastrado com sucesso! Por favor, realize o login para confirmar.');
+      this.router.navigate(['/']);
      }
      else if (data === 'EMAIL') {
       alert('Já existe um usuário cadastrado com este email');
@@ -36,7 +36,6 @@ export class CadastroServiceService {
      else {
       alert('Erro do servidor, contate o administrador do sistema.');
      }
-
 
     });
     }
