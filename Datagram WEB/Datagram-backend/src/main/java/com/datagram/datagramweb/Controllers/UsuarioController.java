@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value="/users")
+@RequestMapping(value = "/user")
 public class UsuarioController {
 
   @Autowired
@@ -61,68 +61,73 @@ public class UsuarioController {
   @CrossOrigin
   @RequestMapping(value = "/insert")
   public ResponseEntity<String> insert(@RequestBody Usuario obj) {
-      
-      if(!service.validaExistenciaEmail(obj.getEmail())){
 
-        if(obj.getTipoUsuario().equalsIgnoreCase("Pesquisador"))
-          if(validator.isGreatherThan18(obj.getDataNasc(), obj.getDataInicio()))
-            obj = service.insert(obj);
+    if (!service.validaExistenciaEmail(obj.getEmail())) {
 
-          else 
-            return ResponseEntity.ok("DATE");
-           
-        else if(validator.isCPF(obj.getCpf())){
-          if(validator.isGreatherThan18(obj.getDataNasc()))
-            obj = service.insert(obj);
-          else 
-            return ResponseEntity.ok("DATE");
-        }
-        else 
-          return ResponseEntity.ok("CPF");
+      if (obj.getTipoUsuario().equalsIgnoreCase("Pesquisador"))
+        if (validator.isGreatherThan18(obj.getDataNasc(), obj.getDataInicio()))
+          obj = service.insert(obj);
 
-      }else 
-        return ResponseEntity.ok("EMAIL");
-  
+        else
+          return ResponseEntity.ok("DATE");
 
-      URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        
-      ResponseEntity.created(uri).build();
-      
-      return ResponseEntity.ok("CREATED");
-    } 
+      else if (validator.isCPF(obj.getCpf())) {
+        if (validator.isGreatherThan18(obj.getDataNasc()))
+          obj = service.insert(obj);
+        else
+          return ResponseEntity.ok("DATE");
+      } else
+        return ResponseEntity.ok("CPF");
 
-    @PostMapping
-    @RequestMapping(value="/login")
-    public ResponseEntity<String>login(@RequestBody Usuario obj) {
+    } else
+      return ResponseEntity.ok("EMAIL");
+
+
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+
+    ResponseEntity.created(uri).build();
+
+    return ResponseEntity.ok("CREATED");
+  }
+
+  @PostMapping
+  @RequestMapping(value = "/login")
+  public ResponseEntity<String> login(@RequestBody Usuario obj) {
     Usuario usuario = service.login(obj.getEmail(), obj.getSenha());
-    if(usuario == null){
+    if(usuario == null) {
       return ResponseEntity.ok("NoAuth");
     }
     //return ResponseEntity.ok().body(usuario);
     return ResponseEntity.ok("auth");
-    } 
-    
-    //UPDATE
-    @PutMapping(value="{id}")
-    public ResponseEntity<Void> update(@RequestBody Usuario obj, @PathVariable Integer id){
-      obj.setId(id);//Garantia do objeto, vai ser trocado por DTO no futuro.
-      obj = service.update(obj);
-      return ResponseEntity.noContent().build();
-    }
-
-    //DELETE
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity<Usuario> delete(@PathVariable Integer id) {
-      service.delete(id);
-      return ResponseEntity.noContent().build();
   }
-  
+
+  //UPDATE
+  @PutMapping(value = "{id}")
+  public ResponseEntity<Void> update(@RequestBody Usuario obj, @PathVariable Integer id) {
+    obj.setId(id);//Garantia do objeto, vai ser trocado por DTO no futuro.
+    obj = service.update(obj);
+    return ResponseEntity.noContent().build();
+  }
+
+  //DELETE
+  @DeleteMapping(value = "{id}")
+  public ResponseEntity<Usuario> delete(@PathVariable Integer id) {
+    service.delete(id);
+    return ResponseEntity.noContent().build();
+  }
+
   //OBTEM TODOS OS POSTS DE UM USUARIO
   @GetMapping(value = "{id}/posts")
   public ResponseEntity<List<Postagem>> findPosts(@PathVariable Integer id) {
     Usuario usuario = service.find(id);
     return ResponseEntity.ok().body(usuario.getPostagem());
   }
+
+}
+
+
+
+
 
 
 }

@@ -2,7 +2,9 @@ package com.datagram.datagramweb.Models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Postagem implements Serializable {
@@ -14,22 +16,24 @@ public class Postagem implements Serializable {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "Usuario_id")
-    private Usuario usuario;
+    @JoinColumn(name = "Autor_id")
+    private Usuario autor;
+
+    @ElementCollection
+    @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
+    private List<Comentario> comentarios = new ArrayList<>();
 
     private String conteudo;
-    private String comentario;
     private Date date;
     private Integer curtida;
 
     public Postagem(){
     }
 
-    public Postagem(Integer id, Usuario usuario, String conteudo, String comentario, Date date, Integer curtida) {
+    public Postagem(Integer id, Usuario autor, String conteudo, Date date, Integer curtida) {
         this.id = id;
-        this.usuario = usuario;
+        this.autor = autor;
         this.conteudo = conteudo;
-        this.comentario = comentario;
         this.date = date;
         this.curtida = curtida;
     }
@@ -43,11 +47,11 @@ public class Postagem implements Serializable {
     }
 
     public Usuario getUsuario() {
-        return usuario;
+        return autor;
     }
 
     public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+        this.autor = usuario;
     }
 
     public String getTexto() {
@@ -58,12 +62,12 @@ public class Postagem implements Serializable {
         this.conteudo = texto;
     }
 
-    public String getComentario() {
-        return comentario;
+    public List<Comentario> getComentario() {
+        return comentarios;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setComentario(List<Comentario> comentario) {
+        this.comentarios = comentario;
     }
 
     public Date getDate() {
