@@ -43,6 +43,13 @@ public class UsuarioController {
     return ResponseEntity.ok().body(obj);
   }
 
+  @GetMapping(value = "/userLogado")
+  public ResponseEntity<Usuario> findAuthUser() {
+    Usuario obj = UsuarioService.getUsuarioLogado();
+    return ResponseEntity.ok().body(obj);
+  }
+
+
   @GetMapping
     public ResponseEntity <List<Usuario>> findAll(){
       List<Usuario> list = (List<Usuario>) service.findAll();

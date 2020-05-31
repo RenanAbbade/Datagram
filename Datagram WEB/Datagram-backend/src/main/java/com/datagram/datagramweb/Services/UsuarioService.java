@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
   @Service
 public class UsuarioService {
 
+  public static Usuario usuarioLogado;
+
   @Autowired
   private UsuarioRepository repo;
 
@@ -60,6 +62,8 @@ public class UsuarioService {
       return null;
     }
 
+    usuarioLogado = obj;
+
     return obj;
   }
 
@@ -70,5 +74,7 @@ public class UsuarioService {
     return true;
   }
 
-
+  public static synchronized Usuario getUsuarioLogado(){
+    return usuarioLogado;
+  }
 }

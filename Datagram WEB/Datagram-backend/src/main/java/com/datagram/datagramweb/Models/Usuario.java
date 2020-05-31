@@ -89,7 +89,9 @@ public class Usuario implements Serializable {
   }
 
   
-  public static long getSerialversionuid() {
+
+
+public static long getSerialversionuid() {
     return serialVersionUID;
   }
 
