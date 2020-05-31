@@ -1,6 +1,10 @@
 package com.datagram.datagramweb.Models;
 
 import javax.persistence.*;
+
+import com.datagram.datagramweb.Services.UsuarioService;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,13 +30,13 @@ public class Postagem implements Serializable {
     private String titulo;
     private String subtitulo;
     private String conteudo;
-    private Date date;
+    private String date;
     private Integer curtida;
 
     public Postagem(){
     }
 
-    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, Date date, Integer curtida) {
+    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, String date, Integer curtida) {
         this.id = id;
         this.autor = autor;
         this.titulo = titulo;
@@ -75,11 +79,11 @@ public class Postagem implements Serializable {
         this.comentarios = comentario;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -106,4 +110,32 @@ public class Postagem implements Serializable {
     public void setSubtitulo(String subtitulo) {
         this.subtitulo = subtitulo;
     }
+
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    
+
+    
 }

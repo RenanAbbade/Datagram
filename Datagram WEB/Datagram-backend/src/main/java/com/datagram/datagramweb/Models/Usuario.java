@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -48,7 +50,9 @@ public class Usuario implements Serializable {
 
   private int posts;
 
-  private List<String> interesses = new ArrayList<>();
+  @ElementCollection
+  @CollectionTable(name="INTERESSE")//A tabela interesses é uma entidade fraca, pois só tem o atributo id e nome, logo não precisa ser criada outra entidade, sendo inserida no usuário como @ElementCollection
+  private Set<String> interesses = new HashSet<>();//HashSet pois não pode se repetir.
 
 
   @JsonIgnore
@@ -235,13 +239,16 @@ public static long getSerialversionuid() {
     return posts;
   }
 
-  public List<String> getInteresses() {
+  public Set<String> getInteresses() {
     return interesses;
   }
 
-  public void setInteresses(List<String> interesses) {
+  public void setInteresses(Set<String> interesses) {
     this.interesses = interesses;
   }
+
+
+
   
 
   @Override
@@ -251,6 +258,8 @@ public static long getSerialversionuid() {
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     return result;
   }
+
+
 
   @Override
   public boolean equals(Object obj) {

@@ -22,7 +22,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#janela"><svg class="bi bi-plus-circle" width="3em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <a class="nav-link" data-toggle="modal" data-target="#add"><svg class="bi bi-plus-circle" width="3em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
           <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
           <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -55,7 +55,7 @@
 
 
  <!-- Janela -->
- <form class="modal fade" id="janela">
+ <form class="modal fade" id="add">
 
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -72,27 +72,35 @@
       <div class="modal-body">
 
         <div class="form-group">
-          <input type="titulo" class="form-control" id="titulo" placeholder="Titulo">
+          <input type="titulo" class="form-control"  #titulo = "ngModel" [(ngModel)] = "postagem.titulo" name="titulo" id="titulo" placeholder="Titulo">
         </div>
 
         <div class="form-group">
-          <input type="subtitulo" class="form-control" id="subtitulo" placeholder="subtitulo">
+          <input type="subtitulo" class="form-control" #subtitulo = "ngModel" [(ngModel)] = "postagem.subtitulo" name="subtitulo" id="subtitulo" placeholder="subtitulo">
         </div>
 
         <div class="form-group">
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="digite o conteúdo de seu post.."></textarea>
+          <textarea class="form-control" #conteudo = "ngModel" [(ngModel)] = "postagem.conteudo" name="conteudo" id="conteudo" rows="5" placeholder="digite o conteúdo de seu post.."></textarea>
         </div>
 
       </div>
 
-      <!-- rodape -->
+      <!--  <div class="form-group">
+            <input type="text" class="form-control" #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" placeholder="Your Email *" required />
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" #senha = "ngModel" [(ngModel)] = "usuario.senha" id="senha" name="senha" placeholder="Your Password *" required />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btnSubmit center" [disabled]="email.invalid || senha.invalid"  (click) ="testeLogin()"  >Login</button>
+        </div> -->
       <div class="modal-footer">
 
         <button type="button" class="btn btn-default center" data-dismiss="modal">
           Cancelar
         </button>
 
-        <button type="submit" class="btn btn-primary center" data-dismiss="modal">
+        <button type="submit" class="btn btn-primary center" [disabled]="titulo.invalid || conteudo.invalid" (click)="publicarPost()" data-dismiss="modal">
           Publicar
         </button>
 
