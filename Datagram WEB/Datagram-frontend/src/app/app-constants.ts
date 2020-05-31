@@ -5,7 +5,7 @@ export class AppConstants {
 
   public static get baseServidor(): string { return 'http://localhost:8080/'; }
 
-  public static get baseUsuarios(): string { return 'http://localhost:8080/users/'; }
+  public static get baseUsuarios(): string { return 'http://localhost:8080/user/'; }
 
   public static get baseLoginInsert(): string {return this.baseUsuarios + 'insert/'; }
 

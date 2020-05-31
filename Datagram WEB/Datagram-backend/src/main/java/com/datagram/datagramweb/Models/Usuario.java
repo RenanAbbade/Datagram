@@ -18,7 +18,6 @@ public class Usuario implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-
   private String email;
 
   private String nome;
@@ -42,6 +41,14 @@ public class Usuario implements Serializable {
   private String dataInicio;
 
   private String tipoUsuario;
+
+  private int seguidores;
+
+  private int seguindo;
+
+  private int posts;
+
+  private List<String> interesses = new ArrayList<>();
 
 
   @JsonIgnore
@@ -200,9 +207,42 @@ public static long getSerialversionuid() {
     return postagem;
   }
 
-  public void setPostagem(List<Postagem> postagem) {
-    this.postagem = postagem;
+  public void setPostagem(Postagem post) {
+    this.postagem.add(post);
   }
+
+  public int getSeguidores() {
+    return seguidores;
+  }
+
+  public void setSeguidores(int seguidores) {
+    this.seguidores = seguidores;
+  }
+
+  public int getSeguindo() {
+    return seguindo;
+  }
+
+  public void setSeguindo(int seguindo) {
+    this.seguindo = seguindo;
+  }
+
+  public void setPosts(){
+    this.posts = postagem.size();
+  }
+
+  public int getPosts() {
+    return posts;
+  }
+
+  public List<String> getInteresses() {
+    return interesses;
+  }
+
+  public void setInteresses(List<String> interesses) {
+    this.interesses = interesses;
+  }
+  
 
   @Override
   public int hashCode() {
@@ -228,9 +268,6 @@ public static long getSerialversionuid() {
       return false;
     return true;
   }
-
-
-  
 
 
 

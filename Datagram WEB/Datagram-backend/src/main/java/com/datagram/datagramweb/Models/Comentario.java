@@ -2,11 +2,16 @@ package com.datagram.datagramweb.Models;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Embeddable
-public class Comentario {
+public class Comentario implements Serializable {
 
+  
+    private static final long serialVersionUID = 1L;
+    
     @Lob
     private Usuario autor;
     private String conteudo;

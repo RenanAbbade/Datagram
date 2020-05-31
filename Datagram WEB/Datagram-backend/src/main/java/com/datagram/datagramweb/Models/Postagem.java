@@ -23,6 +23,8 @@ public class Postagem implements Serializable {
     @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
     private List<Comentario> comentarios = new ArrayList<>();
 
+    private String titulo;
+    private String subtitulo;
     private String conteudo;
     private Date date;
     private Integer curtida;
@@ -30,9 +32,11 @@ public class Postagem implements Serializable {
     public Postagem(){
     }
 
-    public Postagem(Integer id, Usuario autor, String conteudo, Date date, Integer curtida) {
+    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, Date date, Integer curtida) {
         this.id = id;
         this.autor = autor;
+        this.titulo = titulo;
+        this.subtitulo = subtitulo;
         this.conteudo = conteudo;
         this.date = date;
         this.curtida = curtida;
@@ -54,6 +58,7 @@ public class Postagem implements Serializable {
         this.autor = usuario;
     }
 
+    
     public String getTexto() {
         return conteudo;
     }
@@ -84,5 +89,21 @@ public class Postagem implements Serializable {
 
     public void setCurtida(Integer curtida) {
         this.curtida = curtida;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getSubtitulo() {
+        return subtitulo;
+    }
+
+    public void setSubtitulo(String subtitulo) {
+        this.subtitulo = subtitulo;
     }
 }
