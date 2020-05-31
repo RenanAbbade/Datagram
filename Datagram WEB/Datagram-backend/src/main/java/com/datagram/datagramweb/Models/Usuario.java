@@ -17,10 +17,7 @@ public class Usuario implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-/*
-  @JsonIgnore
-  @OneToMany(mappedBy = "autor")
-  private List<Postagem> postagem = new ArrayList<>();*/
+
 
   private String email;
 
@@ -46,10 +43,10 @@ public class Usuario implements Serializable {
 
   private String tipoUsuario;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "usuario")
-  private List<Postagem> postagem = new ArrayList<>();
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "autor")
+  private List<Postagem> postagem = new ArrayList<>();
 
   public Usuario() {
   }
