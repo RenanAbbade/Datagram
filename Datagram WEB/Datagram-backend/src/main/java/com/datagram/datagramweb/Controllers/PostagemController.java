@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/post")
@@ -34,8 +34,7 @@ public class PostagemController {
         return ResponseEntity.ok().body(listPostagem);
     }
 
-    @CrossOrigin
-    @GetMapping(value = "/{id}")
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public ResponseEntity<List<Postagem>> findAllbyId(@PathVariable Integer id){
         List<Postagem> listPostagem = service.findAllbyAutorId(id);
         return ResponseEntity.ok().body(listPostagem);
@@ -64,12 +63,9 @@ public class PostagemController {
 
 
     //UPDATE
-    
-    @PutMapping
-    @CrossOrigin
-    @RequestMapping(value =  "/{id}")
-    public ResponseEntity<Void> update(@RequestBody Postagem obj, @PathVariable Integer id) {
-        obj.setId(id);//Garantia do objeto, vai ser trocado por DTO no futuro.
+
+    @RequestMapping(value="/", method=RequestMethod.PUT)
+    public ResponseEntity<Void> update(@RequestBody Postagem obj) {
         obj = service.update(obj);
         return ResponseEntity.noContent().build();
     }

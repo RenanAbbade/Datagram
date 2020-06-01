@@ -12,32 +12,34 @@ export class PerfilComponent implements OnInit {
 
   usuario;
 
-  id: number;
+  id;
 
   postagens;
 
-  postEdit = {titulo: '', subtitulo: '', conteudo: ''};
+
+  postagem = {id: Number, titulo: '', subtitulo: '', conteudo: '', date: ''};
 
   constructor(private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService) { }
 
   public editPost(id){
     for (let post of this.postagens) {
       if (post.id === id){
-        this.id = post.id;
-        this.postEdit.titulo = post.titulo;
-        this.postEdit.subtitulo = post.subtitulo;
-        this.postEdit.conteudo = post.conteudo;
+        this.postagem.id = post.id;
+        this.postagem.titulo = post.titulo;
+        this.postagem.subtitulo = post.subtitulo;
+        this.postagem.conteudo = post.conteudo;
       }
      }
   }
 
 
   public updatePost(){
-    this.postService.updatePublicacao(this.id, this.postEdit).subscribe(res => {
+    this.postService.updatePost(this.postagem).subscribe(res => {
       this.postagens = JSON.parse(JSON.stringify(res));
-      console.log(this.postagens[0]);
+      console.log(res);
     });
   }
+
 
   ngOnInit(): void {
     this.usuario = this.usuarioLogadoService.getUsuarioLogado().subscribe(data => {

@@ -2,6 +2,7 @@ import { AppConstants } from './../app-constants';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {Router} from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +20,14 @@ export class PostServiceService {
 
     });
     }
+/*
+    updatePost(postagem): Observable<any>{
+      return this.http.put<any>(AppConstants.basePostagem, postagem);
 
-    public updatePublicacao(id, post){
-      const params = new HttpParams().set('id', id);
-      console.log(id);
-      return this.http.put(AppConstants.basePostagem, post, {params});
+    }*/
 
-
+    updatePost(postagem){
+      return this.http.put(AppConstants.basePostagem, postagem);
     }
   }
 /*
