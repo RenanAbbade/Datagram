@@ -19,5 +19,19 @@ export class PostServiceService {
 
     });
     }
-  }
 
+    public updatePublicacao(id, post){
+      const params = new HttpParams().set('id', id);
+      console.log(id);
+      return this.http.put(AppConstants.basePostagem, post, {params});
+
+
+    }
+  }
+/*
+public getPostsUsuarioLogado(id){
+    const params = new HttpParams().set('id', id); //Create new HttpParams
+
+    return this.http.get(AppConstants.basePostagem, {params} );
+  }
+*/

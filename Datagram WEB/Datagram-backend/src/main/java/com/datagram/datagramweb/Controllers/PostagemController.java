@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+//@CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/post")
@@ -33,14 +34,22 @@ public class PostagemController {
         return ResponseEntity.ok().body(listPostagem);
     }
 
+    @CrossOrigin
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<List<Postagem>> findAllbyId(@PathVariable Integer id){
+        List<Postagem> listPostagem = service.findAllbyAutorId(id);
+        return ResponseEntity.ok().body(listPostagem);
+    }
+/*
     @GetMapping(value ="/{id}")
     public ResponseEntity<Postagem>findById(@PathVariable Integer id){
         Postagem postagem = service.find(id);
         return ResponseEntity.ok().body(postagem);
     }
 
-
+*/
     @PostMapping
+    @CrossOrigin
     @RequestMapping(value = "/insert")
     public ResponseEntity<String> insert(@RequestBody Postagem obj) {
         
@@ -55,7 +64,10 @@ public class PostagemController {
 
 
     //UPDATE
-    @PutMapping(value = "{id}")
+    
+    @PutMapping
+    @CrossOrigin
+    @RequestMapping(value =  "/{id}")
     public ResponseEntity<Void> update(@RequestBody Postagem obj, @PathVariable Integer id) {
         obj.setId(id);//Garantia do objeto, vai ser trocado por DTO no futuro.
         obj = service.update(obj);
@@ -63,7 +75,7 @@ public class PostagemController {
     }
 
     //DELETE
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Postagem> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

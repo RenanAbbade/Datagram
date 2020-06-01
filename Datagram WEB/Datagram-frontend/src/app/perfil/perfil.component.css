@@ -53,3 +53,16 @@ a{
 {
   color: rgb(20, 98, 129);
 }
+
+.icon-action-post{
+  float: right; font-size: 200%; padding-top: 0.5cm;padding-right: 0.5;padding-right: 2.5%; 
+}
+
+.like{
+  float: left; font-size: 150%; padding-top: 0%; padding-bottom: 1%;
+}
+
+
+.comment{
+  float: left; font-size: 160%; padding-top: 0%; padding-bottom: 1%; padding-left: 4%;
+}

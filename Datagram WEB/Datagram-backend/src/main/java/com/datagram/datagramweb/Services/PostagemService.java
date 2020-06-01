@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,18 @@ public class PostagemService {
     //find all
     public List<Postagem> findAll(){
         return repo.findAll();
+    }
+
+    public List<Postagem> findAllbyAutorId(Integer id){
+        List<Postagem> list = repo.findAll();
+        List<Postagem> listPostsById = new ArrayList<Postagem>();
+
+        for(Postagem post : list){
+            if(post.getId() == id)
+                listPostsById.add(post);
+        }
+
+        return listPostsById;
     }
 
     //find by id

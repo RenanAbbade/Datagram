@@ -56,23 +56,77 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <!-- End Left Column -->
     </div>
 
-    <!-- Right Column -->
-    <div class="w3-twothird">
+    <!-- Right Column <option *ngFor="let m of Municipios" >{{m}}</option>-->
+    <div class="w3-twothird" *ngFor="let post of postagens">
       <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Titulo do post</h2>
+        <a class="nav-link icon-action-post" data-toggle="modal" data-target="#delete" (click)="editPost(this.post.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+        <a class="nav-link icon-action-post" data-toggle="modal" data-target="#edit" (click)="editPost(this.post.id)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+
+        <h2 class="w3-text-grey w3-padding-16">
+          <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal" style="float: left;"></i>{{post.titulo}}
+        </h2>
+
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>Subtitulo</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Data do post <span class="w3-tag w3-teal w3-round">Current</span></h6>
-          <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+          <h5 class="w3-opacity"><b>{{post.subtitulo}}</b></h5>
+          <h6 class="w3-text-teal" ><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{post.date}} </h6>
+          <p>{{post.conteudo}}</p>
           <hr>
         </div>
+        <i class="fa fa-heart-o like" aria-hidden="true"><p *ngIf="post.curtida != null">{{post.curtida}}</p></i>
+        <i class="fa fa-comments-o comment" aria-hidden="true"><p *ngIf="post.curtida != null">{{post.curtida}}</p></i>
       </div>
-
     <!-- End Right Column -->
     </div>
 
   <!-- End Grid -->
   </div>
+
+   <!-- Janela -->
+ <form class="modal fade" id="edit">
+
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- cabecalho -->
+      <div class="modal-header">
+        <h4 class="modal-title " style="float:left; ">Editar postagem</h4>
+        <button type="button" class="close" style="float: right; " data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <!-- corpo -->
+      <div class="modal-body">
+
+        <div class="form-group">
+          <input type="titulo" class="form-control"   name="titulo" id="titulo"  value="{{postEdit.titulo}}">
+        </div>
+
+        <div class="form-group">
+          <input type="subtitulo" class="form-control"  name="subtitulo" id="subtitulo"  value="{{postEdit.subtitulo}}">
+        </div>
+
+        <div class="form-group">
+          <textarea class="form-control"  name="conteudo" id="conteudo" rows="5"  value="{{postEdit.titulo}}"  ></textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default center" data-dismiss="modal">
+          Cancelar
+        </button>
+
+        <button type="submit" class="btn btn-primary center" (click)="updatePost()" data-dismiss="modal">
+          Publicar
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</form>
 
   <!-- End Page Container -->
 </div>

@@ -21,6 +21,8 @@ export class AppConstants {
 
   public static get basePostagem(): string {return this.baseServidor + 'post/'; }
 
+  public static get postsPorUsuario(): string {return this.basePostagem + 'PostsPorUsuario/'; }
+
   public static get postPublicacao(): string {return this.basePostagem + 'insert/'; }
 
 
