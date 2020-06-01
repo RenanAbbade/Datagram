@@ -21,7 +21,7 @@ export class PerfilComponent implements OnInit {
 
   constructor(private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService) { }
 
-  public editPost(id){
+  public editPost(id, act){
     for (let post of this.postagens) {
       if (post.id === id){
         this.postagem.id = post.id;
@@ -30,21 +30,29 @@ export class PerfilComponent implements OnInit {
         this.postagem.conteudo = post.conteudo;
       }
      }
+    if (act === 'del'){
+       this.deletePost();
+     }
   }
 
 
   public updatePost(){
     this.postService.updatePost(this.postagem).subscribe(res => {
       this.postagens = JSON.parse(JSON.stringify(res));
-      console.log(res);
+    });
+  }
+
+  public deletePost(){
+    this.postService.deletePost(this.postagem.id).subscribe(res => {
+      this.postagens = JSON.parse(JSON.stringify(res));
     });
   }
 
 
   ngOnInit(): void {
+
     this.usuario = this.usuarioLogadoService.getUsuarioLogado().subscribe(data => {
     this.usuario = JSON.parse(JSON.stringify(data));
-
 
     this.usuarioLogadoService.getPostsUsuarioLogado(this.usuario.id).subscribe(res => {
     this.postagens = JSON.parse(JSON.stringify(res));

@@ -29,7 +29,16 @@ export class PostServiceService {
     updatePost(postagem){
       return this.http.put(AppConstants.basePostagem, postagem);
     }
+
+    deletePost(id){
+      console.log(id);
+
+      return this.http.delete(AppConstants.basePostagem + id);
   }
+  }
+
+
+
 /*
 public getPostsUsuarioLogado(id){
     const params = new HttpParams().set('id', id); //Create new HttpParams

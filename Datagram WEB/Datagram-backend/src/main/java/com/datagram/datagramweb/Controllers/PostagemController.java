@@ -71,7 +71,7 @@ public class PostagemController {
     }
 
     //DELETE
-    @DeleteMapping(value = "/{id}")
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
     public ResponseEntity<Postagem> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
