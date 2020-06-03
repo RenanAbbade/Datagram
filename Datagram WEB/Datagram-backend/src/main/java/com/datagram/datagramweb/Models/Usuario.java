@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -17,10 +19,6 @@ public class Usuario implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
-  @JsonIgnore
-  @OneToMany(mappedBy = "autor")
-  private List<Postagem> postagem = new ArrayList<>();
 
   private String email;
 
@@ -45,6 +43,23 @@ public class Usuario implements Serializable {
   private String dataInicio;
 
   private String tipoUsuario;
+
+  private int seguidores;
+
+  private int seguindo;
+
+  private int posts;
+
+
+ /*
+  @ElementCollection
+  @CollectionTable(name="INTERESSE")//A tabela interesses é uma entidade fraca, pois só tem o atributo id e nome, logo não precisa ser criada outra entidade, sendo inserida no usuário como @ElementCollection
+  private Set<String> interesses = new HashSet<>();//HashSet pois não pode se repetir.
+*/
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "autor")
+  private List<Postagem> postagem = new ArrayList<>();
 
   public Usuario() {
   }
@@ -84,7 +99,9 @@ public class Usuario implements Serializable {
   }
 
   
-  public static long getSerialversionuid() {
+
+
+public static long getSerialversionuid() {
     return serialVersionUID;
   }
 
@@ -196,9 +213,43 @@ public class Usuario implements Serializable {
     return postagem;
   }
 
-  public void setPostagem(List<Postagem> postagem) {
-    this.postagem = postagem;
+  public void setPostagem(Postagem post) {
+    this.postagem.add(post);
   }
+
+  public int getSeguidores() {
+    return seguidores;
+  }
+
+  public void setSeguidores(int seguidores) {
+    this.seguidores = seguidores;
+  }
+
+  public int getSeguindo() {
+    return seguindo;
+  }
+
+  public void setSeguindo(int seguindo) {
+    this.seguindo = seguindo;
+  }
+
+  public void setPosts(){
+    this.posts = postagem.size();
+  }
+
+  public int getPosts() {
+    return posts;
+  }
+/*
+  public Set<String> getInteresses() {
+    return interesses;
+  }
+
+  public void setInteresses(Set<String> interesses) {
+    this.interesses = interesses;
+  }
+*/
+  
 
   @Override
   public int hashCode() {
@@ -207,6 +258,8 @@ public class Usuario implements Serializable {
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     return result;
   }
+
+
 
   @Override
   public boolean equals(Object obj) {
@@ -224,6 +277,7 @@ public class Usuario implements Serializable {
       return false;
     return true;
   }
+
 
 
 }

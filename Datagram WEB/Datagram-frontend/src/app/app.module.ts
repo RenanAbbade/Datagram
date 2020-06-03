@@ -14,12 +14,18 @@ import { constants } from 'buffer';
 import { LoginComponent } from './login/login.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { ManagerComponent } from './manager/manager.component';
+import { FeedComponent } from './feed/feed.component';
+
 
 export const appRouters: Routes = [
   {path : '', component : LoginComponent},
-  {path : 'login', component : LoginComponent},
   {path : 'home', component : HomeComponent},
-  {path : 'cadastro', component : CadastroComponent}
+  {path : 'home/**', component : HomeComponent},
+  {path : 'cadastro', component : CadastroComponent},
+  {path : 'perfil', component : PerfilComponent},
+  {path : 'feed', component : FeedComponent}
+
 
 ];
 
@@ -31,13 +37,17 @@ export const routes: ModuleWithProviders = RouterModule.forRoot(appRouters);
     HomeComponent,
     LoginComponent,
     CadastroComponent,
-    PerfilComponent
+    PerfilComponent,
+    ManagerComponent,
+    FeedComponent
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
+    RouterModule,
     routes
   ],
   providers: [],

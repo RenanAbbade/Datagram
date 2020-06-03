@@ -94,6 +94,16 @@ export class CadastroComponent implements OnInit {
     }
   }
 
+  public initMunicipio(){
+
+    if (this.pesquisador.estado != null){
+      this.http.post(AppConstants.consultaMunicipio, this.pesquisador.estado).subscribe(data => {
+
+          this.Municipios = JSON.parse(JSON.stringify(data));
+      });
+    }
+  }
+
   public efetuaCadastro() {
     if (this.tipoUsuario === 'Pesquisador'){
       this.pesquisador.tipoUsuario = 'Pesquisador';
@@ -104,15 +114,7 @@ export class CadastroComponent implements OnInit {
     }
   }
 
-  public initMunicipio(){
 
-    if (this.pesquisador.estado != null){
-      this.http.post(AppConstants.consultaMunicipio, this.pesquisador.estado).subscribe(data => {
-
-          this.Municipios = JSON.parse(JSON.stringify(data));
-      });
-    }
-  }
 
   ngOnInit(): void {
 

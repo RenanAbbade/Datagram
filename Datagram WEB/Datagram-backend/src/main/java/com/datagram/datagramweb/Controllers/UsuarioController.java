@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,24 +36,26 @@ public class UsuarioController {
   @Autowired
   UsuarioValidator validator;
 
-  @GetMapping
-  public ResponseEntity<Iterable<Usuario>> findAll() {
-    Iterable<Usuario> usuarioList = service.findAll();
-    return ResponseEntity.ok().body(usuarioList);
-  }
-
-  // GET Index
-  @GetMapping(value = "/index")
-  public ResponseEntity<String> index() {
-    return ResponseEntity.ok().body("Index da app");
-  }
-
   // GET id
   @GetMapping(value = "/{id}")
   public ResponseEntity<Usuario> find(@PathVariable Integer id) {
     Usuario obj = service.find(id);
     return ResponseEntity.ok().body(obj);
   }
+
+  @GetMapping(value = "/userLogado")
+  public ResponseEntity<Usuario> findAuthUser() {
+    Usuario obj = UsuarioService.getUsuarioLogado();
+    return ResponseEntity.ok().body(obj);
+  }
+
+
+  @GetMapping
+    public ResponseEntity <List<Usuario>> findAll(){
+      List<Usuario> list = (List<Usuario>) service.findAll();
+      return ResponseEntity.ok().body(list);
+    }
+
 
   @PostMapping
   @CrossOrigin
@@ -120,6 +124,11 @@ public class UsuarioController {
   }
 
 }
+
+
+
+
+
 
 
 

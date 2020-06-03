@@ -1,0 +1,56 @@
+.buttonMenu
+{
+  color: aliceblue;
+
+}
+
+.interna {
+  width: 90px;
+}
+
+.search {
+  color: rgb(50, 112, 204);
+}
+
+a:link {
+  color: rgb(255, 255, 255);
+}
+
+/* visited link */
+a:visited {
+  color: rgb(50, 112, 204);
+}
+
+/* mouse over link */
+a:hover {
+  color: rgb(70, 162, 223);
+}
+
+/* selected link */
+a:active {
+  color: rgb(4, 238, 255);
+}
+
+a{
+  padding-bottom: 0%;
+  padding-top: 0%;
+  padding-right: 20px;
+}
+
+.bigBar{
+
+  border-bottom: 0.1px solid rgb(55, 109, 141);
+  width: 100%;
+}
+
+.jogaE {
+  margin-right: 0;
+  margin-left: 40%;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}

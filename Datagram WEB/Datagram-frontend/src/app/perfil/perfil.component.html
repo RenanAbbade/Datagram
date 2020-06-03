@@ -1,1 +1,146 @@
-<p>perfil works!</p>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<app-home></app-home>
+
+
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<div class="bg-light">
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-grey w3-card-4">
+        <div class="w3-display-container">
+          <img src="./assets/img/usuario.png" class="img-thumbnail center" style="width:100%" alt="Avatar">
+<br><br><br><br>
+          <div class="w3-display-bottomleft w3-container w3-text-black" style="padding-top: 10%;">
+            <h2>{{usuario.nome}}</h2>
+          </div>
+        </div>
+        <div class="w3-container">
+          <p class="w3-large"><b><i class="fa fa-user-o fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.tipoUsuario}}</b></p>
+          <p *ngIf="usuario.instituicao!=null"><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.instituicao}}</p>
+          <p><i class="fa fa-graduation-cap fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.escolaridade}}</p>
+          <p *ngIf="usuario.estado!=null"><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.estado}}, {{usuario.municipio}}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.email}}</p>
+          <p *ngIf="usuario.linkCv!=null"><i class="fa fa-quote-right fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.linkCv}}</p>
+          <p *ngIf="usuario.linkCv!=null"><i class="fa fa-book fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.dataInicio}}</p>
+          <p><i class="fa fa-address-card fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.dataNasc}}</p>
+
+          <hr>
+
+
+          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Status da conta</b></p>
+
+          <p>Seguidores:<b class="colorS">{{usuario.seguidores}}</b> </p>
+          <p>Seguindo:<b class="colorS" >{{usuario.seguindo}}</b> </p>
+          <p>Posts:<b class="colorS">{{usuario.posts}} </b></p>
+          <br>
+          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i></b>Interesses</p>
+          <p>Adobe Photoshop</p>
+          <br>
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column <option *ngFor="let m of Municipios" >{{m}}</option>-->
+    <div class="w3-twothird" *ngFor="let post of postagens">
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <a class="nav-link icon-action-post" data-toggle="modal" data-target="#delete" (click)="editPost(this.post.id, 'del')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+        <a class="nav-link icon-action-post" data-toggle="modal" data-target="#edit" (click)="editPost(this.post.id, 'upd')"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+
+        <h2 class="w3-text-grey w3-padding-16">
+          <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal" style="float: left;"></i>{{post.titulo}}
+        </h2>
+
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>{{post.subtitulo}}</b></h5>
+          <h6 class="w3-text-teal" ><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{post.date}} </h6>
+          <p>{{post.conteudo}}</p>
+          <hr>
+        </div>
+        <i class="fa fa-heart-o like" aria-hidden="true"><p *ngIf="post.curtida != null">{{post.curtida}}</p></i>
+        <i class="fa fa-comments-o comment" aria-hidden="true"><p *ngIf="post.curtida != null">{{post.curtida}}</p></i>
+      </div>
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+   <!-- Janela -->
+ <form class="modal fade" id="edit">
+
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- cabecalho -->
+      <div class="modal-header">
+        <h4 class="modal-title " style="float:left; ">Editar postagem</h4>
+        <button type="button" class="close" style="float: right; " data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <!-- corpo  #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" -->
+      <div class="modal-body">
+
+        <div class="form-group">
+          <input type="titulo" class="form-control" #titulo = "ngModel" [(ngModel)] = "postagem.titulo"   name="titulo" id="titulo"  value="{{postagem.titulo}}">
+        </div>
+
+        <div class="form-group">
+          <input type="subtitulo" class="form-control"  #subtitulo = "ngModel" [(ngModel)] = "postagem.subtitulo" name="subtitulo" id="subtitulo"  value="{{postagem.subtitulo}}">
+        </div>
+
+        <div class="form-group">
+          <textarea class="form-control" #conteudo = "ngModel" [(ngModel)] = "postagem.conteudo"  name="conteudo" id="conteudo" rows="5"   value="{{postagem.titulo}}"  ></textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default center"  data-dismiss="modal">
+          Cancelar
+        </button>
+
+        <button type="submit" class="btn btn-primary center" (click)="updatePost()" data-dismiss="modal">
+          Publicar
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</form>
+
+  <!-- End Page Container -->
+</div>
+
+<footer class="w3-container w3-teal w3-center w3-margin-top">
+  <p>Datagram - A rede social para cientistas de dados.</p>
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+</div>
+

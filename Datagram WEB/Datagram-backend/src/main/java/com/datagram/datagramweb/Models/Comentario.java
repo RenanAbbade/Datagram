@@ -1,15 +1,17 @@
 package com.datagram.datagramweb.Models;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Embeddable
-public class Comentario {
+public class Comentario implements Serializable {
 
+  
+    private static final long serialVersionUID = 1L;
+    
     @Lob
     private Usuario autor;
     private String conteudo;
