@@ -12,18 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
@@ -121,6 +111,19 @@ public class UsuarioController {
   public ResponseEntity<List<Postagem>> findPosts(@PathVariable Integer id) {
     Usuario usuario = service.find(id);
     return ResponseEntity.ok().body(usuario.getPostagem());
+  }
+
+  // consulte por user/nome/?nome_value=rafael
+  @GetMapping(value = "nome")
+  public ResponseEntity<List<Usuario>> findByNome(@RequestParam String nome_value){
+    List<Usuario> usuario = service.findByNome(nome_value);
+    return ResponseEntity.ok().body(usuario);
+  }
+
+  @GetMapping(value = "instituicao")
+  public ResponseEntity<List<Usuario>> findByInstituicao(@RequestParam String instituicao_value){
+    List<Usuario> usuario = service.findByInstituicao(instituicao_value);
+    return ResponseEntity.ok().body(usuario);
   }
 
 }
