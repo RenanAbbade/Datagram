@@ -40,7 +40,6 @@ export const routes: ModuleWithProviders = RouterModule.forRoot(appRouters);
     PerfilComponent,
     ManagerComponent,
     FeedComponent
-
   ],
   imports: [
     BrowserModule,

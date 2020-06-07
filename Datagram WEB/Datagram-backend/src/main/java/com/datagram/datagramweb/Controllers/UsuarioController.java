@@ -92,9 +92,8 @@ public class UsuarioController {
   }
 
   //UPDATE
-  @PutMapping(value = "{id}")
-  public ResponseEntity<Void> update(@RequestBody Usuario obj, @PathVariable Integer id) {
-    obj.setId(id);//Garantia do objeto, vai ser trocado por DTO no futuro.
+  @PutMapping(value = "/")
+  public ResponseEntity<Void> update(@RequestBody Usuario obj) {
     obj = service.update(obj);
     return ResponseEntity.noContent().build();
   }

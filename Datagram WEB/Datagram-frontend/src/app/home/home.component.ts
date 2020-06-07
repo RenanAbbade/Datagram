@@ -1,3 +1,4 @@
+import { PerfilComponent } from './../perfil/perfil.component';
 import { PostServiceService } from './../services/post-service.service';
 import { CadastroComponent } from './../cadastro/cadastro.component';
 import { Component, OnInit } from '@angular/core';
@@ -29,6 +30,9 @@ export class HomeComponent implements OnInit {
     console.log(this.postagem.date);
 
     this.postService.postPublicacao(this.postagem);
+
+    window.location.reload();
+
   }
 /*
 

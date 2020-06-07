@@ -2,13 +2,13 @@ package com.datagram.datagramweb.Models;
 
 import javax.persistence.*;
 
-import com.datagram.datagramweb.Services.UsuarioService;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Postagem implements Serializable {
@@ -22,16 +22,21 @@ public class Postagem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "Autor_id")
     private Usuario autor;
-
-    @ElementCollection
-    @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
-    private List<Comentario> comentarios = new ArrayList<>();
-
     private String titulo;
     private String subtitulo;
     private String conteudo;
     private String date;
     private Integer curtida;
+
+
+    @ElementCollection
+    private Set<Integer> idsCurtida = new HashSet<>();// Para fazer o controle de quem curtiu o post, não permitindo a
+                                                      // mesma pessoa curtir um post mais de uma vez.
+    @ElementCollection
+    @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
+    private List<Comentario> comentarios = new ArrayList<>();
+    
+    private Integer numComentarios;
 
     public Postagem(){
     }
@@ -71,14 +76,6 @@ public class Postagem implements Serializable {
         this.conteudo = texto;
     }
 
-    public List<Comentario> getComentario() {
-        return comentarios;
-    }
-
-    public void setComentario(List<Comentario> comentario) {
-        this.comentarios = comentario;
-    }
-
     public String getDate() {
         return date;
     }
@@ -87,12 +84,9 @@ public class Postagem implements Serializable {
         this.date = date;
     }
 
-    public Integer getCurtida() {
-        return curtida;
-    }
-
-    public void setCurtida(Integer curtida) {
-        this.curtida = curtida;
+    public void setIdsCurtida(Integer idCurtida) {
+        this.idsCurtida.add(idCurtida);
+        this.curtida = idsCurtida.size();
     }
 
     public String getTitulo() {
@@ -127,12 +121,56 @@ public class Postagem implements Serializable {
         this.autor = autor;
     }
 
+    public Integer getCurtida() {
+        return curtida;
+    }
+
+    @JsonIgnore
+    public Set<Integer> getIdsCurtida() {
+        return idsCurtida;
+    }
+
     public List<Comentario> getComentarios() {
         return comentarios;
     }
 
-    public void setComentarios(List<Comentario> comentarios) {
-        this.comentarios = comentarios;
+    public void setComentarios(Comentario comentario) {
+        this.comentarios.add(comentario);
+        this.numComentarios++;
+    }
+
+    public Integer getNumComentarios() {
+        return numComentarios;
+    }
+
+    public void setNumComentarios(Integer numComentarios) {
+        this.numComentarios = numComentarios;
+    }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Postagem other = (Postagem) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
     }
 
     

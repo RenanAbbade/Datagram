@@ -1,7 +1,7 @@
 import { AppConstants } from './../app-constants';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CadastroServiceService } from '../services/cadastro-service.service';
+import { UsuarioServiceService } from '../services/usuario-service.service';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class CadastroComponent implements OnInit {
   tipoUsuario;
 
 
-  constructor(private cadastroService: CadastroServiceService , private http: HttpClient){}
+  constructor(private cadastroService: UsuarioServiceService , private http: HttpClient){}
 
   membro = {nome: '', senha: '', email: '', dataNasc: '', cpf: '', escolaridade: '', tipoUsuario: ''};
 

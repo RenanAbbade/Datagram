@@ -49,7 +49,18 @@ public class PostagemService {
 
     //update
 	public Postagem update(Postagem obj) {
-        find(obj.getId());
+        Postagem postEstadoAntigo = find(obj.getId());
+
+        if(postEstadoAntigo.getCurtida() == null){
+
+          obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
+        }
+
+        else if(obj.getCurtida() > postEstadoAntigo.getCurtida()){
+
+          obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
+        }
+        
         return repo.save(obj);
       }
     
@@ -66,3 +77,4 @@ public class PostagemService {
 
     
 }
+
