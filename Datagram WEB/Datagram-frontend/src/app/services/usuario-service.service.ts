@@ -1,5 +1,5 @@
-import { CadastroComponent } from './../cadastro/cadastro.component';
-import { AppConstants } from './../app-constants';
+import { CadastroComponent } from '../cadastro/cadastro.component';
+import { AppConstants } from '../app-constants';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class CadastroServiceService {
+export class UsuarioServiceService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -38,5 +38,13 @@ export class CadastroServiceService {
      }
 
     });
+    }
+
+    public updateUsuario(usuario){
+
+      console.log(JSON.stringify(usuario));
+
+      return this.http.put(AppConstants.baseUsuarios, usuario);
+
     }
   }

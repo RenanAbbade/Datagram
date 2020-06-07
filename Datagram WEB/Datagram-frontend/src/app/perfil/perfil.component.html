@@ -1,146 +1,610 @@
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+<script src="uploadImage.js"></script>
 
 
 <app-home></app-home>
 
-
 <style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Roboto", sans-serif;
+  }
 </style>
 <div class="bg-light">
+  <!-- Page Container -->
+  <div class="w3-content w3-margin-top" style="max-width: 1400px;">
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+      <!-- Left Column -->
+      <div class="w3-third">
+        <div class="w3-white w3-text-grey w3-card-4">
+          <div class="w3-display-container">
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
 
-  <!-- The Grid -->
-  <div class="w3-row-padding">
+            <img src="./assets/img/usuario.png" class="img-thumbnail center" id="upload" style="width:100%" alt="Avatar">
+            <span class="btn-file file-upload btn btn-primary">
+              Escolha uma foto de perfil
+              <input type="file" id="file" >
+            </span>
 
-    <!-- Left Column -->
-    <div class="w3-third">
+            <br><br><br>
+            <div
+              class="w3-display-bottomleft w3-container w3-text-black"
+              style="padding-top: 10%;"
+            >
+              <a
+                *ngIf="usuario.tipoUsuario === 'Membro'"
+                class="nav-link icon-action-post"
+                data-toggle="modal"
+                data-target="#editMembro">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
 
-      <div class="w3-white w3-text-grey w3-card-4">
-        <div class="w3-display-container">
-          <img src="./assets/img/usuario.png" class="img-thumbnail center" style="width:100%" alt="Avatar">
-<br><br><br><br>
-          <div class="w3-display-bottomleft w3-container w3-text-black" style="padding-top: 10%;">
-            <h2>{{usuario.nome}}</h2>
+                <i *ngIf="usuario.tipoUsuario === 'Pesquisador'"
+                data-toggle="modal"
+                data-target="#editPesquisador" class="fa fa-pencil" style="float: left; font-size: 150%;" aria-hidden="true"></i>
+              <br><br>
+
+              <h2>{{ usuario.nome }}</h2>
+            </div>
+          </div>
+          <div class="w3-container">
+            <p class="w3-large">
+              <b
+                ><i
+                  class="fa fa-user-o fa-fw w3-margin-right w3-large w3-text-teal"
+                ></i
+                >{{ usuario.tipoUsuario }}</b
+              >
+            </p>
+            <p *ngIf="usuario.instituicao != null">
+              <i
+                class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"
+              ></i
+              >{{ usuario.instituicao }}
+            </p>
+            <p>
+              <i
+                class="fa fa-graduation-cap fa-fw w3-margin-right w3-large w3-text-teal"
+              ></i
+              >{{ usuario.escolaridade }}
+            </p>
+            <p *ngIf="usuario.estado != null">
+              <i
+                class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"
+              ></i
+              >{{ usuario.estado }}, {{ usuario.municipio }}
+            </p>
+            <p>
+              <i
+                class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"
+              ></i
+              >{{ usuario.email }}
+            </p>
+            <p *ngIf="usuario.linkCv != null">
+              <i
+                class="fa fa-quote-right fa-fw w3-margin-right w3-large w3-text-teal"
+              ></i
+              >{{ usuario.linkCv }}
+            </p>
+            <p *ngIf="usuario.linkCv != null">
+              <i
+                class="fa fa-book fa-fw w3-margin-right w3-large w3-text-teal"
+              ></i
+              >{{ usuario.dataInicio }}
+            </p>
+            <p>
+              <i
+                class="fa fa-address-card fa-fw w3-margin-right w3-large w3-text-teal"
+              ></i
+              >{{ usuario.dataNasc }}
+            </p>
+
+            <hr />
+
+            <p class="w3-large w3-text-theme">
+              <b
+                ><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i
+                >Status da conta</b
+              >
+            </p>
+
+            <p>
+              Seguidores:<b class="colorS">{{ usuario.seguidores }}</b>
+            </p>
+            <p>
+              Seguindo:<b class="colorS">{{ usuario.seguindo }}</b>
+            </p>
+            <p>
+              Posts:<b class="colorS">{{ usuario.posts }} </b>
+            </p>
+            <br />
+            <p class="w3-large">
+              <b
+                ><i
+                  class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"
+                ></i></b
+              >Interesses
+            </p>
+            <p>Adobe Photoshop</p>
+            <br />
           </div>
         </div>
-        <div class="w3-container">
-          <p class="w3-large"><b><i class="fa fa-user-o fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.tipoUsuario}}</b></p>
-          <p *ngIf="usuario.instituicao!=null"><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.instituicao}}</p>
-          <p><i class="fa fa-graduation-cap fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.escolaridade}}</p>
-          <p *ngIf="usuario.estado!=null"><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.estado}}, {{usuario.municipio}}</p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.email}}</p>
-          <p *ngIf="usuario.linkCv!=null"><i class="fa fa-quote-right fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.linkCv}}</p>
-          <p *ngIf="usuario.linkCv!=null"><i class="fa fa-book fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.dataInicio}}</p>
-          <p><i class="fa fa-address-card fa-fw w3-margin-right w3-large w3-text-teal"></i>{{usuario.dataNasc}}</p>
+        <br />
 
-          <hr>
-
-
-          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Status da conta</b></p>
-
-          <p>Seguidores:<b class="colorS">{{usuario.seguidores}}</b> </p>
-          <p>Seguindo:<b class="colorS" >{{usuario.seguindo}}</b> </p>
-          <p>Posts:<b class="colorS">{{usuario.posts}} </b></p>
-          <br>
-          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i></b>Interesses</p>
-          <p>Adobe Photoshop</p>
-          <br>
-        </div>
-      </div><br>
-
-    <!-- End Left Column -->
-    </div>
-
-    <!-- Right Column <option *ngFor="let m of Municipios" >{{m}}</option>-->
-    <div class="w3-twothird" *ngFor="let post of postagens">
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <a class="nav-link icon-action-post" data-toggle="modal" data-target="#delete" (click)="editPost(this.post.id, 'del')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-        <a class="nav-link icon-action-post" data-toggle="modal" data-target="#edit" (click)="editPost(this.post.id, 'upd')"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-
-        <h2 class="w3-text-grey w3-padding-16">
-          <i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal" style="float: left;"></i>{{post.titulo}}
-        </h2>
-
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>{{post.subtitulo}}</b></h5>
-          <h6 class="w3-text-teal" ><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{post.date}} </h6>
-          <p>{{post.conteudo}}</p>
-          <hr>
-        </div>
-        <i class="fa fa-heart-o like" aria-hidden="true"><p *ngIf="post.curtida != null">{{post.curtida}}</p></i>
-        <i class="fa fa-comments-o comment" aria-hidden="true"><p *ngIf="post.curtida != null">{{post.curtida}}</p></i>
+        <!-- End Left Column -->
       </div>
-    <!-- End Right Column -->
+
+      <!-- Right Column <option *ngFor="let m of Municipios" >{{m}}</option>-->
+      <div class="w3-twothird post" *ngFor="let post of postagens">
+        <div class="w3-container w3-card w3-white w3-margin-bottom">
+          <a
+            class="nav-link icon-action-post"
+            data-toggle="modal"
+            data-target="#delete"
+            (click)="editPost(this.post.id, 'del')"
+            ><i class="fa fa-trash-o" aria-hidden="true"></i
+          ></a>
+          <a
+            class="nav-link icon-action-post"
+            data-toggle="modal"
+            data-target="#edit"
+            (click)="editPost(this.post.id, 'upd')"
+            ><i class="fa fa-pencil" aria-hidden="true"></i
+          ></a>
+
+          <h2 class="w3-text-grey w3-padding-16">
+            <i
+              class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"
+              style="float: left;"
+            ></i
+            >{{ post.titulo }}
+          </h2>
+
+          <div class="w3-container">
+            <h5 class="w3-opacity">
+              <b>{{ post.subtitulo }}</b>
+            </h5>
+            <h6 class="w3-text-teal">
+              <i class="fa fa-calendar fa-fw w3-margin-right"></i
+              >{{ post.date }}
+            </h6>
+            <p>{{ post.conteudo }}</p>
+            <hr />
+          </div>
+          <i
+            class="fa fa-heart-o like"
+            aria-hidden="true"
+            id="like"
+            (click)="editPost(this.post.id, 'like')"
+            ><p *ngIf="post.curtida != null">{{ post.curtida }}</p></i
+          >
+          <i class="fa fa-comments-o comment" aria-hidden="true"
+            ><p *ngIf="post.curtida != null"></p
+          ></i>
+        </div>
+        <!-- End Right Column -->
+      </div>
+
+      <!-- End Grid -->
     </div>
 
-  <!-- End Grid -->
+    <!-- EDIÇÃO DE USUARIO -->
+    <form class="modal fade" id="editPesquisador">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- cabecalho -->
+          <div class="modal-header">
+            <h4 class="modal-title" style="float: left;">Editar Usuário</h4>
+            <button
+              type="button"
+              class="close"
+              style="float: right;"
+              data-dismiss="modal"
+            >
+              <span>&times;</span>
+            </button>
+          </div>
+
+          <!-- inicio dos dados -->
+          <div class="modal-body">
+            <form style="padding: 5% 20% 10% 20%;" name="f1">
+              <div class="form-row">
+                <div
+                  class="form-group col-md-6"
+                  id="pesquisadorNome"
+                >
+                  <label for="inputEmail4">Nome</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    #pesquisadorNome="ngModel"
+                    [(ngModel)]="usuario.nome"
+                    name="nome"
+                    id="nome"
+                    placeholder={{usuario.nome}}
+                    required
+                  />
+                  <div
+                    *ngIf="pesquisadorNome.invalid"
+                    class="alert alert-danger"
+                  >
+                    Nome deve ser informado!
+                  </div>
+                </div>
+
+                <div
+                  class="form-group col-md-6"
+                  id="pesquisadorSenha"
+                >
+                  <label for="inputPassword4">Senha</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    #pesquisadorSenha="ngModel"
+                    [(ngModel)]="usuario.senha"
+                    name="senha"
+                    id="senha"
+                    placeholder={{usuario.senha}}
+                    required
+                  />
+                  <div
+                    *ngIf="pesquisadorSenha.invalid"
+                    class="alert alert-danger"
+                  >
+                    Senha deve ser informado!
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="form-group"
+                id="pesquisadorEmail"
+              >
+                <label for="inputAddress">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  email
+                  #pesquisadorEmail="ngModel"
+                  [(ngModel)]="usuario.email"
+                  name="email"
+                  id="email"
+                  placeholder="Ex: rafael.sanzio@email.com"
+                  required
+                />
+                <div
+                  *ngIf="pesquisadorEmail.invalid"
+                  class="alert alert-danger"
+                >
+                  Email deve ser informado!
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div
+                  class="form-group col-md-6"
+                  id="pesquisadorNasc"
+                >
+                  <label for="inputAddress2">Data de nascimento</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);"
+                    #pesquisadorNasc="ngModel"
+                    [(ngModel)]="usuario.dataNasc"
+                    name="dataNasc"
+                    id="dataNasc"
+                    required
+                  />
+                  <div
+                    *ngIf="pesquisadorNasc.invalid"
+                    class="alert alert-danger"
+                  >
+                    Data de nascimento deve ser informada!
+                  </div>
+                </div>
+
+                <div
+                  class="form-group col-md-2"
+                  id="PesquisadorEstado"
+                >
+                  <label for="estado">Estado</label>
+                  <select
+                    id="estado"
+                    class="form-control"
+                    #PesquisadorEstado="ngModel"
+                    [(ngModel)]="usuario.estado"
+                    name="estado"
+                    (change)="initMunicipio()"
+                    required
+                  >
+                  <option selected>{{usuario.estado}}</option>
+                    <option *ngFor="let uf of UFS"> {{ uf }} </option>
+                  </select>
+                  <div
+                    *ngIf="PesquisadorEstado.invalid"
+                    class="alert alert-danger"
+                  ></div>
+                </div>
+
+                <div
+                  class="form-group col-md-4"
+                  id="PesquisadorMunicipio"
+                >
+                  <label for="municipio">Municipio</label>
+                  <select
+                    id="municipio"
+                    class="form-control"
+                    #PesquisadorMunicipio="ngModel"
+                    [(ngModel)]="usuario.municipio"
+                    name="municipio"
+                    required
+                  >
+                  <option selected>{{usuario.municipio}}</option>
+                    <option *ngFor="let m of Municipios">{{ m }}</option>
+                  </select>
+                  <div
+                    *ngIf="PesquisadorMunicipio.invalid"
+                    class="alert alert-danger"
+                  ></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <!-- Pesquisador exclusivos -->
+
+                <div
+                  class="form-group col-md-6"
+                  id="pesquisadorEscolaridade"
+                >
+                  <label for="inputState">Escolaridade</label>
+                  <select
+                    id="escolaridade"
+                    class="form-control"
+                    #pesquisadorEscolaridade="ngModel"
+                    [(ngModel)]="usuario.escolaridade"
+                    name="escolaridade"
+                    required
+                  >
+                    <option selected>{{usuario.escolaridade}}</option>
+                    <option>Doutorado (PhD)</option>
+                    <option>Mestrado (MsC)</option>
+                    <option>Graduação</option>
+                    <option>Ensino Técnico</option>
+                    <option>Ensino médio</option>
+                    <option>Ensino fundamental</option>
+                    <option>Não completei</option>
+                  </select>
+                  <div
+                    *ngIf="pesquisadorEscolaridade.invalid"
+                    class="alert alert-danger"
+                  >
+                    Escolaridade deve ser informada!
+                  </div>
+                </div>
+
+                <div
+                  class="form-group col-md-6"
+                  id="PesquisadorInstituicao"
+                >
+                  <label for="inputEmail4">
+                    Instituição onde realiza pesquisas</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    #PesquisadorInstituicao="ngModel"
+                    [(ngModel)]="usuario.instituicao"
+                    name="instituicao"
+                    id="instituicao"
+                    placeholder={{usuario.instituicao}}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div
+                  class="form-group col-md-6"
+                  id="PesquisadorLink"
+                >
+                  <label for="linkcv"> Link CV</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    #PesquisadorLink="ngModel"
+                    [(ngModel)]="usuario.linkCv"
+                    name="linkCv"
+                    id="linkCv"
+                    placeholder="Ex: https://www.linkedin.com/renan.abbade"
+                    required
+                  />
+                  <div
+                    *ngIf="PesquisadorLink.invalid"
+                    class="alert alert-danger"
+                  >
+                    link do CV deve ser informado!
+                  </div>
+                </div>
+
+                <div
+                  class="form-group col-md-6"
+                  id="PesquisadorDataInic"
+                >
+                  <label>
+                    Data que iniciou como cientista de dados</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);"
+                    #PesquisadorDataInic="ngModel"
+                    [(ngModel)]="usuario.dataInicio"
+                    name="dataInicio"
+                    id="dataInicio"
+                    required
+                  />
+                  <div
+                    *ngIf="PesquisadorDataInic.invalid"
+                    class="alert alert-danger"
+                  >
+                    A Data deve ser informada!
+                  </div>
+                </div>
+              </div>
+
+              <br />
+
+
+
+
+            </form>
+          </div>
+
+          <!-- fim dos dados-->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default center"
+              data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+
+            <div id="botaoPesquisador" >
+              <button
+                data-dismiss="modal"
+                type="submit"
+                [disabled]="
+                  pesquisadorNome.invalid ||
+                  pesquisadorSenha.invalid ||
+                  pesquisadorEmail.invalid ||
+                  pesquisadorNasc.invalid ||
+                  PesquisadorEstado.invalid ||
+                  PesquisadorMunicipio.invalid ||
+                  PesquisadorInstituicao.invalid ||
+                  PesquisadorLink.invalid ||
+                  PesquisadorDataInic.invalid ||
+                  pesquisadorEscolaridade.invalid
+                "
+                class="btn btn-primary"
+                (click)="updateUsuario()"
+              >
+                Atualizar dados
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- EDIÇÃO DE POST -->
+    <form class="modal fade" id="edit">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- cabecalho -->
+          <div class="modal-header">
+            <h4 class="modal-title" style="float: left;">Editar postagem</h4>
+            <button
+              type="button"
+              class="close"
+              style="float: right;"
+              data-dismiss="modal"
+            >
+              <span>&times;</span>
+            </button>
+          </div>
+
+          <!-- corpo  #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" -->
+          <div class="modal-body">
+            <div class="form-group">
+              <input
+                type="titulo"
+                class="form-control"
+                #titulo="ngModel"
+                [(ngModel)]="postagem.titulo"
+                name="titulo"
+                id="titulo"
+                value="{{ postagem.titulo }}"
+              />
+            </div>
+
+            <div class="form-group">
+              <input
+                type="subtitulo"
+                class="form-control"
+                #subtitulo="ngModel"
+                [(ngModel)]="postagem.subtitulo"
+                name="subtitulo"
+                id="subtitulo"
+                value="{{ postagem.subtitulo }}"
+              />
+            </div>
+
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                #conteudo="ngModel"
+                [(ngModel)]="postagem.conteudo"
+                name="conteudo"
+                id="conteudo"
+                rows="5"
+                value="{{ postagem.conteudo }}"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-default center"
+              data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary center"
+              (click)="updatePost()"
+              data-dismiss="modal"
+            >
+              Publicar
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- End Page Container -->
   </div>
 
-   <!-- Janela -->
- <form class="modal fade" id="edit">
-
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-      <!-- cabecalho -->
-      <div class="modal-header">
-        <h4 class="modal-title " style="float:left; ">Editar postagem</h4>
-        <button type="button" class="close" style="float: right; " data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-
-      <!-- corpo  #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" -->
-      <div class="modal-body">
-
-        <div class="form-group">
-          <input type="titulo" class="form-control" #titulo = "ngModel" [(ngModel)] = "postagem.titulo"   name="titulo" id="titulo"  value="{{postagem.titulo}}">
-        </div>
-
-        <div class="form-group">
-          <input type="subtitulo" class="form-control"  #subtitulo = "ngModel" [(ngModel)] = "postagem.subtitulo" name="subtitulo" id="subtitulo"  value="{{postagem.subtitulo}}">
-        </div>
-
-        <div class="form-group">
-          <textarea class="form-control" #conteudo = "ngModel" [(ngModel)] = "postagem.conteudo"  name="conteudo" id="conteudo" rows="5"   value="{{postagem.titulo}}"  ></textarea>
-        </div>
-
-      </div>
-
-      <div class="modal-footer">
-
-        <button type="button" class="btn btn-default center"  data-dismiss="modal">
-          Cancelar
-        </button>
-
-        <button type="submit" class="btn btn-primary center" (click)="updatePost()" data-dismiss="modal">
-          Publicar
-        </button>
-
-      </div>
-
-    </div>
-  </div>
-</form>
-
-  <!-- End Page Container -->
+  <footer class="w3-container w3-teal w3-center w3-margin-top">
+    <p>Datagram - A rede social para cientistas de dados.</p>
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+    <p>
+      Powered by
+      <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
+        >w3.css</a
+      >
+    </p>
+  </footer>
 </div>
 
-<footer class="w3-container w3-teal w3-center w3-margin-top">
-  <p>Datagram - A rede social para cientistas de dados.</p>
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-</footer>
-
-</div>
 

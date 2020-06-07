@@ -50,6 +50,9 @@ public class Usuario implements Serializable {
 
   private int posts;
 
+  @Column(columnDefinition = "text")
+  private String fotoPerfil;
+
 
  /*
   @ElementCollection
@@ -240,6 +243,17 @@ public static long getSerialversionuid() {
   public int getPosts() {
     return posts;
   }
+
+  public String getFotoPerfil() {
+    return fotoPerfil;
+  }
+
+  public void setFotoPerfil(String fotoPerfil) {
+    this.fotoPerfil = fotoPerfil;
+  }
+
+  
+
 /*
   public Set<String> getInteresses() {
     return interesses;
@@ -277,6 +291,8 @@ public static long getSerialversionuid() {
       return false;
     return true;
   }
+
+
 
 
 

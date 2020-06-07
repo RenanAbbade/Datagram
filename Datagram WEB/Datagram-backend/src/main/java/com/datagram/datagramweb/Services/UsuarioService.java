@@ -36,7 +36,7 @@ public class UsuarioService {
 
   // UPDATE
   public Usuario update(Usuario obj) {
-    find(obj.getId());
+    usuarioLogado = obj;
     return repo.save(obj);
   }
 

@@ -55,7 +55,7 @@ a{
 }
 
 .icon-action-post{
-  float: right; font-size: 200%; padding-top: 0.5cm;padding-right: 0.5;padding-right: 2.5%; 
+  float: right; font-size: 150%; padding-top: 0.5cm;padding-right: 0.5;padding-right: 2.5%;
 }
 
 .like{
@@ -65,4 +65,64 @@ a{
 
 .comment{
   float: left; font-size: 160%; padding-top: 0%; padding-bottom: 1%; padding-left: 4%;
+}
+
+.post {
+  float: right;
+}
+
+i:active {
+  color: rgb(4, 238, 255);
+}
+
+/* visited link */
+i:visited {
+  color: rgb(50, 112, 204);
+}
+
+/* mouse over link */
+i:hover {
+  color: rgb(70, 162, 223);
+}
+
+.btn-group
+{
+  text-align: center;
+  display: inline-block;
+}
+
+#escolha{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+   align-items: center
+}
+
+
+.ng-valid[required], .ng-valid.required {
+  border-left: 5px solid #42A948;
+}
+.ng-invalid:not(form){
+  border-left: 5px solid #a94442;
+}
+#botaoMembro, #botaoPesquisador{ text-align: center }
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: greenyellow;
+  cursor: inherit;
+  display: block;
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin
@@ -37,6 +38,7 @@ public class PostagemController {
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public ResponseEntity<List<Postagem>> findAllbyId(@PathVariable Integer id){
         List<Postagem> listPostagem = service.findAllbyAutorId(id);
+        Collections.reverse(listPostagem);//Reverto a ordem de apresentacao para mostrar da postagem mais recente
         return ResponseEntity.ok().body(listPostagem);
     }
 /*
@@ -61,9 +63,7 @@ public class PostagemController {
         return ResponseEntity.ok("CREATED");
     }
 
-
     //UPDATE
-
     @RequestMapping(value="/", method=RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody Postagem obj) {
         obj = service.update(obj);
