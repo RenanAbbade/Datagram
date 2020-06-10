@@ -139,9 +139,9 @@
             <p class="w3-large">
               <b
                 ><i
-                  class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"
+                  class="fa fa-binoculars fa-fw w3-margin-right w3-text-teal"
                 ></i></b
-              >Interesses
+              ><b>Interesses</b>
             </p>
             <form class="form-inline">
               <div class="form-group">
@@ -177,7 +177,7 @@
       </div>
 
       <!-- Right Column <option *ngFor="let m of Municipios" >{{m}}</option>-->
-      <div class="w3-twothird post" *ngFor="let post of postagens">
+      <div class="w3-twothird post" *ngFor="let post of postagens.reverse()">
         <div class="w3-container w3-card w3-white w3-margin-bottom">
           <a
             class="nav-link icon-action-post"
@@ -495,10 +495,6 @@
               </div>
 
               <br />
-
-
-
-
             </form>
           </div>
 
@@ -539,13 +535,15 @@
       </div>
     </form>
 
-    <!-- EDIÇÃO DE POST -->
-    <form class="modal fade" id="edit">
+
+
+     <!-- EDIÇÃO DE USUARIO -->
+     <form class="modal fade" id="editMembro">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <!-- cabecalho -->
           <div class="modal-header">
-            <h4 class="modal-title" style="float: left;">Editar postagem</h4>
+            <h4 class="modal-title" style="float: left;">Editar Usuário</h4>
             <button
               type="button"
               class="close"
@@ -556,83 +554,192 @@
             </button>
           </div>
 
-          <!-- corpo  #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" -->
-          <div class="modal-body">
-            <div class="form-group">
-              <input
-                type="titulo"
-                class="form-control"
-                #titulo="ngModel"
-                [(ngModel)]="postagem.titulo"
-                name="titulo"
-                id="titulo"
-                value="{{ postagem.titulo }}"
-              />
-            </div>
 
-            <div class="form-group">
-              <input
-                type="subtitulo"
-                class="form-control"
-                #subtitulo="ngModel"
-                [(ngModel)]="postagem.subtitulo"
-                name="subtitulo"
-                id="subtitulo"
-                value="{{ postagem.subtitulo }}"
-              />
-            </div>
 
-            <div class="form-group">
-              <textarea
-                class="form-control"
-                #conteudo="ngModel"
-                [(ngModel)]="postagem.conteudo"
-                name="conteudo"
-                id="conteudo"
-                rows="5"
-                value="{{ postagem.conteudo }}"
-              ></textarea>
+                <!-- inicio dos dados -->
+                <div class="modal-body">
+                  <form style="padding: 5% 20% 10% 20%;" name="f1">
+                    <div class="form-row">
+
+                      <div class="form-group col-md-6" id="membroNome">
+                        <label for="inputEmail4">Nome</label>
+                        <input type="text" class="form-control" #membroNome = "ngModel" [(ngModel)] = "usuario.nome" name="nome" id="nome" placeholder="Ex: Ana Silveira" required>
+                        <div *ngIf="membroNome.invalid" class="alert alert-danger"> Nome deve ser informado! </div>
+                      </div>
+
+                      <div class="form-group col-md-6" id="membroSenha" >
+                        <label for="inputPassword4">Senha</label>
+                        <input type="password" class="form-control" #membroSenha = "ngModel" [(ngModel)] = "usuario.senha"  name="senha" id="senha" placeholder="*******" required>
+                        <div *ngIf="membroSenha.invalid" class="alert alert-danger"> Senha deve ser informado! </div>
+                      </div>
+
+                    </div>
+
+                    <div class="form-group" id="membroEmail">
+                      <label for="inputAddress">Email</label>
+                      <input type="email" class="form-control" email maxlength="60" size='65'  #membroEmail = "ngModel" [(ngModel)] = "usuario.email" name="email"  id="email" placeholder="Ex: rafael.sanzio@email.com" required>
+                      <div *ngIf="membroEmail.invalid" class="alert alert-danger"> Email deve ser informado! </div>
+                    </div>
+
+                    <div class="form-row">
+
+                    <div class="form-group col-md-6" id="membroNasc" >
+                      <label for="inputAddress2">Data de nascimento</label>
+                      <input type="date" class="form-control" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);"  #membroNasc = "ngModel" [(ngModel)] = "usuario.dataNasc" name="dataNasc"  id="dataNasc" required >
+                      <div *ngIf="membroNasc.invalid" class="alert alert-danger"> Data de nascimento deve ser informada! </div>
+                    </div>
+
+                    <div class="form-group col-md-6" id="membroCPF">
+                      <label for="inputCity">CPF</label>
+                      <input type="number" class="form-control"  oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);"  #membroCPF = "ngModel" [(ngModel)] = "usuario.cpf" name="cpf" id="cpf" placeholder="Ex.: 00000000000 (só números)" required>
+                      <div *ngIf="membroCPF.invalid" class="alert alert-danger"> CPF deve ser informado! </div>
+                    </div>
+
+                    <div class="form-row">
+
+                      <div class="form-group col-12" id="membroEscolaridade">
+                        <label for="inputState">Escolaridade</label>
+                        <select id="escolaridade" class="form-control" #membroEscolaridade = "ngModel" [(ngModel)] = "usuario.escolaridade" name="escolaridade"  required>
+                          <option selected>Doutorado (PhD)</option>
+                          <option>Mestrado (MsC)</option>
+                          <option>Graduação</option>
+                          <option>Ensino Técnico</option>
+                          <option>Ensino médio</option>
+                          <option>Ensino fundamental</option>
+                          <option>Não completei</option>
+                        </select>
+                        <div *ngIf="membroEscolaridade.invalid" class="alert alert-danger"> Escolaridade deve ser informada! </div>
+                      </div>
+                    </div>
+                  </div>
+                  </form>
+
+              </div>
+
+              <!-- fim dos dados-->
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default center"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+
+                <div id="botaoPesquisador" >
+                  <button
+                    data-dismiss="modal"
+                    type="submit"
+                    [disabled]="membroNome.invalid || membroSenha.invalid || membroEmail.invalid || membroNasc.invalid || membroCPF.invalid || membroEscolaridade.invalid"
+                    class="btn btn-primary"
+                    (click)="updateUsuario()"
+                  >
+                    Atualizar dados
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-default center"
-              data-dismiss="modal"
-            >
-              Cancelar
-            </button>
+        </form>
 
-            <button
-              type="submit"
-              class="btn btn-primary center"
-              (click)="updatePost()"
-              data-dismiss="modal"
-            >
-              Publicar
-            </button>
-          </div>
+
+
+
+<!-- EDIÇÃO DE POST -->
+<form class="modal fade" id="edit">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- cabecalho -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="float: left;">Editar postagem</h4>
+        <button
+          type="button"
+          class="close"
+          style="float: right;"
+          data-dismiss="modal"
+        >
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <!-- corpo  #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" -->
+      <div class="modal-body">
+        <div class="form-group">
+          <input
+            type="titulo"
+            class="form-control"
+            #titulo="ngModel"
+            [(ngModel)]="postagem.titulo"
+            name="titulo"
+            id="titulo"
+            value="{{ postagem.titulo }}"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="subtitulo"
+            class="form-control"
+            #subtitulo="ngModel"
+            [(ngModel)]="postagem.subtitulo"
+            name="subtitulo"
+            id="subtitulo"
+            value="{{ postagem.subtitulo }}"
+          />
+        </div>
+
+        <div class="form-group">
+          <textarea
+            class="form-control"
+            #conteudo="ngModel"
+            [(ngModel)]="postagem.conteudo"
+            name="conteudo"
+            id="conteudo"
+            rows="5"
+            value="{{ postagem.conteudo }}"
+          ></textarea>
         </div>
       </div>
-    </form>
 
-    <!-- End Page Container -->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-default center"
+          data-dismiss="modal"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn-primary center"
+          (click)="updatePost()"
+          data-dismiss="modal"
+        >
+          Publicar
+        </button>
+      </div>
+    </div>
   </div>
+</form>
 
-  <footer class="w3-container w3-teal w3-center w3-margin-top">
-    <p>Datagram - A rede social para cientistas de dados.</p>
-    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-    <i class="fa fa-twitter w3-hover-opacity"></i>
-    <i class="fa fa-linkedin w3-hover-opacity"></i>
-    <p>
-      Powered by
-      <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
-        >w3.css</a
-      >
-    </p>
-  </footer>
+<!-- End Page Container -->
+</div>
+
+<footer class="w3-container w3-teal w3-center w3-margin-top">
+<p>Datagram - A rede social para cientistas de dados.</p>
+<i class="fa fa-facebook-official w3-hover-opacity"></i>
+<i class="fa fa-instagram w3-hover-opacity"></i>
+<i class="fa fa-snapchat w3-hover-opacity"></i>
+<i class="fa fa-pinterest-p w3-hover-opacity"></i>
+<i class="fa fa-twitter w3-hover-opacity"></i>
+<i class="fa fa-linkedin w3-hover-opacity"></i>
+<p>
+  Powered by
+  <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
+    >w3.css</a
+  >
+</p>
+</footer>
 </div>
