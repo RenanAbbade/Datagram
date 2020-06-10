@@ -1,14 +1,15 @@
 <html>
-<div  style="padding: 1% 20% 0% 20%; ">
-  <h6 style="text-align: center;">Selecione o tipo de usuário que deseja cadastrar!</h6>
+  <body>
+<div  style="padding: 1% 20% 0% 20%;">
+  <h6 style="text-align: center; color: white;">Selecione o tipo de usuário que deseja cadastrar!</h6>
 </div>
 <div style="padding: 1% 20% 0% 20%; " class="btn-group" id="escolha" role="group" aria-label="Basic example">
 
-  <button type="button" class="btn btn-secondary" id="Pesquisador" value="Pesquisador" (click)="mudaTipo('Pesquisador')">Pesquisador</button>
+  <button type="button" class="btn btn-secondary" id="Pesquisador" value="Pesquisador" (click)="mudaTipo('Pesquisador')" >Pesquisador</button>
   <button type="button" class="btn btn-secondary" id="Membro" value="Membro" (click)="mudaTipo('Membro')">Membro</button>
 </div>
 
-
+<div class="container" style="background-color: white; ">
 <form style="padding: 5% 20% 10% 20%; " name="f1">
   <div class="form-row">
 
@@ -163,4 +164,7 @@
 
 
 </form>
+</div>
+</body>
+
 </html>

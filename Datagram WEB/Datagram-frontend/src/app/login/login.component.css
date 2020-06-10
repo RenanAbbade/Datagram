@@ -1,3 +1,8 @@
+body {
+  background-image: linear-gradient(to left top, #170ace, #2950d1, #1285d1, #11bcde, #624ae9, #9c4ae9, #a437e4);
+  height: 100vh;
+}
+
 .ng-valid[required], .ng-valid.required {
   border-left: 5px solid #42A948;
 }
