@@ -54,11 +54,10 @@ public class Usuario implements Serializable {
   private String fotoPerfil;
 
 
- /*
-  @ElementCollection
-  @CollectionTable(name="INTERESSE")//A tabela interesses é uma entidade fraca, pois só tem o atributo id e nome, logo não precisa ser criada outra entidade, sendo inserida no usuário como @ElementCollection
-  private Set<String> interesses = new HashSet<>();//HashSet pois não pode se repetir.
-*/
+  @ElementCollection(fetch = FetchType.EAGER) 
+  @CollectionTable(name="INTERESSES")//Telefone se torna em uma tabela auxiliar de identididade fraca
+  private Set<String> interesses = new HashSet<>();
+
 
   @JsonIgnore
   @OneToMany(mappedBy = "autor")
@@ -252,9 +251,6 @@ public static long getSerialversionuid() {
     this.fotoPerfil = fotoPerfil;
   }
 
-  
-
-/*
   public Set<String> getInteresses() {
     return interesses;
   }
@@ -262,7 +258,9 @@ public static long getSerialversionuid() {
   public void setInteresses(Set<String> interesses) {
     this.interesses = interesses;
   }
-*/
+
+
+
   
 
   @Override
@@ -291,6 +289,7 @@ public static long getSerialversionuid() {
       return false;
     return true;
   }
+
 
 
 
