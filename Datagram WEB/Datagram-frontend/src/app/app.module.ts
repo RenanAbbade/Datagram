@@ -16,6 +16,7 @@ import { CadastroComponent } from './cadastro/cadastro.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ManagerComponent } from './manager/manager.component';
 import { FeedComponent } from './feed/feed.component';
+import { PerfilAmigoComponent } from './perfil-amigo/perfil-amigo.component';
 
 
 export const appRouters: Routes = [
@@ -24,6 +25,7 @@ export const appRouters: Routes = [
   {path : 'home/**', component : HomeComponent},
   {path : 'cadastro', component : CadastroComponent},
   {path : 'perfil', component : PerfilComponent},
+  {path : 'perfil-amigo', component : PerfilAmigoComponent},
   {path : 'feed', component : FeedComponent}
 
 
@@ -39,7 +41,8 @@ export const routes: ModuleWithProviders = RouterModule.forRoot(appRouters);
     CadastroComponent,
     PerfilComponent,
     ManagerComponent,
-    FeedComponent
+    FeedComponent,
+    PerfilAmigoComponent
   ],
   imports: [
     BrowserModule,

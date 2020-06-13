@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
 
 
     this.postagem.date = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto;
-    console.log(this.postagem.date);
+    console.log(this.postagem);
 
     this.postService.postPublicacao(this.postagem);
 

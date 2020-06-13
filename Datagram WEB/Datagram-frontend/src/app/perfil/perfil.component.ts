@@ -83,8 +83,6 @@ export class PerfilComponent implements OnInit {
        this.postagem.idsCurtida.push(this.usuario.id);
        this.postagem.curtida++;
        this.updatePost();
-
-
     }
   }
 
@@ -137,7 +135,7 @@ ngOnInit(): void {
 
     this.usuarioLogadoService.getPostsUsuarioLogado(this.usuario.id).subscribe(res => {
     this.postagens = JSON.parse(JSON.stringify(res));
-    console.log(this.postagens[0]);
+    console.log(this.postagens);
       });
     });
   }
