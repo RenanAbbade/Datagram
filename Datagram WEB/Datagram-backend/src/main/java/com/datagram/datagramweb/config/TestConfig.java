@@ -59,8 +59,8 @@ public class TestConfig implements CommandLineRunner {
                 "31/12/2039",0);
 
         //POSTAGEM OBTEM COMENTARIOS
-        postagem1.getComentario().addAll(Arrays.asList(comentario1,comentario3));
-        postagem2.getComentario().addAll(Arrays.asList(comentario3,comentario4));
+//        postagem1.getComentario().addAll(Arrays.asList(comentario1,comentario3));
+//        postagem2.getComentario().addAll(Arrays.asList(comentario3,comentario4));
 
         postagemRepository.saveAll(Arrays.asList(postagem1));
     }

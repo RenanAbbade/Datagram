@@ -17,6 +17,8 @@ export class AppConstants {
   // URL PARA VERIFICAR USUARIO LOGADO
   public static get consultaUserLogado(): string {return this.baseUsuarios + 'userLogado/'; }
 
+  public static get baseUsuarioByNome(): string {return this.baseUsuarios + 'nome/?nome_value='; }
+
   // POST
 
   public static get basePostagem(): string {return this.baseServidor + 'post/'; }

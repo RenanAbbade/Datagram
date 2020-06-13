@@ -47,4 +47,18 @@ export class UsuarioServiceService {
       return this.http.put(AppConstants.baseUsuarios, usuario);
 
     }
+
+    getUsuarioByNome(nome){
+      return this.http.get(AppConstants.baseUsuarioByNome.concat(nome))
+      .subscribe(
+        resultado => {
+          console.log(JSON.stringify(resultado));
+        },
+        erro => {
+          if(erro.status == 404){
+            console.log('Requisição incorreta');
+          }
+        }
+      );
+    }
   }
