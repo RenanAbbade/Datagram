@@ -1,3 +1,4 @@
+import { UsuarioServiceService } from './../services/usuario-service.service';
 import { PerfilComponent } from './../perfil/perfil.component';
 import { PostServiceService } from './../services/post-service.service';
 import { CadastroComponent } from './../cadastro/cadastro.component';
@@ -11,10 +12,10 @@ import { NodeWithI18n } from '@angular/compiler';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private postService: PostServiceService) { }
+  constructor(private postService: PostServiceService, private usuarioService: UsuarioServiceService) { }
 
   postagem = {titulo: '', subtitulo: '', conteudo: '', date: ''};
-
+  usuario = {nome: ''};
 
   public publicarPost(){
 
@@ -47,9 +48,11 @@ export class HomeComponent implements OnInit {
         this.curtida = curtida;
 
 */
+public getUsuarioByNome(nome){
+  this.usuarioService.getUsuarioByNome(nome);
+}
 
 
-  ngOnInit(): void {
-  }
+ngOnInit(): void { }
 
 }

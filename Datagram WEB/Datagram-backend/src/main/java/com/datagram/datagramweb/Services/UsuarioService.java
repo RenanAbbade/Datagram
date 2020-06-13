@@ -1,5 +1,6 @@
 package com.datagram.datagramweb.Services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.datagram.datagramweb.Models.Usuario;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-  @Service
+@Service
 public class UsuarioService {
 
   public static Usuario usuarioLogado;
@@ -77,4 +78,13 @@ public class UsuarioService {
   public static synchronized Usuario getUsuarioLogado(){
     return usuarioLogado;
   }
+
+  public List<Usuario> findByNome(String nome){
+    return repo.findByNome(nome);
+  }
+
+  public List<Usuario> findByInstituicao(String instituicao){
+    return repo.findByInstituicao(instituicao);
+  }
+
 }
