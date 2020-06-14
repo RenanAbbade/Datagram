@@ -25,8 +25,11 @@ export const appRouters: Routes = [
   {path : 'home/**', component : HomeComponent},
   {path : 'cadastro', component : CadastroComponent},
   {path : 'perfil', component : PerfilComponent},
-  {path : 'perfil-amigo', component : PerfilAmigoComponent},
-  {path : 'feed', component : FeedComponent}
+  {path : 'feed', component : FeedComponent},
+  {path : 'feed/perfil-amigo', component : PerfilAmigoComponent},
+  {path : 'feed/perfil-amigo/:id', component : PerfilAmigoComponent},
+  {path : 'perfil/perfil-amigo/:id', component : PerfilAmigoComponent}, // criando a rota com parametro
+
 
 
 ];
