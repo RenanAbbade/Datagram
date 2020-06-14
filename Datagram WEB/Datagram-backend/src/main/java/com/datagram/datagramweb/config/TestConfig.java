@@ -1,4 +1,4 @@
-package com.datagram.datagramweb.config;
+/* package com.datagram.datagramweb.config;
 
 import com.datagram.datagramweb.Models.Comentario;
 import com.datagram.datagramweb.Models.Postagem;
@@ -65,3 +65,4 @@ public class TestConfig implements CommandLineRunner {
         postagemRepository.saveAll(Arrays.asList(postagem1));
     }
 }
+*/
