@@ -37,8 +37,27 @@ public class UsuarioService {
 
   // UPDATE
   public Usuario update(Usuario obj) {
-    usuarioLogado = obj;
-    return repo.save(obj);
+    if(usuarioLogado.getId() == obj.getId()){
+      usuarioLogado = obj;
+    } 
+    else{
+      Usuario oldObj = find(obj.getId());
+      //verifico se está aumentando ou decrementando o número de seguidores do usuário alvo.
+      if(obj.getSeguidores() != oldObj.getSeguidores()){
+
+        for(Integer id : oldObj.getIdsSeguidores()){//verifico se o usuário logado deu unfollow no usuario target
+          if(id == usuarioLogado.getId()){
+            obj.getIdsSeguidores().remove(usuarioLogado.getId()); //Achou no SET, e dá o unfollow
+            usuarioLogado.getIdsSeguindo().remove(obj.getId());// unfollow registrado no user logado
+          }
+        }
+          //Se não achou no set, é um novo seguidor
+        obj.setIdsSeguidores(usuarioLogado.getId());//settando os seguidores no targer
+        usuarioLogado.setIdsSeguindo(obj.getId());//settando na lista dos que o user logado esta seguindo
+        repo.save(usuarioLogado);//salvando o user logado.
+      }
+    }
+    return repo.save(obj);//salvando o objeto passado no parametro.
   }
 
   // DELETE
@@ -80,7 +99,11 @@ public class UsuarioService {
   }
 
   public List<Usuario> findByNome(String nome){
-    return repo.findByNome(nome);
+    List<Usuario> usuariosPesquisa =  repo.findByNome(nome);
+
+    usuariosPesquisa.removeIf(x -> x.getId() == usuarioLogado.getId());//irá remover o usuario logado do retorno da pesquisa
+
+    return usuariosPesquisa;
   }
 
   public List<Usuario> findByInstituicao(String instituicao){

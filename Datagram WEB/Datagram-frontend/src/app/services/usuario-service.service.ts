@@ -49,16 +49,10 @@ export class UsuarioServiceService {
     }
 
     getUsuarioByNome(nome){
-      return this.http.get(AppConstants.baseUsuarioByNome.concat(nome))
-      .subscribe(
-        resultado => {
-          console.log(JSON.stringify(resultado));
-        },
-        erro => {
-          if(erro.status == 404){
-            console.log('Requisição incorreta');
-          }
-        }
-      );
+      return this.http.get(AppConstants.baseUsuarioByNome.concat(nome));
+    }
+
+    getUsuarioById(id){
+      return this.http.get(AppConstants.baseUsuarios + id);
     }
   }

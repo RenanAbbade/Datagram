@@ -13,7 +13,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
   @Transactional(readOnly = true)
   Usuario findByEmail(String email);
 
-  @Query("FROM Usuario WHERE NOME LIKE ?1%")
+  @Query("FROM Usuario WHERE NOME LIKE %?1%")
   List<Usuario> findByNome(String nome);
 
   @Query("FROM Usuario WHERE INSTITUICAO LIKE ?1%")

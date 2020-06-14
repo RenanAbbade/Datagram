@@ -4,6 +4,7 @@ import { PostServiceService } from './../services/post-service.service';
 import { CadastroComponent } from './../cadastro/cadastro.component';
 import { Component, OnInit } from '@angular/core';
 import { NodeWithI18n } from '@angular/compiler';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +13,13 @@ import { NodeWithI18n } from '@angular/compiler';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private postService: PostServiceService, private usuarioService: UsuarioServiceService) { }
+  constructor(private postService: PostServiceService, private usuarioService: UsuarioServiceService, private router: Router) { }
 
   postagem = {titulo: '', subtitulo: '', conteudo: '', date: ''};
   usuario = {nome: ''};
+  rotaPesquisa = 'perfil-amigo';
+
+  listaRetornoPesquisa;
 
   public publicarPost(){
 
@@ -28,31 +32,40 @@ export class HomeComponent implements OnInit {
 
 
     this.postagem.date = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto;
-    console.log(this.postagem.date);
+    console.log(this.postagem);
 
     this.postService.postPublicacao(this.postagem);
 
     window.location.reload();
 
   }
-/*
 
-"/post/insert
-
- this.id = id;
-        this.autor = autor;
-        this.titulo = titulo;
-        this.subtitulo = subtitulo;
-        this.conteudo = conteudo;
-        this.date = date;
-        this.curtida = curtida;
-
-*/
 public getUsuarioByNome(nome){
-  this.usuarioService.getUsuarioByNome(nome);
+  this.usuarioService.getUsuarioByNome(nome).subscribe(res => {
+    this.listaRetornoPesquisa = JSON.parse(JSON.stringify(res));
+    console.log(this.listaRetornoPesquisa);
+  });
 }
 
+checkPage(){
+  const rota = this.router.url;
+  if (rota.startsWith('/feed/perfil-amigo') || rota.startsWith('/perfil/perfil-amigo')){
+    this.router.navigate(['../feed']);
+  }
+}
 
-ngOnInit(): void { }
+/*
+this.usuarioLogadoService.getPostsUsuarioLogado(this.usuario.id).subscribe(res => {
+    this.postagens = JSON.parse(JSON.stringify(res));
+    console.log(this.postagens);
+      });
+*/
+
+
+
+ngOnInit(): void {
+
+
+}
 
 }

@@ -35,7 +35,7 @@ public class PostagemService {
         List<Postagem> listPostsById = new ArrayList<Postagem>();
 
         for(Postagem post : list){
-            if(post.getId() == id)
+            if(post.getAutor().getId() == id)
                 listPostsById.add(post);
         }
 

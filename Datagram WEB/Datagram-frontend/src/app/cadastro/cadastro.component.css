@@ -1,3 +1,9 @@
+body{
+  background-image: linear-gradient(to right bottom, #2e23ca, #4868d3, #3395d6, #11bcde, #7e6be9, #b06dee, #b465e2);
+  height: 100%;
+  margin:0;
+}
+
 .btn-group
 {
   text-align: center;

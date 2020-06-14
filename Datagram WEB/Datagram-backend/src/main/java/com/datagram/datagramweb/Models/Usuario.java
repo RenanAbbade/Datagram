@@ -53,16 +53,23 @@ public class Usuario implements Serializable {
   @Column(columnDefinition = "text")
   private String fotoPerfil;
 
-
- /*
-  @ElementCollection
-  @CollectionTable(name="INTERESSE")//A tabela interesses é uma entidade fraca, pois só tem o atributo id e nome, logo não precisa ser criada outra entidade, sendo inserida no usuário como @ElementCollection
-  private Set<String> interesses = new HashSet<>();//HashSet pois não pode se repetir.
-*/
+  @ElementCollection(fetch = FetchType.EAGER) 
+  @CollectionTable(name="INTERESSES")//Telefone se torna em uma tabela auxiliar de identididade fraca
+  private Set<String> interesses = new HashSet<>();
 
   @JsonIgnore
   @OneToMany(mappedBy = "autor")
   private List<Postagem> postagem = new ArrayList<>();
+
+  @JsonIgnore
+  @ElementCollection(fetch = FetchType.EAGER) 
+  @CollectionTable(name="Ids_seguidores")
+  private Set<Integer> idsSeguidores = new HashSet<>();
+
+  @JsonIgnore
+  @ElementCollection(fetch = FetchType.EAGER) 
+  @CollectionTable(name="Id_seguindo")
+  private Set<Integer> idsSeguindo = new HashSet<>();
 
   public Usuario() {
   }
@@ -252,9 +259,6 @@ public static long getSerialversionuid() {
     this.fotoPerfil = fotoPerfil;
   }
 
-  
-
-/*
   public Set<String> getInteresses() {
     return interesses;
   }
@@ -262,7 +266,25 @@ public static long getSerialversionuid() {
   public void setInteresses(Set<String> interesses) {
     this.interesses = interesses;
   }
-*/
+
+  public Set<Integer> getIdsSeguidores() {
+    return idsSeguidores;
+  }
+
+  public void setIdsSeguidores(Integer idSeguidor) {
+    this.idsSeguidores.add(idSeguidor);
+    this.seguidores = idsSeguidores.size();
+  }
+
+  public Set<Integer> getIdsSeguindo() {
+    return idsSeguindo;
+  }
+
+  public void setIdsSeguindo(Integer idSeguindo) {
+    this.idsSeguindo.add(idSeguindo);
+    this.seguindo = idsSeguindo.size();
+  }
+
   
 
   @Override
@@ -291,6 +313,9 @@ public static long getSerialversionuid() {
       return false;
     return true;
   }
+
+
+
 
 
 

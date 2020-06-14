@@ -18,9 +18,7 @@ export class UsuarioLogadoService {
   }
 
   public getPostsUsuarioLogado(id){
-    const params = new HttpParams().set('id', id); //Create new HttpParams
-
-    return this.http.get(AppConstants.basePostagem, {params} );
+    return this.http.get(AppConstants.basePostagem + id );
   }
 }
 
