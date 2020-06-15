@@ -30,6 +30,15 @@ export class PerfilAmigoComponent implements OnInit {
     //this.id = this.route.snapshot.params['id']; // No JS os objetos são chave valor - Aqui estou pegando o id que foi passado na URL
    }
 
+  public updateUsuario(){
+    this.usuario.seguidores++;
+    this.usuarioService.updateUsuario(this.usuario).subscribe(res => {
+      this.usuario = JSON.parse(JSON.stringify(res));
+      this.ngOnInit();
+    });
+
+  }
+
   public editPost(id, act){
     for (let post of this.postagens) {
       if (post.id === id){
@@ -69,6 +78,7 @@ export class PerfilAmigoComponent implements OnInit {
 
     this.usuarioService.getUsuarioById(this.id).subscribe(res => {
       this.usuario = JSON.parse(JSON.stringify(res));
+      console.log(this.usuario);
     });
 
   }
