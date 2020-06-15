@@ -149,6 +149,7 @@
           <span>&times;</span>
         </button>
       </div>
+      <p *ngIf="listaRetornoPesquisa === undefined" > Esta pesquisa não retornou resultados! </p>
 
       <!-- mostrando os resultados da pesquisa-->
       <!-- [routerLink]="['./perfil-amigo', usuario.id ]"-->

@@ -25,10 +25,23 @@ export class PerfilAmigoComponent implements OnInit {
 
   interessesEscolhidos = '';
 
+  seguidor;
+
   // tslint:disable-next-line: max-line-length
   constructor(private usuarioService: UsuarioServiceService, private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService, private route: ActivatedRoute) {
     //this.id = this.route.snapshot.params['id']; // No JS os objetos são chave valor - Aqui estou pegando o id que foi passado na URL
    }
+
+  public updateUsuario(){
+    this.usuario.seguidores++;
+
+    this.usuarioService.updateUsuario(this.usuario).subscribe(res => {
+      this.usuario = JSON.parse(JSON.stringify(res));
+      this.ngOnInit();
+    });
+
+    //this.verificaSeguidor();
+  }
 
   public editPost(id, act){
     for (let post of this.postagens) {
@@ -59,6 +72,22 @@ export class PerfilAmigoComponent implements OnInit {
     });
   }
 
+  verificaSeguidor(){
+    this.usuarioService.getFollower(this.usuario.id).subscribe(res => {
+      console.log(res);
+      this.seguidor = res;
+      if (res === 'true') {
+        document.getElementById('follow').className = 'btn btn-success';
+        document.getElementById('follow').innerText = 'seguindo!';
+
+      }else{
+        document.getElementById('follow').className = 'btn btn-primary';
+        document.getElementById('follow').innerText = 'seguir';
+      }
+
+    });
+  }
+
   ngOnInit(): void {
 
     this.Inscricao =  this.route.params.subscribe(
@@ -69,7 +98,10 @@ export class PerfilAmigoComponent implements OnInit {
 
     this.usuarioService.getUsuarioById(this.id).subscribe(res => {
       this.usuario = JSON.parse(JSON.stringify(res));
+      console.log(this.usuario);
+      this.verificaSeguidor();
     });
+
 
   }
 

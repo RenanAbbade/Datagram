@@ -567,13 +567,13 @@
 
                       <div class="form-group col-md-6" id="membroNome">
                         <label for="inputEmail4">Nome</label>
-                        <input type="text" class="form-control" #membroNome = "ngModel" [(ngModel)] = "usuario.nome" name="nome" id="nome" placeholder="Ex: Ana Silveira" required>
+                        <input type="text" class="form-control" #membroNome = "ngModel" [(ngModel)] = "usuario.nome" name="nome" id="nome" value={{usuario.nome}} required>
                         <div *ngIf="membroNome.invalid" class="alert alert-danger"> Nome deve ser informado! </div>
                       </div>
 
                       <div class="form-group col-md-6" id="membroSenha" >
                         <label for="inputPassword4">Senha</label>
-                        <input type="password" class="form-control" #membroSenha = "ngModel" [(ngModel)] = "usuario.senha"  name="senha" id="senha" placeholder="*******" required>
+                        <input type="password" class="form-control" #membroSenha = "ngModel" [(ngModel)] = "usuario.senha"  name="senha" id="senha" value={{usuario.senha}} required>
                         <div *ngIf="membroSenha.invalid" class="alert alert-danger"> Senha deve ser informado! </div>
                       </div>
 
@@ -581,7 +581,7 @@
 
                     <div class="form-group" id="membroEmail">
                       <label for="inputAddress">Email</label>
-                      <input type="email" class="form-control" email maxlength="60" size='65'  #membroEmail = "ngModel" [(ngModel)] = "usuario.email" name="email"  id="email" placeholder="Ex: rafael.sanzio@email.com" required>
+                      <input type="email" class="form-control" email maxlength="60" size='65'  #membroEmail = "ngModel" [(ngModel)] = "usuario.email" name="email"  id="email" value={{usuario.email}} required>
                       <div *ngIf="membroEmail.invalid" class="alert alert-danger"> Email deve ser informado! </div>
                     </div>
 
@@ -589,13 +589,13 @@
 
                     <div class="form-group col-md-6" id="membroNasc" >
                       <label for="inputAddress2">Data de nascimento</label>
-                      <input type="date" class="form-control" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);"  #membroNasc = "ngModel" [(ngModel)] = "usuario.dataNasc" name="dataNasc"  id="dataNasc" required >
+                      <input type="date" class="form-control" oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 9);"  #membroNasc = "ngModel" [(ngModel)] = "usuario.dataNasc" name="dataNasc"  id="dataNasc" value={{usuario.dataNasc}} required >
                       <div *ngIf="membroNasc.invalid" class="alert alert-danger"> Data de nascimento deve ser informada! </div>
                     </div>
 
                     <div class="form-group col-md-6" id="membroCPF">
                       <label for="inputCity">CPF</label>
-                      <input type="number" class="form-control"  oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);"  #membroCPF = "ngModel" [(ngModel)] = "usuario.cpf" name="cpf" id="cpf" placeholder="Ex.: 00000000000 (só números)" required>
+                      <input type="number" class="form-control"  oninput="javascript: if (this.value.length > 11) this.value = this.value.slice(0, 11);"  #membroCPF = "ngModel" [(ngModel)] = "usuario.cpf" name="cpf" id="cpf" value={{usuario.cpf}} required>
                       <div *ngIf="membroCPF.invalid" class="alert alert-danger"> CPF deve ser informado! </div>
                     </div>
 
@@ -604,7 +604,8 @@
                       <div class="form-group col-12" id="membroEscolaridade">
                         <label for="inputState">Escolaridade</label>
                         <select id="escolaridade" class="form-control" #membroEscolaridade = "ngModel" [(ngModel)] = "usuario.escolaridade" name="escolaridade"  required>
-                          <option selected>Doutorado (PhD)</option>
+                          <option selected>{{usuario.escolaridade}} (PhD)</option>
+                          <option >Doutorado (PhD)</option>
                           <option>Mestrado (MsC)</option>
                           <option>Graduação</option>
                           <option>Ensino Técnico</option>

@@ -54,18 +54,6 @@ checkPage(){
   }
 }
 
-/*
-this.usuarioLogadoService.getPostsUsuarioLogado(this.usuario.id).subscribe(res => {
-    this.postagens = JSON.parse(JSON.stringify(res));
-    console.log(this.postagens);
-      });
-*/
-
-
-
-ngOnInit(): void {
-
-
-}
+ngOnInit(): void {}
 
 }

@@ -38,23 +38,32 @@ public class UsuarioService {
 
   // UPDATE
   public Usuario update(Usuario obj) {
+    //settando os seguidores e o seguindo novamente para não perder a informação no update, o usuario vem do front sem guardar os campos idsSeguidores/idsSeguindo
+    Usuario oldObj = find(obj.getId());
+    obj.setIdsAllSeguidores(oldObj.getIdsSeguidores());
+    obj.setIdsAllSeguindo(oldObj.getIdsSeguindo());
+
     if(usuarioLogado.getId() == obj.getId()){
+      //atualizando o usuario logado para refletir no sistema em tempo real.
       usuarioLogado = obj;
     } 
-    else{
-      Usuario oldObj = find(obj.getId());
-      //verifico se está aumentando ou decrementando o número de seguidores do usuário alvo.
+    else{//só ocorre no cenario follow
+
       if(obj.getSeguidores() != oldObj.getSeguidores()){
 
-        for(Integer id : oldObj.getIdsSeguidores()){//verifico se o usuário logado deu unfollow no usuario target
-          if(id == usuarioLogado.getId()){
-            obj.getIdsSeguidores().remove(usuarioLogado.getId()); //Achou no SET, e dá o unfollow
-            usuarioLogado.getIdsSeguindo().remove(obj.getId());// unfollow registrado no user logado
-          }
+        //verifico se o usuário logado deu unfollow no usuario target & verifico se está aumentando ou decrementando o número de seguidores do usuário alvo.
+        if (obj.getIdsSeguidores().contains(usuarioLogado.getId())){
+          obj.getIdsSeguidores().remove(usuarioLogado.getId());
+          usuarioLogado.getIdsSeguindo().remove(obj.getId());
+          //Atualiza o num de seguidores e quem esta seguindo em ambos obj
+          obj.setSeguidores(obj.getIdsSeguidores().size());
+          usuarioLogado.setSeguindo(usuarioLogado.getIdsSeguindo().size());
         }
-          //Se não achou no set, é um novo seguidor
-        obj.setIdsSeguidores(usuarioLogado.getId());//settando os seguidores no targer
-        usuarioLogado.setIdsSeguindo(obj.getId());//settando na lista dos que o user logado esta seguindo
+        //Novo seguidor
+        else{
+          obj.setIdsSeguidores(usuarioLogado.getId());//settando os seguidores no target
+          usuarioLogado.setIdsSeguindo(obj.getId());//settando na lista dos que o user logado esta seguindo, o número dos seguidores e atualizado dentro destes métodos
+        }
         repo.save(usuarioLogado);//salvando o user logado.
       }
     }
