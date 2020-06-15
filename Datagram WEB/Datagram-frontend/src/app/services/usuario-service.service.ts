@@ -55,4 +55,9 @@ export class UsuarioServiceService {
     getUsuarioById(id){
       return this.http.get(AppConstants.baseUsuarios + id);
     }
+
+    getFollower(id){
+      return this.http.get(AppConstants.baseUsuarios + 'seguindo/' + id, {responseType: 'text'});
+    }
   }
+
