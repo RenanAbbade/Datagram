@@ -276,6 +276,10 @@ public static long getSerialversionuid() {
     this.seguidores = idsSeguidores.size();
   }
 
+  public void setIdsAllSeguidores(Set<Integer> idsSeguidores) {//recebe um set inteiro na atualizacao
+    this.idsSeguidores = idsSeguidores;
+  }
+
   public Set<Integer> getIdsSeguindo() {
     return idsSeguindo;
   }
@@ -283,6 +287,10 @@ public static long getSerialversionuid() {
   public void setIdsSeguindo(Integer idSeguindo) {
     this.idsSeguindo.add(idSeguindo);
     this.seguindo = idsSeguindo.size();
+  }
+
+  public void setIdsAllSeguindo(Set<Integer> idsSeguindo) {//recebe um set inteiro na atualizacao
+    this.idsSeguindo = idsSeguindo;
   }
 
   
