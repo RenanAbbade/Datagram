@@ -2,6 +2,7 @@ package com.datagram.datagramweb.Controllers;
 
 import com.datagram.datagramweb.Models.Postagem;
 import com.datagram.datagramweb.Services.PostagemService;
+import com.datagram.datagramweb.Services.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -75,5 +76,12 @@ public class PostagemController {
     public ResponseEntity<Postagem> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //obtem posts de seguidores de um usuario
+    @GetMapping(value = "/feed")
+    public ResponseEntity<List<Postagem>> findPostsSeguidores() {
+        List<Postagem> postsSeguidores = service.findPostsSeguidores();
+        return ResponseEntity.ok().body(postsSeguidores);
     }
 }

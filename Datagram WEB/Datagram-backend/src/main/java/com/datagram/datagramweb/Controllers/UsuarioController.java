@@ -125,6 +125,14 @@ public class UsuarioController {
     return ResponseEntity.ok().body(usuario);
   }
 
+  @GetMapping(value = "/seguindo/{id}")
+  public ResponseEntity<Boolean> validFollower(@PathVariable Integer id){
+    Boolean resposta = (UsuarioService.usuarioLogado.getIdsSeguindo().contains(id)) ? true : false;
+    return ResponseEntity.ok(resposta);
+
+  }
+
+
 }
 
 
