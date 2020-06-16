@@ -132,8 +132,8 @@ ngOnInit(): void {
 
     this.usuario = this.usuarioLogadoService.getUsuarioLogado().subscribe(data => {
     this.usuario = JSON.parse(JSON.stringify(data));
-  
-    this.usuarioLogadoService.getPostsUsuarioLogado(this.usuario.id).subscribe(res => {
+
+    this.usuarioService.getPostsUsuario(this.usuario.id).subscribe(res => {
     this.postagens = JSON.parse(JSON.stringify(res));
     console.log(this.postagens);
       });

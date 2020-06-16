@@ -17,9 +17,7 @@ export class UsuarioLogadoService {
     return this.http.get(AppConstants.consultaUserLogado);
   }
 
-  public getPostsUsuarioLogado(id){
-    return this.http.get(AppConstants.basePostagem + id );
-  }
+
 }
 
 
