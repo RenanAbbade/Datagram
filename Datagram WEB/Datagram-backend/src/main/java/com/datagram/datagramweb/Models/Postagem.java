@@ -27,6 +27,7 @@ public class Postagem implements Serializable {
     private String conteudo;
     private String date;
     private Integer curtida;
+    private String link;
 
 
     @ElementCollection
@@ -129,6 +130,14 @@ public class Postagem implements Serializable {
 
     public Integer getCurtida() {
         return curtida;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     @JsonIgnore

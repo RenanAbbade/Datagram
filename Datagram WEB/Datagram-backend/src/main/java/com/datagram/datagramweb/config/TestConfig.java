@@ -1,10 +1,11 @@
-/* package com.datagram.datagramweb.config;
+package com.datagram.datagramweb.config;
 
 import com.datagram.datagramweb.Models.Comentario;
 import com.datagram.datagramweb.Models.Postagem;
 import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Repositories.PostagemRepository;
 import com.datagram.datagramweb.Repositories.UsuarioRepository;
+import com.datagram.datagramweb.Services.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private PostagemRepository postagemRepository;
 
+    @Autowired
+    private PostagemService postagemService;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -42,6 +46,11 @@ public class TestConfig implements CommandLineRunner {
 
         Usuario usuario4 = new Usuario(null,"gabriel caskolino","1234","gabriel@gmail.com","246.567.194-76",
                 "mestre","membro");
+
+        usuario1.setIdsSeguindo(usuario2.getId());
+
+        System.out.println("Seguidores --> "+usuario2.getSeguidores());
+
 
         usuarioRepository.saveAll(Arrays.asList(usuario1,usuario2,usuario3));
 
@@ -62,7 +71,8 @@ public class TestConfig implements CommandLineRunner {
 //        postagem1.getComentario().addAll(Arrays.asList(comentario1,comentario3));
 //        postagem2.getComentario().addAll(Arrays.asList(comentario3,comentario4));
 
-        postagemRepository.saveAll(Arrays.asList(postagem1));
+//        System.out.println("RESULTADO --> "+postagemService.containsPost(usuario1,1));
+
+        postagemRepository.saveAll(Arrays.asList(postagem1,postagem2));
     }
 }
-*/

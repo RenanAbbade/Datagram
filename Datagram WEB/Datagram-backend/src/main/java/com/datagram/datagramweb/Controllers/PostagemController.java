@@ -1,9 +1,12 @@
 package com.datagram.datagramweb.Controllers;
 
 import com.datagram.datagramweb.Models.Postagem;
+import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Services.PostagemService;
 import com.datagram.datagramweb.Services.UsuarioService;
 
+import com.datagram.datagramweb.Services.UsuarioService;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +32,7 @@ public class PostagemController {
 
     @Autowired
     PostagemService service;
+
 
     @GetMapping
     public ResponseEntity<List<Postagem>> findAll(){
@@ -78,7 +82,6 @@ public class PostagemController {
         return ResponseEntity.noContent().build();
     }
 
-    //obtem posts de seguidores de um usuario
     @GetMapping(value = "/feed")
     public ResponseEntity<List<Postagem>> findPostsSeguidores() {
         List<Postagem> postsSeguidores = service.findPostsSeguidores();
