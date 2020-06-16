@@ -89,6 +89,12 @@ public class Postagem implements Serializable {
         this.curtida = idsCurtida.size();
     }
 
+
+    public void setAllIdsCurtida(Set<Integer> idCurtidas) {
+        this.idsCurtida = idCurtidas;
+        this.curtida = idsCurtida.size();
+    }
+
     public String getTitulo() {
         return titulo;
     }

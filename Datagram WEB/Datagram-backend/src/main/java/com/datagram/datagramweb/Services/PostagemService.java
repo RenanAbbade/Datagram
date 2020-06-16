@@ -63,6 +63,7 @@ public class PostagemService {
 
         else if(obj.getCurtida() > postEstadoAntigo.getCurtida()){
 
+          obj.setAllIdsCurtida(postEstadoAntigo.getIdsCurtida());//reinserindo as curtidas anteriores
           obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
         }
         
