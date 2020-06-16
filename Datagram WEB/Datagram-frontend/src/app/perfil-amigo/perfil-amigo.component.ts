@@ -21,7 +21,7 @@ export class PerfilAmigoComponent implements OnInit {
 
   postagens;
 
-  postagem;
+  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: []};
 
   interessesEscolhidos = '';
 
