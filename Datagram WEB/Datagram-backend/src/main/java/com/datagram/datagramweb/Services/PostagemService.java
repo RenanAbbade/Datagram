@@ -10,24 +10,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PostagemService {
 
     @Autowired
     private PostagemRepository repo;
-
-    @Autowired
-<<<<<<< HEAD
-    private UsuarioService usuarioService;
-=======
-    UsuarioService serviceUsuario;
->>>>>>> 605e7bef3a8bba952ae16d30b9c7465e759ffd83
-
 
   // CREATE
     public Postagem insert(Postagem obj) {
@@ -86,54 +75,29 @@ public class PostagemService {
         }
     }
 
-          //OBTEM POSTS DE SEGUIDORES DO USUARIO
-    public List<Postagem> findPostsSeguidores(Integer idUserLogado){
-        Usuario usuarioLogado = usuarioService.find(idUserLogado);
-        Integer postAtual;
-        Set<Integer> seguidores;
-
-        try{
-            seguidores = usuarioLogado.getIdsSeguidores(); // trocar este metodo por um que retorna os usuarios e nao o ID
-        }catch (NullPointerException e){
-            throw new NullPointerException("**********USUARIO NAO POSSUI SEGUIDORES**********");
-        }
-
-        List<Postagem> list = repo.findAll();
-        List<Postagem> listPostSeguidores = new ArrayList<Postagem>();
-
-        for(Postagem postagem : list){
-           postAtual = postagem.getAutor().getId();
-            for(Integer seguidor : seguidores) {
-                if (seguidor.getPostagem().contains(postAtual){ //verifico nas minhas postagens se existe o postAtual
-                    listPostSeguidores.add(postagem);
-                }
+    public List<Postagem> sortPostByData(List<Postagem> myList){
+        myList.sort(new Comparator<Postagem>() {
+            @Override
+            public int compare(Postagem postagem1, Postagem postagem2) {
+                if(postagem1.getDate() == null || postagem2.getDate() == null)
+                    return 0;
+                return postagem1.getDate().compareTo(postagem2.getDate());
             }
-        }
-        return listPostSeguidores;
+        });
+        return myList;
     }
 
 
-
-<<<<<<< HEAD
-=======
     public List<Postagem> findPostsSeguidores(){
-
-      Set<Integer> seguidores = UsuarioService.usuarioLogado.getIdsSeguindo(); // trocar este metodo por um que retorna os usuarios e nao o ID;
+      Set<Integer> seguidores = UsuarioService.usuarioLogado.getIdsSeguindo();
       List<Postagem> listPostSeguidores = new ArrayList<Postagem>();
-/*
-        try{
-            seguidores = UsuarioService.usuarioLogado.getIdsSeguindo(); // trocar este metodo por um que retorna os usuarios e nao o ID
-        }catch (NullPointerException e){
-            throw new NullPointerException("***USUARIO NAO POSSUI SEGUIDORES***");
-        }
-*/
         for(Integer id : seguidores){
             listPostSeguidores.addAll(findAllbyAutorId(id));
         }
+        Collections.reverse(sortPostByData(listPostSeguidores));
         return listPostSeguidores;
     }
 
-    
->>>>>>> 605e7bef3a8bba952ae16d30b9c7465e759ffd83
+
 }
 
