@@ -17,6 +17,7 @@ export class UsuarioServiceService {
 
 
 
+
     return this.http.post(AppConstants.baseLoginInsert, usuario, {responseType: 'text'}).subscribe(data => {
 
 
@@ -38,6 +39,10 @@ export class UsuarioServiceService {
      }
 
     });
+    }
+
+    public getPostsUsuario(id){
+      return this.http.get(AppConstants.basePostagem + id );
     }
 
     public updateUsuario(usuario){

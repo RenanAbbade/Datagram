@@ -45,6 +45,7 @@ export class PerfilAmigoComponent implements OnInit {
 
   public editPost(id, act){
     for (let post of this.postagens) {
+      console.log(post);
       if (post.id === id){
         this.postagem.id = post.id;
         this.postagem.titulo = post.titulo;
@@ -95,12 +96,16 @@ export class PerfilAmigoComponent implements OnInit {
         this.id = params['id'];
       });
 
-
     this.usuarioService.getUsuarioById(this.id).subscribe(res => {
       this.usuario = JSON.parse(JSON.stringify(res));
       console.log(this.usuario);
       this.verificaSeguidor();
     });
+
+    this.usuarioService.getPostsUsuario(this.id).subscribe(res => {
+      this.postagens = JSON.parse(JSON.stringify(res));
+      console.log(this.postagens);
+  });
 
 
   }
