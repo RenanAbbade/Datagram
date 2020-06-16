@@ -22,7 +22,11 @@ public class PostagemService {
     private PostagemRepository repo;
 
     @Autowired
+<<<<<<< HEAD
     private UsuarioService usuarioService;
+=======
+    UsuarioService serviceUsuario;
+>>>>>>> 605e7bef3a8bba952ae16d30b9c7465e759ffd83
 
 
   // CREATE
@@ -110,5 +114,26 @@ public class PostagemService {
 
 
 
+<<<<<<< HEAD
+=======
+    public List<Postagem> findPostsSeguidores(){
+
+      Set<Integer> seguidores = UsuarioService.usuarioLogado.getIdsSeguindo(); // trocar este metodo por um que retorna os usuarios e nao o ID;
+      List<Postagem> listPostSeguidores = new ArrayList<Postagem>();
+/*
+        try{
+            seguidores = UsuarioService.usuarioLogado.getIdsSeguindo(); // trocar este metodo por um que retorna os usuarios e nao o ID
+        }catch (NullPointerException e){
+            throw new NullPointerException("***USUARIO NAO POSSUI SEGUIDORES***");
+        }
+*/
+        for(Integer id : seguidores){
+            listPostSeguidores.addAll(findAllbyAutorId(id));
+        }
+        return listPostSeguidores;
+    }
+
+    
+>>>>>>> 605e7bef3a8bba952ae16d30b9c7465e759ffd83
 }
 

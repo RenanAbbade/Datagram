@@ -3,6 +3,7 @@ package com.datagram.datagramweb.Controllers;
 import com.datagram.datagramweb.Models.Postagem;
 import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Services.PostagemService;
+import com.datagram.datagramweb.Services.UsuarioService;
 
 import com.datagram.datagramweb.Services.UsuarioService;
 import javafx.geometry.Pos;
@@ -84,10 +85,18 @@ public class PostagemController {
     }
 
     //obtem posts de seguidores de um usuario
+<<<<<<< HEAD
     @GetMapping(value = "feed/{id}")
     public ResponseEntity<List<Postagem>> findPostsSeguidores(@PathVariable Integer id) {
         List<Postagem> postsSeguidores = usuarioService.findPostsSeguidores(id);
         return ResponseEntity.ok().body(postsSeguidores);
     }
 
+=======
+    @GetMapping(value = "/feed")
+    public ResponseEntity<List<Postagem>> findPostsSeguidores() {
+        List<Postagem> postsSeguidores = service.findPostsSeguidores();
+        return ResponseEntity.ok().body(postsSeguidores);
+    }
+>>>>>>> 605e7bef3a8bba952ae16d30b9c7465e759ffd83
 }
