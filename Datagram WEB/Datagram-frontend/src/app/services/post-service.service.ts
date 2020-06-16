@@ -21,11 +21,6 @@ export class PostServiceService {
 
     });
     }
-/*
-    updatePost(postagem): Observable<any>{
-      return this.http.put<any>(AppConstants.basePostagem, postagem);
-
-    }*/
 
     updatePost(postagem){
       return this.http.put(AppConstants.basePostagem, postagem);
@@ -35,7 +30,13 @@ export class PostServiceService {
       console.log(id);
 
       return this.http.delete(AppConstants.basePostagem + id);
-  }
+    }
+
+    buildFeed(){
+      return this.http.get(AppConstants.basePostagem + 'feed');
+    }
+
+
   }
 
 
