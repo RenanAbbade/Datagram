@@ -85,7 +85,6 @@ public class PostagemController {
     @GetMapping(value = "/feed")
     public ResponseEntity<List<Postagem>> findPostsSeguidores() {
         List<Postagem> postsSeguidores = service.findPostsSeguidores();
-
         return ResponseEntity.ok().body(postsSeguidores);
     }
 }
