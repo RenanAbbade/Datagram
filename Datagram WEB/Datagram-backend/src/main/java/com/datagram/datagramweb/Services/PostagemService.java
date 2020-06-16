@@ -76,18 +76,6 @@ public class PostagemService {
         }
     }
 
-    public List<Postagem> sortPostByData(List<Postagem> myList){
-        myList.sort(new Comparator<Postagem>() {
-            @Override
-            public int compare(Postagem postagem1, Postagem postagem2) {
-                if(postagem1.getDate() == null || postagem2.getDate() == null)
-                    return 0;
-                return postagem1.getDate().compareTo(postagem2.getDate());
-            }
-        });
-        return myList;
-    }
-
 
     public List<Postagem> findPostsSeguidores(){
       Set<Integer> seguidores = UsuarioService.usuarioLogado.getIdsSeguindo();
@@ -99,6 +87,17 @@ public class PostagemService {
         return listPostSeguidores;
     }
 
+    public List<Postagem> sortPostByData(List<Postagem> myList){
+      myList.sort(new Comparator<Postagem>() {
+          @Override
+          public int compare(Postagem postagem1, Postagem postagem2) {
+              if(postagem1.getDate() == null || postagem2.getDate() == null)
+                  return 0;
+              return postagem1.getDate().compareTo(postagem2.getDate());
+          }
+      });
+      return myList;
+  }
 
 }
 
