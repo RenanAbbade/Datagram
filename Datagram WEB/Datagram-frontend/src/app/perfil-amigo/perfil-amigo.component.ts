@@ -39,8 +39,6 @@ export class PerfilAmigoComponent implements OnInit {
       this.usuario = JSON.parse(JSON.stringify(res));
       this.ngOnInit();
     });
-
-    //this.verificaSeguidor();
   }
 
   public editPost(id, act){

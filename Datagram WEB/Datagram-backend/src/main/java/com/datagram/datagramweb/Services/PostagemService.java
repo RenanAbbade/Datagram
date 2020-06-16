@@ -1,15 +1,11 @@
 package com.datagram.datagramweb.Services;
 
 import com.datagram.datagramweb.Models.Postagem;
-import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Repositories.PostagemRepository;
-import com.datagram.datagramweb.Repositories.UsuarioRepository;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service

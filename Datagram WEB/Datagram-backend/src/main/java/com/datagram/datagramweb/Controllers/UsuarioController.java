@@ -1,6 +1,7 @@
 package com.datagram.datagramweb.Controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.datagram.datagramweb.Models.Postagem;
@@ -38,14 +39,6 @@ public class UsuarioController {
     Usuario obj = UsuarioService.getUsuarioLogado();
     return ResponseEntity.ok().body(obj);
   }
-
-
-  @GetMapping
-    public ResponseEntity <List<Usuario>> findAll(){
-      List<Usuario> list = (List<Usuario>) service.findAll();
-      return ResponseEntity.ok().body(list);
-    }
-
 
   @PostMapping
   @CrossOrigin
@@ -132,7 +125,23 @@ public class UsuarioController {
 
   }
 
+  @GetMapping(value = "/seguidores")
+  public ResponseEntity <List<Usuario>> findAllSeguidores(){
+    List<Usuario> list = new ArrayList<>();
+    for(Integer id: UsuarioService.usuarioLogado.getIdsSeguidores()){
+      list.add(service.find(id));
+    }
+    return ResponseEntity.ok().body(list);
+}
 
+  @GetMapping(value = "/seguindo")
+  public ResponseEntity <List<Usuario>> findAllSeguindo(){
+    List<Usuario> list = new ArrayList<>();
+    for(Integer id: UsuarioService.usuarioLogado.getIdsSeguindo()){
+      list.add(service.find(id));
+    }
+    return ResponseEntity.ok().body(list);
+  }
 }
 
 

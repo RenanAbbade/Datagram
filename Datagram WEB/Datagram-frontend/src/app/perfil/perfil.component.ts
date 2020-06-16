@@ -35,6 +35,10 @@ export class PerfilComponent implements OnInit {
 
   interessesEscolhidos = '';
 
+  seguidoresUsuario;
+
+  usuarioSeguindo;
+
   // tslint:disable-next-line: max-line-length
   constructor(private usuarioService: UsuarioServiceService, private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService, private route: ActivatedRoute, private router: Router, private http: HttpClient) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -48,7 +52,6 @@ export class PerfilComponent implements OnInit {
       this.usuario = JSON.parse(JSON.stringify(res));
       this.ngOnInit();
     });
-
   }
 
   public initMunicipio(){
@@ -103,8 +106,6 @@ export class PerfilComponent implements OnInit {
 
 
   public visualizarImg(e){
-
-
     var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     var pattern = /image-*/;
     var reader = new FileReader();
@@ -121,11 +122,25 @@ export class PerfilComponent implements OnInit {
     this.updateUsuario();
   }
 
-   escolheInteresse(){
+  escolheInteresse(){
     this.usuario.interesses.push(this.interesseEscolhido);
     // tslint:disable-next-line: max-line-length
     this.usuario.interesses = this.usuario.interesses.filter(x => x.trim().length > 0);//Por algum motivo na hora de salvar a lista, o angular salva um espaço em branco como elemento, esta linha tem o papel de tirar este elemento que é um espaco em branco
     this.updateUsuario();
+  }
+
+  mostraSeguidores(){
+    this.usuarioService.getSeguidores().subscribe(res => {
+      this.seguidoresUsuario = JSON.parse(JSON.stringify(res));
+      console.log(this.seguidoresUsuario);
+    });
+  }
+
+  mostraSeguindo(){
+    this.usuarioService.getSeguindo().subscribe(res => {
+      this.usuarioSeguindo = JSON.parse(JSON.stringify(res));
+      console.log(this.usuarioSeguindo);
+    });
   }
 
 ngOnInit(): void {
