@@ -21,7 +21,7 @@ export class PerfilAmigoComponent implements OnInit {
 
   postagens;
 
-  postagem;
+  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: []};
 
   interessesEscolhidos = '';
 
@@ -39,8 +39,6 @@ export class PerfilAmigoComponent implements OnInit {
       this.usuario = JSON.parse(JSON.stringify(res));
       this.ngOnInit();
     });
-
-    //this.verificaSeguidor();
   }
 
   public editPost(id, act){

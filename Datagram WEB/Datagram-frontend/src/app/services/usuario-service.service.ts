@@ -64,5 +64,13 @@ export class UsuarioServiceService {
     getFollower(id){
       return this.http.get(AppConstants.baseUsuarios + 'seguindo/' + id, {responseType: 'text'});
     }
+
+    getSeguidores(){
+      return this.http.get(AppConstants.baseUsuarios + 'seguidores/');
+    }
+
+    getSeguindo(){
+      return this.http.get(AppConstants.baseUsuarios + 'seguindo/');
+    }
   }
 

@@ -1,15 +1,11 @@
 package com.datagram.datagramweb.Services;
 
 import com.datagram.datagramweb.Models.Postagem;
-import com.datagram.datagramweb.Models.Usuario;
 import com.datagram.datagramweb.Repositories.PostagemRepository;
-import com.datagram.datagramweb.Repositories.UsuarioRepository;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -58,6 +54,7 @@ public class PostagemService {
 
         else if(obj.getCurtida() > postEstadoAntigo.getCurtida()){
 
+          obj.setAllIdsCurtida(postEstadoAntigo.getIdsCurtida());//reinserindo as curtidas anteriores
           obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
         }
         
@@ -75,18 +72,6 @@ public class PostagemService {
         }
     }
 
-    public List<Postagem> sortPostByData(List<Postagem> myList){
-        myList.sort(new Comparator<Postagem>() {
-            @Override
-            public int compare(Postagem postagem1, Postagem postagem2) {
-                if(postagem1.getDate() == null || postagem2.getDate() == null)
-                    return 0;
-                return postagem1.getDate().compareTo(postagem2.getDate());
-            }
-        });
-        return myList;
-    }
-
 
     public List<Postagem> findPostsSeguidores(){
       Set<Integer> seguidores = UsuarioService.usuarioLogado.getIdsSeguindo();
@@ -98,6 +83,17 @@ public class PostagemService {
         return listPostSeguidores;
     }
 
+    public List<Postagem> sortPostByData(List<Postagem> myList){
+      myList.sort(new Comparator<Postagem>() {
+          @Override
+          public int compare(Postagem postagem1, Postagem postagem2) {
+              if(postagem1.getDate() == null || postagem2.getDate() == null)
+                  return 0;
+              return postagem1.getDate().compareTo(postagem2.getDate());
+          }
+      });
+      return myList;
+  }
 
 }
 
