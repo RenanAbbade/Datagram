@@ -3,7 +3,7 @@ export class AppConstants {
 
   // Método que retorna o local da minha api spring - "/post/insert
 
-  public static get baseServidor(): string { return 'https://datagram-api.herokuapp.com/'; }
+  public static get baseServidor(): string { return 'http://localhost:8080/'; }
 
   public static get baseUsuarios(): string { return this.baseServidor + 'user/'; }
 

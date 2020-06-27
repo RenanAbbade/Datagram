@@ -54,6 +54,10 @@ checkPage(){
   }
 }
 
+public clearSessionStorage(){
+  sessionStorage.clear();
+}
+
 ngOnInit(): void {}
 
 }

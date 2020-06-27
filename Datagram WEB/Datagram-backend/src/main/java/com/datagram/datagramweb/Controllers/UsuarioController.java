@@ -142,6 +142,13 @@ public class UsuarioController {
     }
     return ResponseEntity.ok().body(list);
   }
+
+  @GetMapping(value = "/interesses")
+  public ResponseEntity<List<Usuario>> findUsersByInteresses(){
+    List<Usuario> usuariosMutuos = service.findUsersByInteresses();
+    return ResponseEntity.ok().body(usuariosMutuos);
+  }
+
 }
 
 

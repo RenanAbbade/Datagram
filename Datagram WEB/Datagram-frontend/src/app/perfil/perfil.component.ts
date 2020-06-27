@@ -1,3 +1,4 @@
+import { LoginServiceService } from './../services/login-service.service';
 import { PostServiceService } from './../services/post-service.service';
 import { UsuarioLogadoService } from './../services/usuarioLogado.service';
 import { Component, OnInit } from '@angular/core';
@@ -15,6 +16,8 @@ import { AppConstants } from '../app-constants';
 export class PerfilComponent implements OnInit {
 
   usuario;
+
+  usuarioJson;
 
   id;
 
@@ -39,8 +42,11 @@ export class PerfilComponent implements OnInit {
 
   usuarioSeguindo;
 
+  listaUsuarioInteresseMutuo;
+
+
   // tslint:disable-next-line: max-line-length
-  constructor(private usuarioService: UsuarioServiceService, private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService, private route: ActivatedRoute, private router: Router, private http: HttpClient) {
+  constructor(private usuarioService: UsuarioServiceService, private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService, private route: ActivatedRoute, private router: Router, private http: HttpClient, private loginService: LoginServiceService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
    }
 
@@ -143,10 +149,27 @@ export class PerfilComponent implements OnInit {
     });
   }
 
+  public mostraUsuariosComInteressesMutuo(){
+    this.usuarioService.getUsuariosComInteressesMutuo().subscribe(res => {
+      this.listaUsuarioInteresseMutuo = JSON.parse(JSON.stringify(res));
+    });
+  }
+
+  public showModal(objJson){
+    if (!sessionStorage.getItem(objJson)){
+    document.getElementById('openModal').click();
+    sessionStorage.setItem(objJson, 'salvo');
+    }
+  }
+
 ngOnInit(): void {
 
     this.usuario = this.usuarioLogadoService.getUsuarioLogado().subscribe(data => {
     this.usuario = JSON.parse(JSON.stringify(data));
+
+ /*É PRECISO PEGAR O OBJ USUARIO E CONVERTER EM JSON, POIS SÓ ASSIM É POSSIVEL SALVAR NO LOCAL/SESSION STORAGE */
+    this.usuarioJson = JSON.stringify(this.usuario);
+    this.showModal(this.usuarioJson[6] + this.usuarioJson[7]);
 
     this.usuarioService.getPostsUsuario(this.usuario.id).subscribe(res => {
     this.postagens = JSON.parse(JSON.stringify(res));
