@@ -1,6 +1,7 @@
 package com.datagram.datagramweb.Controllers;
 
 import com.datagram.datagramweb.Models.Postagem;
+import com.datagram.datagramweb.Services.NotificacaoService;
 import com.datagram.datagramweb.Services.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,8 @@ public class PostagemController {
     @Autowired
     PostagemService service;
 
+    @Autowired
+    NotificacaoService nService;
 
     @GetMapping
     public ResponseEntity<List<Postagem>> findAll(){
@@ -46,6 +49,8 @@ public class PostagemController {
     public ResponseEntity<String> insert(@RequestBody Postagem obj) {
         
         obj = service.insert(obj);
+
+        nService.createNotify(obj);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 

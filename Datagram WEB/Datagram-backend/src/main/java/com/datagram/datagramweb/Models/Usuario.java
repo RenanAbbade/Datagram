@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.*;
-
 
 @Entity
 public class Usuario implements Serializable {
@@ -70,6 +68,10 @@ public class Usuario implements Serializable {
   @ElementCollection(fetch = FetchType.EAGER) 
   @CollectionTable(name="Id_seguindo")
   private Set<Integer> idsSeguindo = new HashSet<>();
+
+  
+  @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
+  private List <Notificacao> notificacoes = new ArrayList<>();
 
   public Usuario() {
   }
@@ -220,11 +222,13 @@ public static long getSerialversionuid() {
   }
 
   public List<Postagem> getPostagem() {
+    this.posts = postagem.size();
     return postagem;
   }
 
-  public void setPostagem(Postagem post) {
-    this.postagem.add(post);
+  public void setPostagem(List<Postagem> post) {
+    this.postagem = post;
+    this.posts = postagem.size();
   }
 
   public int getSeguidores() {
@@ -243,8 +247,8 @@ public static long getSerialversionuid() {
     this.seguindo = seguindo;
   }
 
-  public void setPosts(){
-    this.posts = postagem.size();
+  public void setPosts(int i){
+    this.posts = this.posts + i;
   }
 
   public int getPosts() {
@@ -293,7 +297,13 @@ public static long getSerialversionuid() {
     this.idsSeguindo = idsSeguindo;
   }
 
-  
+  public List<Notificacao> getNotificacoes() {
+    return notificacoes;
+  }
+
+  public void setNotificacoes(List<Notificacao> notificacoes) {
+    this.notificacoes = notificacoes;
+  }
 
   @Override
   public int hashCode() {

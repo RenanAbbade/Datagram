@@ -1,7 +1,12 @@
 package com.datagram.datagramweb.Services;
 
+import com.datagram.datagramweb.Models.Notificacao;
 import com.datagram.datagramweb.Models.Postagem;
+import com.datagram.datagramweb.Models.Usuario;
+import com.datagram.datagramweb.Repositories.NotificacaoRepository;
 import com.datagram.datagramweb.Repositories.PostagemRepository;
+import com.datagram.datagramweb.Repositories.UsuarioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -14,11 +19,24 @@ public class PostagemService {
     @Autowired
     private PostagemRepository repo;
 
+    @Autowired
+    private UsuarioRepository uRepo;
+
   // CREATE
     public Postagem insert(Postagem obj) {
         obj.setId(null);
         obj.setAutor(UsuarioService.usuarioLogado);
+
+        UsuarioService.usuarioLogado.setPosts(1);
+
+        uRepo.save(UsuarioService.usuarioLogado);
+
         return repo.save(obj);
+    }
+
+      //find by id
+    public Postagem find(Integer id){
+      return repo.findById(id).get();
     }
 
     //find all
@@ -27,20 +45,14 @@ public class PostagemService {
     }
 
     public List<Postagem> findAllbyAutorId(Integer id){
-        List<Postagem> list = repo.findAll();
-        List<Postagem> listPostsById = new ArrayList<Postagem>();
+      List<Postagem> list = repo.findAll();
+      List<Postagem> listPostsById = new ArrayList<Postagem>();
 
-        for(Postagem post : list){
-            if(post.getAutor().getId() == id)
-                listPostsById.add(post);
-        }
-
-        return listPostsById;
-    }
-
-    //find by id
-    public Postagem find(Integer id){
-        return repo.findById(id).get();
+      for(Postagem post : list){
+        if(post.getAutor().getId() == id)
+          listPostsById.add(post);
+      }
+      return listPostsById;
     }
 
     //update
@@ -57,7 +69,6 @@ public class PostagemService {
           obj.setAllIdsCurtida(postEstadoAntigo.getIdsCurtida());//reinserindo as curtidas anteriores
           obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
         }
-        
         return repo.save(obj);
       }
     
@@ -67,12 +78,14 @@ public class PostagemService {
         find(id);
         try {
           repo.deleteById(id);
+          UsuarioService.usuarioLogado.setPosts(-1);
+          uRepo.save(UsuarioService.usuarioLogado);
         } catch (DataIntegrityViolationException e) {
           throw new DataIntegrityViolationException("Não é possível excluir essa entidade!");
         }
     }
 
-
+    //FEED
     public List<Postagem> findPostsSeguidores(){
       Set<Integer> seguidores = UsuarioService.usuarioLogado.getIdsSeguindo();
       List<Postagem> listPostSeguidores = new ArrayList<Postagem>();

@@ -21,6 +21,8 @@ export class HomeComponent implements OnInit {
 
   listaRetornoPesquisa;
 
+  notificacoes;
+
   public publicarPost(){
 
     const dataAtual = new Date();
@@ -52,6 +54,13 @@ checkPage(){
   if (rota.startsWith('/feed/perfil-amigo') || rota.startsWith('/perfil/perfil-amigo')){
     this.router.navigate(['../feed']);
   }
+}
+
+getNotificacao(){
+  this.postService.getNotificacoes().subscribe(res => {
+    this.notificacoes = JSON.parse(JSON.stringify(res));
+    console.log(this.notificacoes);
+  });
 }
 
 ngOnInit(): void {}

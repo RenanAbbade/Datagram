@@ -36,6 +36,10 @@ export class PostServiceService {
       return this.http.get(AppConstants.basePostagem + 'feed');
     }
 
+    getNotificacoes(){
+      return this.http.get(AppConstants.getNotificacao);
+    }
+
 
   }
 
