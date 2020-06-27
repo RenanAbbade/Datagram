@@ -72,5 +72,9 @@ export class UsuarioServiceService {
     getSeguindo(){
       return this.http.get(AppConstants.baseUsuarios + 'seguindo/');
     }
+
+    getUsuariosComInteressesMutuo(){
+      return this.http.get(AppConstants.baseUsuarios + 'interesses/');
+    }
   }
 

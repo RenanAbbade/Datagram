@@ -62,6 +62,9 @@ getNotificacao(){
     console.log(this.notificacoes);
   });
 }
+public clearSessionStorage(){
+  sessionStorage.clear();
+}
 
 ngOnInit(): void {}
 
