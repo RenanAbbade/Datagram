@@ -23,8 +23,9 @@
         </svg></a>
       </li>
 
+      <!--criar post-->
       <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#add"><svg class="bi bi-plus-circle" width="3em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <a class="nav-link" data-toggle="modal" data-target="#add" (click)="getUsuarioLogado()" ><svg class="bi bi-plus-circle" width="3em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
           <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
           <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -47,7 +48,7 @@
             <path fill-rule="evenodd" d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg> </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
           <a class="dropdown-item" href="/perfil">Minha conta</a>
-          <a class="dropdown-item" href="#" (click)="clearSessionStorage()" >Sair</a>
+          <a class="dropdown-item" href="#" >Sair</a>
         </div>
       </li>
     </ul>
@@ -63,13 +64,25 @@
     <div class="modal-content">
 
       <!-- cabecalho -->
-      <div class="modal-header">
-        <h4 class="modal-title " style="float:left; ">Criar postagem</h4>
+
+      <div  *ngIf="usuarioLogado != undefined && usuarioLogado.tipoUsuario === 'Membro'" class="modal-header">
+        <h4 class="modal-title center">Criar Postagem</h4>
         <button type="button" class="close" style="float: right; " data-dismiss="modal">
           <span>&times;</span>
         </button>
       </div>
 
+      <div *ngIf="usuarioLogado != undefined && usuarioLogado.tipoUsuario === 'Pesquisador'" class="modal-header">
+        <h4 class="modal-title center" >Pesquisador! Escolha o tipo de postagem que deseja realizar!</h4>
+        <button type="button" class="close" style="float: right; " data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <div *ngIf="usuarioLogado != undefined && usuarioLogado.tipoUsuario === 'Pesquisador'" style="padding: 1% 20% 0% 20%; " class="btn-group" id="escolha" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary center" style="width: 50%;" id="Simples" (click)="getUsuarioLogado()">Publicação simples</button>
+        <button type="button" class="btn btn-secondary center" style="width: 50%;" id="Cientifica"  (click)="getUsuarioLogado()" >Publicação cientifica</button>
+      </div>
       <!-- corpo -->
       <div class="modal-body">
 
@@ -77,12 +90,21 @@
           <input type="titulo" class="form-control"  #titulo = "ngModel" [(ngModel)] = "postagem.titulo" name="titulo" id="titulo" placeholder="Titulo">
         </div>
 
+
         <div class="form-group">
           <input type="subtitulo" class="form-control" #subtitulo = "ngModel" [(ngModel)] = "postagem.subtitulo" name="subtitulo" id="subtitulo" placeholder="subtitulo">
         </div>
 
         <div class="form-group">
           <textarea class="form-control" #conteudo = "ngModel" [(ngModel)] = "postagem.conteudo" name="conteudo" id="conteudo" rows="5" placeholder="digite o conteúdo de seu post.."></textarea>
+    </div><!--  private Set<String> palavrasChave;-->
+
+      <input #arquivoPublicacao #arquivoPublicacao = "ngModel" [(ngModel)] = "postagem.arquivoPublicacao" type="file" name="arquivoPublicacao" id="arquivoPesquisador" accept="pdf/*" accept=
+      "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+      text/plain, application/pdf, image/*" (change)="uploadArquivo($event)" multiple>
+
+        <div class="form-group">
+          <input type="url" class="form-control"  #url = "ngModel" [(ngModel)] = "postagem.url" name="urlPesquisador" id="url" placeholder="URL da publicação">
         </div>
 
       </div>
@@ -122,7 +144,7 @@
       <div class="modal-body">
 
         <div class="alert alert-info" role="alert" *ngFor="let not of notificacoes">
-          <a data-dismiss="modal" [routerLink]="[rotaPesquisa, not.autor.id ]"> <img class="rounded-circle" *ngIf="not.autor.fotoPerfil != null" [src]="not.autor.fotoPerfil"  style="width:50px" ><strong *ngIf="notificacoes!==undefined" > {{not.autor.nome}} tem uma nova publicação: "{{not.titulo}}"</strong></a>
+          <a data-dismiss="modal" [routerLink]="[rotaPesquisa, not.autor.id ]"> <img class="rounded-circle" *ngIf="not.autor.fotoPerfil != null" [src]="not.autor.fotoPerfil"  style="width:50px" ><strong *ngIf="notificacoes!==undefined" >{{not.autor.nome}} tem uma nova publicação: "{{not.titulo}}"</strong></a>
         </div>
 
       </div>
