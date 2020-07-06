@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   // tslint:disable-next-line: max-line-length
   constructor(private postService: PostServiceService, private usuarioService: UsuarioServiceService,  private UsuarioLogadoService: UsuarioLogadoService, private router: Router) { }
 
-  postagem = {titulo: '', subtitulo: '', conteudo: '', date: '', url: '', arquivoPublicacao: ''};
+  postagem = {titulo: '', subtitulo: '', conteudo: '', date: '', url: null, arquivoPublicacao: null, tipoPostagem: 'simples'};
   usuario = {nome: ''};
   rotaPesquisa = 'perfil-amigo';
 
@@ -78,44 +78,26 @@ getUsuarioLogado(){
 
 ngOnInit(): void {}
 
-public mudaTipo(){
+public mudaTipo(tipoPostagem){
 
-
-
-  if (this.usuarioLogado.tipoUsuario === 'Pesquisador'){
-
+  if (tipoPostagem === 'cientifica'){
     // Modificando aparencia do selecionado
     document.getElementById('Cientifica').className = 'btn btn-primary';
     document.getElementById('Simples').className = 'btn btn-secondary';
 
     // visibilizando elementos do pesquisador
-    document.getElementById('pesquisadorNome').style.display = 'inline';
-
-
-    //escondendo elementos de membro
-    document.getElementById('membroNome').style.display = 'none';
-
-    //setando button
-    document.getElementById('botaoPesquisador').style.display = 'block';
-    document.getElementById('botaoPesquisador').style.textAlign = 'center';
-
-
+    document.getElementById('arquivoPesquisador').style.display = 'inline';
+    document.getElementById('urlPesquisador').style.display = 'inline';
   }else{
     // Modificando aparencia do selecionado
-    document.getElementById('Membro').className = 'btn btn-primary';
-    document.getElementById('Pesquisador').className = 'btn btn-secondary';
+    document.getElementById('Simples').className = 'btn btn-primary';
+    document.getElementById('Cientifica').className = 'btn btn-secondary';
 
-    //visualizando elementos do membro
-    document.getElementById('membroNome').style.display = 'inline';
-
-    //escondendo elementos do pesquisador
-    document.getElementById('pesquisadorNome').style.display = 'none';
-
-    // setando button
-    document.getElementById('botaoMembro').style.display = 'block';
-    document.getElementById('botaoMembro').style.textAlign = 'center';
-
+    // escondendo elementos do pesquisador
+    document.getElementById('arquivoPesquisador').style.display = 'none';
+    document.getElementById('urlPesquisador').style.display = 'none';
     }
+  this.postagem.tipoPostagem = tipoPostagem;
   }
 
   uploadArquivo(e){

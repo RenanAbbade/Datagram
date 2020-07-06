@@ -80,8 +80,8 @@
       </div>
 
       <div *ngIf="usuarioLogado != undefined && usuarioLogado.tipoUsuario === 'Pesquisador'" style="padding: 1% 20% 0% 20%; " class="btn-group" id="escolha" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-primary center" style="width: 50%;" id="Simples" (click)="getUsuarioLogado()">Publicação simples</button>
-        <button type="button" class="btn btn-secondary center" style="width: 50%;" id="Cientifica"  (click)="getUsuarioLogado()" >Publicação cientifica</button>
+        <button type="button" class="btn btn-primary center" style="width: 50%;" id="Simples" (click)="mudaTipo('simples')">Postagem simples</button>
+        <button type="button" class="btn btn-secondary center" style="width: 50%;" id="Cientifica"  (click)="mudaTipo('cientifica')" >Publicação cientifica</button>
       </div>
       <!-- corpo -->
       <div class="modal-body">
@@ -99,12 +99,16 @@
           <textarea class="form-control" #conteudo = "ngModel" [(ngModel)] = "postagem.conteudo" name="conteudo" id="conteudo" rows="5" placeholder="digite o conteúdo de seu post.."></textarea>
     </div><!--  private Set<String> palavrasChave;-->
 
-      <input #arquivoPublicacao #arquivoPublicacao = "ngModel" [(ngModel)] = "postagem.arquivoPublicacao" type="file" name="arquivoPublicacao" id="arquivoPesquisador" accept="pdf/*" accept=
+      <div style="display: none;" id="arquivoPesquisador">
+
+      <input #arquivoPublicacao #arquivoPublicacao = "ngModel" [(ngModel)] = "postagem.arquivoPublicacao" type="file" name="arquivoPublicacao"  accept="pdf/*" accept=
       "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
       text/plain, application/pdf, image/*" (change)="uploadArquivo($event)" multiple>
+      <p> O formato do arquivo necessita ser .pdf</p>
+    </div>
 
-        <div class="form-group">
-          <input type="url" class="form-control"  #url = "ngModel" [(ngModel)] = "postagem.url" name="urlPesquisador" id="url" placeholder="URL da publicação">
+        <div class="form-group" style="display: none;" id="urlPesquisador">
+          <input type="url" class="form-control"  #url = "ngModel" [(ngModel)] = "postagem.url" name="urlPesquisador"  placeholder="URL da publicação">
         </div>
 
       </div>

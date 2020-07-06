@@ -214,11 +214,10 @@
             </h6>
             <p>{{ post.conteudo }}</p>
 
-            <p>Disponível em: <a href="{{ post.url }}">{{ post.url }}</a></p>
-
-
-            <img src="../../assets/img/pdfArq.svg" height="35px" width="35px" (click)="mandaPdf(post.arquivoPublicacao)"><a (click)="mandaPdf(post.arquivoPublicacao)"><i>{{ post.titulo }}.pdf</i></a>
-      
+          <div *ngIf="post.tipoPostagem === 'cientifica'">
+              <p *ngIf="post.url != null">Disponível em: <a href="{{ post.url }}">{{ post.url }}</a></p>
+              <img *ngIf="post.arquivoPublicacao != null" src="../../assets/img/pdfArq.svg" height="35px" width="35px" (click)="mandaPdf(post.arquivoPublicacao)"><a (click)="mandaPdf(post.arquivoPublicacao)"><i>{{ post.titulo }}.pdf</i></a>
+          </div>
 
             <hr/>
           </div>

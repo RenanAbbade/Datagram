@@ -29,8 +29,15 @@ public class Postagem implements Serializable {
     private String conteudo;
     private String date;
     private Integer curtida;
-    private String link;
+    private String url;
+    private Integer numComentarios;
+    private String tipoPostagem;
 
+    @Column(columnDefinition = "text")
+    private String arquivoPublicacao;
+
+    @ElementCollection
+    private Set<String> palavrasChave;
 
     @ElementCollection
     private Set<Integer> idsCurtida = new HashSet<>();// Para fazer o controle de quem curtiu o post, não permitindo a
@@ -38,8 +45,6 @@ public class Postagem implements Serializable {
     @ElementCollection
     @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
     private List<Comentario> comentarios = new ArrayList<>();
-    
-    private Integer numComentarios;
 
     public Postagem(){
     }
@@ -134,12 +139,12 @@ public class Postagem implements Serializable {
         return curtida;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setURL(String url) {
+        this.url = url;
     }
 
     @JsonIgnore
@@ -162,6 +167,22 @@ public class Postagem implements Serializable {
 
     public void setNumComentarios(Integer numComentarios) {
         this.numComentarios = numComentarios;
+    }
+
+    public String getArquivoPublicacao() {
+        return arquivoPublicacao;
+    }
+
+    public void setArquivoPublicacao(String arquivoPublicacao) {
+        this.arquivoPublicacao = arquivoPublicacao;
+    }
+
+    public String getTipoPostagem() {
+        return tipoPostagem;
+    }
+
+    public void setTipoPostagem(String tipoPostagem) {
+        this.tipoPostagem = tipoPostagem;
     }
 
 
@@ -190,6 +211,9 @@ public class Postagem implements Serializable {
         return true;
     }
 
+  
+
+ 
     
 
     
