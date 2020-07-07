@@ -160,7 +160,6 @@
                   </select>
 
                   <button type="button" style="float: right; margin-bottom: 10px;" class="btn btn-info" (click) = "escolheInteresse()">Adicionar interesse</button>
-
           </div>
         </form>
 
@@ -215,9 +214,14 @@
             <p>{{ post.conteudo }}</p>
 
           <div *ngIf="post.tipoPostagem === 'cientifica'">
+
               <p *ngIf="post.url != null">Disponível em: <a href="{{ post.url }}">{{ post.url }}</a></p>
               <img *ngIf="post.arquivoPublicacao != null" src="../../assets/img/pdfArq.svg" height="35px" width="35px" (click)="mandaPdf(post.arquivoPublicacao)"><a (click)="mandaPdf(post.arquivoPublicacao)"><i>{{ post.titulo }}.pdf</i></a>
-          </div>
+              <div *ngIf="post.palavrasChave != null">
+
+                <p>Tags: <i *ngFor="let tags of post.palavrasChave" style="color:black; font-size:12; font-family:Arial;">#{{tags}}  </i></p>
+              </div>
+            </div>
 
             <hr/>
           </div>

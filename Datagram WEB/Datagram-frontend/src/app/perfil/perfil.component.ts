@@ -50,8 +50,6 @@ export class PerfilComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
    }
 
-
-
   public updateUsuario(){
 
     this.usuarioService.updateUsuario(this.usuario).subscribe(res => {

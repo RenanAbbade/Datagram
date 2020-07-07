@@ -36,15 +36,16 @@ public class Postagem implements Serializable {
     @Column(columnDefinition = "text")
     private String arquivoPublicacao;
 
-    @ElementCollection
-    private Set<String> palavrasChave;
+    @ElementCollection(fetch = FetchType.EAGER) 
+    @CollectionTable(name="PalavrasChave")
+    private Set<String> palavrasChave = new HashSet<>();
 
     @ElementCollection
     private Set<Integer> idsCurtida = new HashSet<>();// Para fazer o controle de quem curtiu o post, não permitindo a
                                                       // mesma pessoa curtir um post mais de uma vez.
-    @ElementCollection
-    @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
-    private List<Comentario> comentarios = new ArrayList<>();
+    //@ElementCollection
+    //@CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
+    //private List<Comentario> comentarios = new ArrayList<>();
 
     public Postagem(){
     }
@@ -152,14 +153,14 @@ public class Postagem implements Serializable {
         return idsCurtida;
     }
 
-    public List<Comentario> getComentarios() {
-        return comentarios;
-    }
+    //public List<Comentario> getComentarios() {
+    //    return comentarios;
+    //}
 
-    public void setComentarios(Comentario comentario) {
-        this.comentarios.add(comentario);
-        this.numComentarios++;
-    }
+    //public void setComentarios(Comentario comentario) {
+      //  this.comentarios.add(comentario);
+        //this.numComentarios++;
+    //}
 
     public Integer getNumComentarios() {
         return numComentarios;
@@ -209,6 +210,14 @@ public class Postagem implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    public Set<String> getPalavrasChave() {
+        return palavrasChave;
+    }
+
+    public void setPalavrasChave(Set<String> palavrasChave) {
+        this.palavrasChave = palavrasChave;
     }
 
   

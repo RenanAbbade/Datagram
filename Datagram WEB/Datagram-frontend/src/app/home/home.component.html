@@ -100,20 +100,41 @@
     </div><!--  private Set<String> palavrasChave;-->
 
       <div style="display: none;" id="arquivoPesquisador">
+          <input #arquivoPublicacao #arquivoPublicacao = "ngModel" [(ngModel)] = "postagem.arquivoPublicacao" type="file" name="arquivoPublicacao"  accept="pdf/*" accept=
+          "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          text/plain, application/pdf, image/*" (change)="uploadArquivo($event)" multiple>
+          <p> O formato do arquivo necessita ser .pdf</p>
+          <div class="form-group">
+            <input type="url" class="form-control"  #url = "ngModel" [(ngModel)] = "postagem.url" name="urlPesquisador"  placeholder="URL da publicação">
+          </div>
 
-      <input #arquivoPublicacao #arquivoPublicacao = "ngModel" [(ngModel)] = "postagem.arquivoPublicacao" type="file" name="arquivoPublicacao"  accept="pdf/*" accept=
-      "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-      text/plain, application/pdf, image/*" (change)="uploadArquivo($event)" multiple>
-      <p> O formato do arquivo necessita ser .pdf</p>
-    </div>
-
-        <div class="form-group" style="display: none;" id="urlPesquisador">
-          <input type="url" class="form-control"  #url = "ngModel" [(ngModel)] = "postagem.url" name="urlPesquisador"  placeholder="URL da publicação">
-        </div>
+          <form class="form-inline">
+            <div class="form-group">
+                <p>Adicione palavras-chave a sua publicação!</p>
+                <select style="width: 50%; margin-right: 10px; margin-bottom: 10px; "
+                  id="interesses"
+                  class="form-control"
+                  #usuarioInteresses="ngModel"
+                  [(ngModel)]="palavraChaveEscolhida"
+                  name="interesses"
+                  required >
+                  <option *ngFor="let i of interessesPossiveis" >{{i}}</option>
+                </select>
+                <button type="button" style="float: right; margin-bottom: 10px;" class="btn btn-info" (click) = "escolheInteresse()">Add</button>
+            </div>
+          </form>
+          <div class="input-group" style="margin-bottom: 10px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text">#</span>
+            </div>
+            <textarea  class="form-control" rows="1" aria-label="With textarea" ng-list="/\n/"  disabled > {{postagem.palavrasChave}}</textarea>
+          </div>
 
       </div>
 
-      <div class="modal-footer">
+    </div>
+
+    <div class="modal-footer">
 
         <button type="button" class="btn btn-default center" data-dismiss="modal">
           Cancelar
