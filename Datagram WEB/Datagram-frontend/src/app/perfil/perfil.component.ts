@@ -23,7 +23,8 @@ export class PerfilComponent implements OnInit {
 
   postagens;
 
-  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: []};
+  // tslint:disable-next-line: max-line-length
+  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: [], url: '', arquivoPublicacao: '', palavrasChave:[]};
 
   UFS: Array<string> = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
 
@@ -79,6 +80,10 @@ export class PerfilComponent implements OnInit {
         this.postagem.curtida = post.curtida;
         this.postagem.autor = post.autor;
         this.postagem.date = post.date;
+        this.postagem.url = post.url;
+        this.postagem.palavrasChave = post.palavrasChave;
+        this.postagem.arquivoPublicacao = post.arquivoPublicacao;
+
       }
      }
     if (act === 'del'){
