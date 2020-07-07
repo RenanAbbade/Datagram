@@ -44,6 +44,8 @@ export class PerfilComponent implements OnInit {
 
   listaUsuarioInteresseMutuo;
 
+  listaPostsMaisCurtidos;
+
 
   // tslint:disable-next-line: max-line-length
   constructor(private usuarioService: UsuarioServiceService, private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService, private route: ActivatedRoute, private router: Router, private http: HttpClient, private loginService: LoginServiceService) {
@@ -162,19 +164,25 @@ export class PerfilComponent implements OnInit {
     }
   }
 
+  public mostraPostsMaisCurtidos(){
+    this.usuarioService.getPostsMaisCurtidos().subscribe(res => {
+      this.listaPostsMaisCurtidos = JSON.parse(JSON.stringify(res));
+    });
+  }
+
 ngOnInit(): void {
 
     this.usuario = this.usuarioLogadoService.getUsuarioLogado().subscribe(data => {
     this.usuario = JSON.parse(JSON.stringify(data));
 
- /*É PRECISO PEGAR O OBJ USUARIO E CONVERTER EM JSON, POIS SÓ ASSIM É POSSIVEL SALVAR NO LOCAL/SESSION STORAGE */
+    this.usuarioService.getPostsUsuario(this.usuario.id).subscribe(res => {
+      this.postagens = JSON.parse(JSON.stringify(res));
+      console.log(this.postagens);
+    });
+
     this.usuarioJson = JSON.stringify(this.usuario);
     this.showModal(this.usuarioJson[6] + this.usuarioJson[7]);
 
-    this.usuarioService.getPostsUsuario(this.usuario.id).subscribe(res => {
-    this.postagens = JSON.parse(JSON.stringify(res));
-    console.log(this.postagens);
-      });
     });
   }
 }
