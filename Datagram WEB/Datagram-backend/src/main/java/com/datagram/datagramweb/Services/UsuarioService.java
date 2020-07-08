@@ -169,8 +169,13 @@ public class UsuarioService {
     List<Usuario> usuarios = sortUserByNumberOfFollowers(repo.findAll());
     List<Usuario> usuariosMaisConectados = new ArrayList<>();
 
-    for(int i=0; i < 10; i++)
-      usuariosMaisConectados.add(usuarios.get(i));
+    if(usuarios.size() > 10){
+      for(int i=0; i < 10; i++)
+        usuariosMaisConectados.add(usuarios.get(i));
+    }else{
+      for(int i=0; i < usuarios.size(); i++)
+        usuariosMaisConectados.add(usuarios.get(i));
+    }
 
     return usuariosMaisConectados;
   }
