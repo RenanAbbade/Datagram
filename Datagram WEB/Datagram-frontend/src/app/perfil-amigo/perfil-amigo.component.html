@@ -167,6 +167,16 @@
               >{{ post.date }}
             </h6>
             <p>{{ post.conteudo }}</p>
+
+            <div *ngIf="post.tipoPostagem === 'cientifica'">
+
+              <p *ngIf="post.url != null || post.url != undefined">Disponível em: <a href="{{ post.url }}">{{ post.url }}</a></p>
+              <img *ngIf="post.arquivoPublicacao != null || post.arquivoPublicacao != undefined" src="../../assets/img/pdfArq.svg" height="35px" width="35px" (click)="mandaPdf(post.arquivoPublicacao)"><a (click)="mandaPdf(post.arquivoPublicacao)"><i  *ngIf="post.arquivoPublicacao != null || post.arquivoPublicacao != undefined">{{ post.titulo }}.pdf</i></a>
+              <div *ngIf="post.palavrasChave != null || post.palavrasChave != undefined">
+                <p><i *ngFor="let tags of post.palavrasChave" style="color:black; font-size:12; font-family:Arial;">#{{tags}}  </i></p>
+              </div>
+            </div>
+
             <hr />
           </div>
           <i

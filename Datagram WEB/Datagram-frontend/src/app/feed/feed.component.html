@@ -22,7 +22,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <a [routerLink] = "['perfil-amigo', post.autor.id]" *ngIf="post.autor.fotoPerfil === null"  class="navbar-brand"   style="float: left;"><img src="./assets/img/usuario.png"  class="rounded-circle  " style="width:50px"> <h6 class="w3-text-teal" >{{ post.autor.nome }}</h6></a>
         <a [routerLink] = "['perfil-amigo', post.autor.id]"  *ngIf="post.autor.fotoPerfil != null"  class="navbar-brand"  style="float: left;"><img [src]="post.autor.fotoPerfil" class="rounded-circle  " style="width:50px"> <h6 class="w3-text-teal">{{ post.autor.nome }}</h6></a>
-        <h2 class="w3-text-grey w3-padding-16 center" >{{ post.titulo }}<i *ngIf="post.tipoPostagem != 'cientifica'" class="fa fa-bookmark-o" aria-hidden="true"></i><i *ngIf="post.tipoPostagem === 'cientifica'" class="fa fa-quote-right"></i></h2>
+       <h2 class="w3-text-grey w3-padding-16 center" style="float: inherit;" > <i
+        class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"
+        style="float: left;"
+      ></i>{{ post.titulo }}</h2>
 
         <div class="w3-container">
           <h5 class="w3-opacity">
