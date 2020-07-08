@@ -220,7 +220,7 @@
               <div *ngIf="post.palavrasChave != null || post.palavrasChave != undefined">
                 <p><i *ngFor="let tags of post.palavrasChave" style="color:black; font-size:12; font-family:Arial;">#{{tags}}  </i></p>
               </div>
-            </div>
+          </div>
 
             <hr/>
           </div>
@@ -675,6 +675,7 @@
       <!-- corpo  #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" -->
       <div class="modal-body">
         <div class="form-group">
+          <label>Titulo</label>
           <input
             type="titulo"
             class="form-control"
@@ -687,6 +688,7 @@
         </div>
 
         <div class="form-group">
+          <label>Subtitulo</label>
           <input
             type="subtitulo"
             class="form-control"
@@ -699,6 +701,7 @@
         </div>
 
         <div class="form-group">
+          <label>Conteúdo</label>
           <textarea
             class="form-control"
             #conteudo="ngModel"
@@ -709,6 +712,53 @@
             value="{{ postagem.conteudo }}"
           ></textarea>
         </div>
+
+
+        <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="form-group">
+          <label>URL</label>
+          <input
+            class="form-control"
+            #url="ngModel"
+            [(ngModel)]="postagem.url"
+            name="url"
+            id="url"
+            value="{{postagem.url}}"
+          >
+        </div>
+
+        <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="form-group">
+          <label>Arquivo Publicação (PDF)</label>
+          <input
+            type="file"
+            class="form-control"
+            #arquivoPublicacao="ngModel"
+            [(ngModel)]="postagem.arquivoPublicacao"
+            name="arquivoPublicacao"
+            id="arquivoPublicacao"
+          >
+        </div>
+
+        <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="form-group">
+          <p>Adicione palavras-chave a sua publicação!</p>
+          <select style="width: 100%; margin-right: 10px; margin-bottom: 10px; "
+            id="interesses"
+            class="form-control"
+            #usuarioInteresses="ngModel"
+            [(ngModel)]="palavraChaveEscolhida"
+            name="interesses"
+            required >
+            <option *ngFor="let i of interessesPossiveis" >{{i}}</option>
+          </select>
+          <button type="button" style="float: left; margin-bottom: 10px;" class="btn btn-success" (click) = "escolhePalavraChave()">Add</button>
+          <button type="button" style="float: left; margin-bottom: 10px; margin-left: 10px;" class="btn btn-danger" (click) = "deletaPalavrasChave()">Del</button>
+
+      </div>
+      <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="input-group" style="margin-bottom: 10px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">#</span>
+        </div>
+        <textarea  class="form-control" rows="1" aria-label="With textarea" ng-list="/\n/"  disabled > {{postagem.palavrasChave}}</textarea>
+      </div>
       </div>
 
       <div class="modal-footer">

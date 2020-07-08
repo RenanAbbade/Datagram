@@ -55,6 +55,10 @@ export class FeedComponent implements OnInit {
     });
   }
 
+  public mandaPdf(base64){
+    this.postService.mandaPdf(base64);
+  }
+
   ngOnInit(): void {
     this.buildFeedUsuarioLogado();
 

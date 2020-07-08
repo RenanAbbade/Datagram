@@ -24,7 +24,7 @@ export class PerfilComponent implements OnInit {
   postagens;
 
   // tslint:disable-next-line: max-line-length
-  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: [], url: '', arquivoPublicacao: '', palavrasChave:[]};
+  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: [], url: '', arquivoPublicacao: '', palavrasChave:[], tipoPostagem: ''};
 
   UFS: Array<string> = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
 
@@ -44,6 +44,8 @@ export class PerfilComponent implements OnInit {
   usuarioSeguindo;
 
   listaUsuarioInteresseMutuo;
+
+  palavraChaveEscolhida;
 
 
   // tslint:disable-next-line: max-line-length
@@ -83,6 +85,7 @@ export class PerfilComponent implements OnInit {
         this.postagem.url = post.url;
         this.postagem.palavrasChave = post.palavrasChave;
         this.postagem.arquivoPublicacao = post.arquivoPublicacao;
+        this.postagem.tipoPostagem = post.tipoPostagem;
 
       }
      }
@@ -136,6 +139,16 @@ export class PerfilComponent implements OnInit {
     // tslint:disable-next-line: max-line-length
     this.usuario.interesses = this.usuario.interesses.filter(x => x.trim().length > 0);//Por algum motivo na hora de salvar a lista, o angular salva um espaço em branco como elemento, esta linha tem o papel de tirar este elemento que é um espaco em branco
     this.updateUsuario();
+  }
+
+  escolhePalavraChave(){
+    this.postagem.palavrasChave.push(this.palavraChaveEscolhida);
+    // tslint:disable-next-line: max-line-length
+    this.postagem.palavrasChave = this.postagem.palavrasChave.filter(x => x.trim().length > 0);//Por algum motivo na hora de salvar a lista, o angular salva um espaço em branco como elemento, esta linha tem o papel de tirar este elemento que é um espaco em branco
+  }
+
+  deletaPalavrasChave(){
+    this.postagem.palavrasChave = [];
   }
 
   mostraSeguidores(){

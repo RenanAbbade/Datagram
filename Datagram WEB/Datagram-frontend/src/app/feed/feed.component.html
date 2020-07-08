@@ -22,7 +22,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <a [routerLink] = "['perfil-amigo', post.autor.id]" *ngIf="post.autor.fotoPerfil === null"  class="navbar-brand"   style="float: left;"><img src="./assets/img/usuario.png"  class="rounded-circle  " style="width:50px"> <h6 class="w3-text-teal" >{{ post.autor.nome }}</h6></a>
         <a [routerLink] = "['perfil-amigo', post.autor.id]"  *ngIf="post.autor.fotoPerfil != null"  class="navbar-brand"  style="float: left;"><img [src]="post.autor.fotoPerfil" class="rounded-circle  " style="width:50px"> <h6 class="w3-text-teal">{{ post.autor.nome }}</h6></a>
-        <h2 class="w3-text-grey w3-padding-16 center" >{{ post.titulo }}<i class="fa fa-quote-right"></i></h2>
+        <h2 class="w3-text-grey w3-padding-16 center" >{{ post.titulo }}<i *ngIf="post.tipoPostagem != 'cientifica'" class="fa fa-bookmark-o" aria-hidden="true"></i><i *ngIf="post.tipoPostagem === 'cientifica'" class="fa fa-quote-right"></i></h2>
 
         <div class="w3-container">
           <h5 class="w3-opacity">
@@ -33,6 +33,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             >{{ post.date }}
           </h6>
           <p>{{ post.conteudo }}</p>
+
+          <div *ngIf="post.tipoPostagem === 'cientifica'">
+            <p *ngIf="post.url != null || post.url != undefined">Disponível em: <a href="{{ post.url }}">{{ post.url }}</a></p>
+            <img *ngIf="post.arquivoPublicacao != null || post.arquivoPublicacao != undefined" src="../../assets/img/pdfArq.svg" height="35px" width="35px" (click)="mandaPdf(post.arquivoPublicacao)"><a (click)="mandaPdf(post.arquivoPublicacao)"><i  *ngIf="post.arquivoPublicacao != null || post.arquivoPublicacao != undefined">{{ post.titulo }}.pdf</i></a>
+            <div *ngIf="post.palavrasChave != null || post.palavrasChave != undefined">
+              <p><i *ngFor="let tags of post.palavrasChave" style="color:black; font-size:12; font-family:Arial;">#{{tags}}  </i></p>
+            </div>
+          </div>
+
           <hr />
         </div>
         <i
