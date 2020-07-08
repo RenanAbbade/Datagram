@@ -21,13 +21,13 @@ public class UsuarioService {
   private UsuarioRepository repo;
 
   // CREATE
-  public Usuario insert(final Usuario obj) {
+  public Usuario insert(Usuario obj) {
     obj.setId(null);
     return repo.save(obj);
   }
 
   // READ
-  public Usuario find(final Integer id) {
+  public Usuario find(Integer id) {
     final Optional<Usuario> obj = repo.findById(id);
     return obj.orElse(null);
   }
@@ -38,11 +38,11 @@ public class UsuarioService {
   }
 
   // UPDATE
-  public Usuario update(final Usuario obj) {
+  public Usuario update(Usuario obj) {
     // settando os seguidores e o seguindo novamente para não perder a informação no
     // update, o usuario vem do front sem guardar os campos
     // idsSeguidores/idsSeguindo
-    final Usuario oldObj = find(obj.getId());
+    Usuario oldObj = find(obj.getId());
     obj.setIdsAllSeguidores(oldObj.getIdsSeguidores());
     obj.setIdsAllSeguindo(oldObj.getIdsSeguindo());
 
@@ -75,19 +75,19 @@ public class UsuarioService {
   }
 
   // DELETE
-  public void delete(final Integer id) {
+  public void delete(Integer id) {
 
     find(id);
     try {
       repo.deleteById(id);
-    } catch (final DataIntegrityViolationException e) {
+    } catch (DataIntegrityViolationException e) {
       throw new DataIntegrityViolationException("Não é possível excluir essa entidade!");
     }
   }
 
   // Verifica se tentativa de login é válida
-  public Usuario login(final String email, final String senha) {
-    final Usuario obj = repo.findByEmail(email);
+  public Usuario login(String email, String senha) {
+    Usuario obj = repo.findByEmail(email);
     if (obj == null) {
       return null;
     } else if (!obj.getSenha().equalsIgnoreCase(senha)) {
@@ -99,8 +99,8 @@ public class UsuarioService {
     return obj;
   }
 
-  public boolean validaExistenciaEmail(final String email) {
-    final Usuario obj = repo.findByEmail(email);
+  public boolean validaExistenciaEmail(String email) {
+    Usuario obj = repo.findByEmail(email);
     if (obj == null)// Ainda não existe esse email no BD
       return false;
     return true;
@@ -110,7 +110,7 @@ public class UsuarioService {
     return usuarioLogado;
   }
 
-  public List<Usuario> findByNome(final String nome) {
+  public List<Usuario> findByNome(String nome) {
     final List<Usuario> usuariosPesquisa = repo.findByNome(nome);
 
     usuariosPesquisa.removeIf(x -> x.getId() == usuarioLogado.getId());// irá remover o usuario logado do retorno da
@@ -119,21 +119,21 @@ public class UsuarioService {
     return usuariosPesquisa;
   }
 
-  public List<Usuario> findByInstituicao(final String instituicao) {
+  public List<Usuario> findByInstituicao(String instituicao) {
     return repo.findByInstituicao(instituicao);
   }
 
   public List<Usuario> findUsersByInteresses() {
-    final Set<String> interessesLogado = UsuarioService.usuarioLogado.getInteresses();
-    final Set<Integer> seguindoLogado = UsuarioService.usuarioLogado.getIdsSeguindo();
-    final Set<Integer> seguidoresLogado = UsuarioService.usuarioLogado.getIdsSeguidores();
+     Set<String> interessesLogado = UsuarioService.usuarioLogado.getInteresses();
+     Set<Integer> seguindoLogado = UsuarioService.usuarioLogado.getIdsSeguindo();
+     Set<Integer> seguidoresLogado = UsuarioService.usuarioLogado.getIdsSeguidores();
 
-    final List<Usuario> usuarios = repo.findAll();
-    final List<Usuario> usuariosMutuos = new ArrayList<Usuario>();
+     List<Usuario> usuarios = repo.findAll();
+     List<Usuario> usuariosMutuos = new ArrayList<Usuario>();
 
     usuarios.removeIf(x -> x.getId().equals(usuarioLogado.getId()));
 
-    for (final Usuario user : usuarios) {
+    for ( Usuario user : usuarios) {
       if (!checkFollower(user.getId())) {
         if (CollectionUtils.containsAny(interessesLogado, user.getInteresses())
             && CollectionUtils.containsAny(seguindoLogado, user.getIdsSeguindo())
@@ -148,16 +148,16 @@ public class UsuarioService {
     return usuariosMutuos;
   }
 
-  public Boolean checkFollower(final Integer id) {
-    final Set<Integer> seguindoLogado = UsuarioService.usuarioLogado.getIdsSeguindo();
+  public Boolean checkFollower( Integer id) {
+     Set<Integer> seguindoLogado = UsuarioService.usuarioLogado.getIdsSeguindo();
     return seguindoLogado.contains(id);
   }
 
   public Integer numeroMedioSeguidores() {
-    final List<Usuario> usuarios = repo.findAll();
+     List<Usuario> usuarios = repo.findAll();
     Integer totalSeguidores = 0;
 
-    for (final Usuario usuario : usuarios) {
+    for ( Usuario usuario : usuarios) {
       totalSeguidores += usuario.getSeguidores();
     }
     return totalSeguidores / usuarios.size();
