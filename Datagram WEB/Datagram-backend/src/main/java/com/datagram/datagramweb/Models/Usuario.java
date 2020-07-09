@@ -44,11 +44,11 @@ public class Usuario implements Serializable {
 
   private String tipoUsuario;
 
-  private Integer seguidores;
+  private int seguidores;
 
-  private Integer seguindo;
+  private int seguindo;
 
-  private Integer posts;
+  private int posts;
 
   @Column(columnDefinition = "text")
   private String fotoPerfil;
@@ -233,7 +233,7 @@ public static long getSerialversionuid() {
     this.posts = postagem.size();
   }
 
-  public Integer getSeguidores() {
+  public int getSeguidores() {
     return seguidores;
   }
 
@@ -241,19 +241,19 @@ public static long getSerialversionuid() {
     this.seguidores = seguidores;
   }
 
-  public Integer getSeguindo() {
+  public int getSeguindo() {
     return seguindo;
   }
 
-  public void setSeguindo(Integer seguindo) {
+  public void setSeguindo(int seguindo) {
     this.seguindo = seguindo;
   }
 
-  public void setPosts(Integer i){
+  public void setPosts(int i){
     this.posts = this.posts + i;
   }
 
-  public Integer getPosts() {
+  public int getPosts() {
     return posts;
   }
 

@@ -1,6 +1,9 @@
 package com.datagram.datagramweb.Services;
 
+import com.datagram.datagramweb.Models.Notificacao;
 import com.datagram.datagramweb.Models.Postagem;
+import com.datagram.datagramweb.Models.Usuario;
+import com.datagram.datagramweb.Repositories.NotificacaoRepository;
 import com.datagram.datagramweb.Repositories.PostagemRepository;
 import com.datagram.datagramweb.Repositories.UsuarioRepository;
 
