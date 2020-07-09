@@ -226,13 +226,15 @@ ngOnInit(): void {
     this.usuario = this.usuarioLogadoService.getUsuarioLogado().subscribe(data => {
     this.usuario = JSON.parse(JSON.stringify(data));
 
+
+
     this.usuarioService.getPostsUsuario(this.usuario.id).subscribe(res => {
     this.postagens = JSON.parse(JSON.stringify(res));
     console.log(this.postagens);
       });
-    /*É PRECISO PEGAR O OBJ USUARIO E CONVERTER EM JSON, POIS SÓ ASSIM É POSSIVEL SALVAR NO LOCAL/SESSION STORAGE */
-    this.usuarioJson = JSON.stringify(this.usuario);
-    this.showModal(this.usuarioJson[6] + this.usuarioJson[7]);
+/*É PRECISO PEGAR O OBJ USUARIO E CONVERTER EM JSON, POIS SÓ ASSIM É POSSIVEL SALVAR NO LOCAL/SESSION STORAGE */
+this.usuarioJson = JSON.stringify(this.usuario);
+this.showModal(this.usuarioJson[6] + this.usuarioJson[7]);
     });
   }
 }

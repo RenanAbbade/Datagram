@@ -800,8 +800,8 @@
       <div class="modal-body">
           <div *ngFor="let usuario of seguidoresUsuario">
             <div class="w3-container w3-card w3-white w3-margin-bottom">
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="img-circle " style="width:50px" > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="rounded-circle" style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="rounded-circle" style="width:50px" > <strong>{{usuario.nome}}</strong></a>
             </div>
           </div>
       </div>
@@ -826,8 +826,8 @@
       <div class="modal-body">
           <div *ngFor="let usuario of usuarioSeguindo">
             <div class="w3-container w3-card w3-white w3-margin-bottom">
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="img-circle " style="width:50px" > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="rounded-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="rounded-circle" style="width:50px" > <strong>{{usuario.nome}}</strong></a>
             </div>
           </div>
       </div>

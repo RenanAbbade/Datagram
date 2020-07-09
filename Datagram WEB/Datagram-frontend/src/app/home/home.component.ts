@@ -73,14 +73,13 @@ public clearSessionStorage(){
   sessionStorage.clear();
 }
 
-getUsuarioLogado(){
+
+ngOnInit(): void {
   this.UsuarioLogadoService.getUsuarioLogado().subscribe(res => {
     this.usuarioLogado = JSON.parse(JSON.stringify(res));
     console.log(this.usuarioLogado);
   });
 }
-
-ngOnInit(): void {}
 
 public mudaTipo(tipoPostagem){
   if (tipoPostagem === 'cientifica'){
