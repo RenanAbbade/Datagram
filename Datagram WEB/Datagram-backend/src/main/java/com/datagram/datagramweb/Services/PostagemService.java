@@ -58,17 +58,19 @@ public class PostagemService {
     //update
 	public Postagem update(Postagem obj) {
         Postagem postEstadoAntigo = find(obj.getId());
+        //Se o Id do usuário logado estiver entre o set de curtidas da postagem, removo, caracterizando deslike.
+        Boolean descurtida = postEstadoAntigo.getIdsCurtida().removeIf(x -> x.equals(UsuarioService.getUsuarioLogado().getId())) ? true : false; 
 
         if(postEstadoAntigo.getCurtida() == null){
-
           obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
         }
 
         else if(obj.getCurtida() > postEstadoAntigo.getCurtida()){
-
           obj.setAllIdsCurtida(postEstadoAntigo.getIdsCurtida());//reinserindo as curtidas anteriores
-          obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
+          if(!descurtida)//Se descurtida for false, a ação é uma curtida
+            obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
         }
+
         return repo.save(obj);
       }
     
