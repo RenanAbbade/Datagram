@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { LoginServiceService } from './../services/login-service.service';
 import { PostServiceService } from './../services/post-service.service';
 import { UsuarioLogadoService } from './../services/usuarioLogado.service';
@@ -157,9 +158,9 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  public showModal(objJson){
+  public showModal(objJson, elementClikavel){
     if (!sessionStorage.getItem(objJson)){
-    document.getElementById('openModal').click();
+    document.getElementById(elementClikavel).click();
     sessionStorage.setItem(objJson, 'salvo');
     }
   }
@@ -169,6 +170,7 @@ export class PerfilComponent implements OnInit {
       this.listaPostsMaisCurtidos = JSON.parse(JSON.stringify(res));
     });
   }
+
 
 ngOnInit(): void {
 
@@ -181,11 +183,8 @@ ngOnInit(): void {
     });
 
     this.usuarioJson = JSON.stringify(this.usuario);
-    this.showModal(this.usuarioJson[6] + this.usuarioJson[7]);
+    this.showModal(this.usuarioJson[6] + this.usuarioJson[7], 'openModal');
 
     });
   }
 }
-
-
-//teste bug vscode
