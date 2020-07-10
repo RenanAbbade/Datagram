@@ -519,6 +519,14 @@ pre code {
   }
 }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  width: 50%;
+}
+
 .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
   width: 100%;
   padding-right: 0.75rem;

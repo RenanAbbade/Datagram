@@ -158,13 +158,13 @@ public class UsuarioService {
     for (Usuario usuario : usuarios) {
       totalSeguidores += usuario.getSeguidores();
     }
-    return totalSeguidores / usuarios.size();
+    return (usuarios.size() != 0 && totalSeguidores != 0) ? (totalSeguidores / usuarios.size()) : 0;
   }
 
   public List<Usuario> membrosMaisConectados() {
     Map<Usuario, Integer> usuariosSeguidores = new HashMap<>();
 
-    List<Usuario> usuarios = sortUserByNumberOfFollowers(repo.findAll());
+    List<Usuario> usuarios = (!repo.findAll().isEmpty()) ? sortUserByNumberOfFollowers(repo.findAll()) : new ArrayList<>();
     List<Usuario> usuariosMaisConectados = new ArrayList<>();
 
     if (usuarios.size() > 10) {// iterator performa melhor que o for até o list.size()
@@ -172,7 +172,10 @@ public class UsuarioService {
 
       while (i.hasNext() && usuariosMaisConectados.size() < 11)
         usuariosMaisConectados.add(i.next());
-    } else return usuariosMaisConectados = usuarios;
+
+    } else 
+        return usuariosMaisConectados = usuarios;
+        
     return usuariosMaisConectados;
   }
 
