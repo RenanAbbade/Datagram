@@ -19,6 +19,8 @@ export class LoginServiceService {
     // Implementar auth jwt spring security
      if (data === 'auth'){
       this.router.navigate(['perfil']);
+     }else if (data === 'manager'){
+      this.router.navigate(['gerente']);
      }else{
        alert('Credenciais não encontradas!');
      }

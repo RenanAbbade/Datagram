@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,21 +34,23 @@ public class Postagem implements Serializable {
     @Column(columnDefinition = "text")
     private String arquivoPublicacao;
 
-    @ElementCollection(fetch = FetchType.EAGER) 
-    @CollectionTable(name="PalavrasChave")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PalavrasChave")
     private Set<String> palavrasChave = new HashSet<>();
 
     @ElementCollection
     private Set<Integer> idsCurtida = new HashSet<>();// Para fazer o controle de quem curtiu o post, não permitindo a
                                                       // mesma pessoa curtir um post mais de uma vez.
-    //@ElementCollection
-    //@CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
-    //private List<Comentario> comentarios = new ArrayList<>();
+    // @ElementCollection
+    // @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name
+    // = "postagem_id"))
+    // private List<Comentario> comentarios = new ArrayList<>();
 
-    public Postagem(){
+    public Postagem() {
     }
 
-    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, String date, Integer curtida) {
+    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, String date,
+            Integer curtida) {
         this.id = id;
         this.autor = autor;
         this.titulo = titulo;
@@ -76,7 +76,6 @@ public class Postagem implements Serializable {
         this.autor = usuario;
     }
 
-    
     public String getTexto() {
         return conteudo;
     }
@@ -97,7 +96,6 @@ public class Postagem implements Serializable {
         this.idsCurtida.add(idCurtida);
         this.curtida = idsCurtida.size();
     }
-
 
     public void setAllIdsCurtida(Set<Integer> idCurtidas) {
         this.idsCurtida = idCurtidas;
@@ -153,14 +151,14 @@ public class Postagem implements Serializable {
         return idsCurtida;
     }
 
-    //public List<Comentario> getComentarios() {
-    //    return comentarios;
-    //}
+    // public List<Comentario> getComentarios() {
+    // return comentarios;
+    // }
 
-    //public void setComentarios(Comentario comentario) {
-      //  this.comentarios.add(comentario);
-        //this.numComentarios++;
-    //}
+    // public void setComentarios(Comentario comentario) {
+    // this.comentarios.add(comentario);
+    // this.numComentarios++;
+    // }
 
     public Integer getNumComentarios() {
         return numComentarios;
@@ -185,7 +183,6 @@ public class Postagem implements Serializable {
     public void setTipoPostagem(String tipoPostagem) {
         this.tipoPostagem = tipoPostagem;
     }
-
 
     @Override
     public int hashCode() {
@@ -220,10 +217,4 @@ public class Postagem implements Serializable {
         this.palavrasChave = palavrasChave;
     }
 
-  
-
- 
-    
-
-    
 }

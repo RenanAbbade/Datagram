@@ -28,11 +28,12 @@ public class Notificacao implements Serializable {
 
   private Integer postagem_id;
 
-  public Notificacao(){}
+  public Notificacao() {
+  }
 
   public Notificacao(Usuario usuario, Integer postagem_id) {
     this.usuario = usuario;
-    this.postagem_id = postagem_id ;
+    this.postagem_id = postagem_id;
   }
 
   public Integer getId() {
@@ -84,7 +85,4 @@ public class Notificacao implements Serializable {
     return true;
   }
 
-
-
-  
 }

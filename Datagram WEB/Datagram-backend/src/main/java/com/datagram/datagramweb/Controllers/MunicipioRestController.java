@@ -18,17 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/municipios")
 public class MunicipioRestController {
 
-@Autowired
-MunicipioRestService service;
+  @Autowired
+  MunicipioRestService service;
 
+  @ResponseBody
+  @PostMapping
+  public ResponseEntity<List<String>> municipios(@RequestBody String Uf) {
+    return ResponseEntity.ok(service.listarMunicipios(Uf));
 
-@ResponseBody
-@PostMapping
-public ResponseEntity <List<String>> municipios(@RequestBody String Uf){
-  return ResponseEntity.ok(service.listarMunicipios(Uf));
-    
   }
 
-
-  
 }

@@ -22,13 +22,10 @@ public class NotificacaoController {
     NotificacaoService service;
 
     @GetMapping(value = "/")
-    public ResponseEntity<List<Postagem>> findAllNotifyById(){
-        List <Postagem> list = service.findAllbyFollowerId(UsuarioService.usuarioLogado.getId());
-        Collections.reverse(list);//Reverto a ordem de apresentacao para mostrar da postagem mais recente
+    public ResponseEntity<List<Postagem>> findAllNotifyById() {
+        List<Postagem> list = service.findAllbyFollowerId(UsuarioService.usuarioLogado.getId());
+        Collections.reverse(list);// Reverto a ordem de apresentacao para mostrar da postagem mais recente
         return ResponseEntity.ok().body(list);
     }
 
-
-
-    
 }
