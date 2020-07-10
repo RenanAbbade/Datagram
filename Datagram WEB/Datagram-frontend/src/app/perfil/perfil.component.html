@@ -849,16 +849,17 @@ data-toggle="modal" data-target="#mostraUsuariosComInteressesMutuo"></button>
     <div class="modal-content">
       <!-- cabecalho -->
       <div class="modal-header">
-        <h4 class="modal-title " style="float:left; ">Aqui você encontra a suas melhores postagens</h4>
+        <h4 class="modal-title " style="float:left; ">Pessoas que você deveria conhecer</h4>
         <button type="button" class="close" style="float: right; " data-dismiss="modal">
           <span>&times;</span>
         </button>
       </div>
 
       <div class="modal-body">
-          <div *ngFor="let user of listaUsuarioInteresseMutuo">
+          <div *ngFor="let usuario of listaUsuarioInteresseMutuo">
             <div class="w3-container w3-card w3-white w3-margin-bottom">
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px" > <strong> titulo: {{post.titulo}}</strong></a><br>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="img-circle " style="width:50px" > <strong>{{usuario.nome}}</strong></a>
             </div>
           </div>
       </div>
@@ -902,6 +903,3 @@ data-toggle="modal" data-target="#mostraUsuariosComInteressesMutuo"></button>
 <i class="fa fa-twitter w3-hover-opacity"></i>
 <i class="fa fa-linkedin w3-hover-opacity"></i>
 </footer>
-
-
-
