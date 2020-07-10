@@ -120,7 +120,10 @@ public class UsuarioService {
   }
 
   public List<Usuario> findByInstituicao(String instituicao) {
-    return repo.findByInstituicao(instituicao);
+    List<Usuario> usuariosPesquisa = repo.findByInstituicao(instituicao);
+    usuariosPesquisa.removeIf(x -> x.getId().equals(usuarioLogado.getId()));
+
+    return usuariosPesquisa;
   }
 
   public List<Usuario> findUsersByInteresses() {

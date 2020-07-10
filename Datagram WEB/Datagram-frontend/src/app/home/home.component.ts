@@ -30,6 +30,11 @@ export class HomeComponent implements OnInit {
 
   usuarioLogado;
 
+  listaRetornoPesquisaInstituicao;
+
+  listaRetornoPesquisaInteresses;
+
+
   interessesPossiveis: Array<string> = ['algorithm', 'AngularJS', 'artificial intelligence', 'backpropagation', 'Bayes Thorem', 'Bayesian network', 'bias', 'Big Data', 'binomial distribution', 'chi-square test', 'classification', 'clustering', 'coefficient', 'computational linguistics', 'confidence interval', 'continuous variable', 'correlation', 'covariance', 'cross-validation', 'D3', 'data engineer', 'data mining', 'data science', 'data structure', 'data wrangling', 'decision trees', 'deep learning', 'dependent variable', 'dimension reduction', 'discrete variable', 'econometrics', 'feature', 'feature engineering',  'GATE',  'gradient boosting', 'gradient descent',  'histogram',  'independent variable', 'JavaScript', 'k-means clustering', 'k-nearest neighbors', 'latent variable', 'lift', 'linear algebra', 'linear regression', 'logarithm', 'logistic regression', 'machine learning', 'machine learning model', 'Markov Chain', 'MATLAB', 'matrix', 'mean', 'Mean Absolute Error', 'Mean Squared Error', 'median', 'mode', 'model', 'Monte Carlo method', 'moving average', 'n-gram', 'naive Bayes classifier', 'neural network', 'normal distribution', 'NoSQL', 'null hypothesis', 'objective function', 'outlier', 'overfitting', 'P value', 'PageRank', 'Pandas', 'perceptron', 'Perl', 'pivot table', 'Poisson distribution', 'posterior distribution', 'predictive analytics', 'predictive modeling', 'principal component analysis', 'prior distribution', 'probability distribution', 'Python', 'quantile, quartile', 'R', 'random forest', 'regression', 'reinforcement learning', 'Root Mean Squared Error', 'Ruby', 'S curve', 'SAS', 'scalar', 'scripting', 'serial correlation', 'shell', 'spatiotemporal data', 'SPSS', 'SQL', 'standard deviation', 'standard normal distribution', 'standardized score', 'Stata', 'strata, stratified sampling', 'supervised learning', 'support vector machine', 't-distribution', 'Tableau', 'time series data', 'UIMA', 'unsupervised learning', 'variance', 'vector', 'vector space', 'Weka'];
 
   public publicarPost(){
@@ -123,4 +128,13 @@ public mudaTipo(tipoPostagem){
     // tslint:disable-next-line: max-line-length
     this.postagem.palavrasChave = this.palavrasChaveList.filter(x => x.trim().length > 0);//Por algum motivo na hora de salvar a lista, o angular salva um espaço em branco como elemento, esta linha tem o papel de tirar este elemento que é um espaco em branco
   }
+
+  public getUsuarioByInstituicao(instituicao){
+    this.usuarioService.getUsuarioByInstituicao(instituicao).subscribe(res => {
+      this.listaRetornoPesquisaInstituicao = JSON.parse(JSON.stringify(res));
+      console.log(this.listaRetornoPesquisaInstituicao);
+    });
+  }
+
+
 }

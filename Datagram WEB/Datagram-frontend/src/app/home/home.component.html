@@ -7,7 +7,7 @@
   <!-- pesquisa -->
   <form class="form-inline mx-auto">
     <input type="search" class="form-control mr-sm-2" [(ngModel)] = "usuario.nome" id="busca-usuario" name="busca-usuario" placeholder="Search" (click)="checkPage()" >
-    <button class="btn btn-outline-light my-2 my-sm-0 search mx-auto" (click)="getUsuarioByNome(usuario.nome)" type="submit" data-toggle="modal"data-target="#pesquisa">
+    <button class="btn btn-outline-light my-2 my-sm-0 search mx-auto" (click)="getUsuarioByNome(usuario.nome)" (click)="getUsuarioByInstituicao(usuario.nome)" type="submit" data-toggle="modal"data-target="#pesquisa">
       <svg class="bi bi-search" width="2em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
       <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
       <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
@@ -201,6 +201,7 @@
         </button>
       </div>
       <p *ngIf="listaRetornoPesquisa === undefined" > Esta pesquisa não retornou resultados! </p>
+      <p *ngIf="listaRetornoPesquisaInstituicao === undefined" > Esta pesquisa não retornou resultados! </p>
 
       <!-- mostrando os resultados da pesquisa-->
       <!-- [routerLink]="['./perfil-amigo', usuario.id ]"-->
@@ -214,6 +215,12 @@
             </div>
           </div>
 
+          <div *ngFor="let usuarioInstituicao of listaRetornoPesquisaInstituicao">
+            <div class="w3-container w3-card w3-white w3-margin-bottom">
+              <a data-dismiss="modal" *ngIf="usuarioInstituicao.fotoPerfil === null" class="navbar-brand" [routerLink]="[rotaPesquisa, usuarioInstituicao.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px"  > <strong>{{usuarioInstituicao.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuarioInstituicao.fotoPerfil != null" class="navbar-brand"  [routerLink]="[rotaPesquisa, usuarioInstituicao.id ]" style="float: left;"><img [src]="usuarioInstituicao.fotoPerfil" class="img-circle " style="width:50px" > <strong>{{usuarioInstituicao.nome}}</strong></a>
+            </div>
+          </div>
       </div>
 
       <!-- rodape -->
