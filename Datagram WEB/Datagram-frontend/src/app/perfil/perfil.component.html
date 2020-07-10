@@ -844,6 +844,29 @@
 <button id="openModal" #openModal [hidden]="true" (click)="mostraUsuariosComInteressesMutuo()"
 data-toggle="modal" data-target="#mostraUsuariosComInteressesMutuo"></button>
 
+<form class="modal fade" id="mostraUsuariosComInteressesMutuo">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- cabecalho -->
+      <div class="modal-header">
+        <h4 class="modal-title " style="float:left; ">Aqui você encontra a suas melhores postagens</h4>
+        <button type="button" class="close" style="float: right; " data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+          <div *ngFor="let user of listaUsuarioInteresseMutuo">
+            <div class="w3-container w3-card w3-white w3-margin-bottom">
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px" > <strong> titulo: {{post.titulo}}</strong></a><br>
+            </div>
+          </div>
+      </div>
+      <!-- rodape -->
+    </div>
+  </div>
+</form>
+
 <form class="modal fade" id="mostraPostsMaisCurtidos">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">

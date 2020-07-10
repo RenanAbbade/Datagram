@@ -46,11 +46,9 @@ export class PerfilComponent implements OnInit {
 
   listaUsuarioInteresseMutuo;
 
-<<<<<<< HEAD
-  listaPostsMaisCurtidos;
-=======
   palavraChaveEscolhida;
->>>>>>> a8e29310aa517f7222702874b4092b230c61c303
+
+  listaPostsMaisCurtidos;
 
 
   // tslint:disable-next-line: max-line-length
