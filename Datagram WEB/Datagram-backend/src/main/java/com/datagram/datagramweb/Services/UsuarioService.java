@@ -156,7 +156,7 @@ public class UsuarioService {
     List<Usuario> usuarios = repo.findAll();
     Integer totalSeguidores = 0;
     for (Usuario usuario : usuarios) {
-      totalSeguidores += usuario.getSeguidores();
+      totalSeguidores += usuario.getSeguidores() != null ? usuario.getSeguidores() : 0;
     }
     return (usuarios.size() != 0 && totalSeguidores != 0) ? (totalSeguidores / usuarios.size()) : 0;
   }
