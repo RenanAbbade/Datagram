@@ -78,4 +78,10 @@ public class PostagemController {
         List<Postagem> postsSeguidores = service.findPostsSeguidores();
         return ResponseEntity.ok().body(postsSeguidores);
     }
+
+    @GetMapping(value = "/maisCurtido")
+    public ResponseEntity<List<Postagem>> findPostsMaisCurtidos() {
+        List<Postagem> postsPopulares = service.findPostsMaisCurtidos();
+        return ResponseEntity.ok().body(postsPopulares);
+    }
 }

@@ -76,5 +76,18 @@ export class UsuarioServiceService {
     getUsuariosComInteressesMutuo(){
       return this.http.get(AppConstants.baseUsuarios + 'interesses/');
     }
+
+    getPostsMaisCurtidos(){
+      return this.http.get(AppConstants.basePostagem + 'maisCurtido/');
+    }
+
+    getUsuarioByInstituicao(instituicao){
+      return this.http.get(AppConstants.baseUsuarioByInstituicao.concat(instituicao));
+    }
+
+    //getUsuarioByInteresses(interesses){
+      //return this.http.get(AppConstants.baseUsuarioByInteresses.concat(interesses));
+    //}
+
   }
 

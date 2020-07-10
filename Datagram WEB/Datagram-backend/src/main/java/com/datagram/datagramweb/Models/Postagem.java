@@ -26,7 +26,7 @@ public class Postagem implements Serializable {
     private String subtitulo;
     private String conteudo;
     private String date;
-    private Integer curtida;
+    private Integer curtida = 0;
     private String url;
     private Integer numComentarios;
     private String tipoPostagem;

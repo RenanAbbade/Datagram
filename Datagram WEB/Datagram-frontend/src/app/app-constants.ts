@@ -19,6 +19,8 @@ export class AppConstants {
 
   public static get baseUsuarioByNome(): string {return this.baseUsuarios + 'nome/?nome_value='; }
 
+  public static get baseUsuarioByInstituicao(): string {return this.baseUsuarios + 'instituicao/?instituicao_value='; }
+
   // POST
 
   public static get basePostagem(): string {return this.baseServidor + 'post/'; }

@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { LoginServiceService } from './../services/login-service.service';
 import { PostServiceService } from './../services/post-service.service';
 import { UsuarioLogadoService } from './../services/usuarioLogado.service';
@@ -46,6 +47,8 @@ export class PerfilComponent implements OnInit {
   listaUsuarioInteresseMutuo;
 
   palavraChaveEscolhida;
+
+  listaPostsMaisCurtidos;
 
 
   // tslint:disable-next-line: max-line-length
@@ -171,11 +174,17 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  public showModal(objJson){
+  public showModal(objJson, elementClikavel){
     if (!sessionStorage.getItem(objJson)){
-    document.getElementById('openModal').click();
+    document.getElementById(elementClikavel).click();
     sessionStorage.setItem(objJson, 'salvo');
     }
+  }
+
+  public mostraPostsMaisCurtidos(){
+    this.usuarioService.getPostsMaisCurtidos().subscribe(res => {
+      this.listaPostsMaisCurtidos = JSON.parse(JSON.stringify(res));
+    });
   }
 
   public mandaPdf(data64){
@@ -226,16 +235,14 @@ ngOnInit(): void {
     this.usuario = this.usuarioLogadoService.getUsuarioLogado().subscribe(data => {
     this.usuario = JSON.parse(JSON.stringify(data));
 
-
-
     this.usuarioService.getPostsUsuario(this.usuario.id).subscribe(res => {
-    this.postagens = JSON.parse(JSON.stringify(res));
-    console.log(this.postagens);
-      });
-/*É PRECISO PEGAR O OBJ USUARIO E CONVERTER EM JSON, POIS SÓ ASSIM É POSSIVEL SALVAR NO LOCAL/SESSION STORAGE */
-this.usuarioJson = JSON.stringify(this.usuario);
-this.showModal(this.usuarioJson[6] + this.usuarioJson[7]);
+      this.postagens = JSON.parse(JSON.stringify(res));
+      console.log(this.postagens);
+    });
+
+    this.usuarioJson = JSON.stringify(this.usuario);
+    this.showModal(this.usuarioJson[6] + this.usuarioJson[7], 'openModal');
+
     });
   }
 }
-
