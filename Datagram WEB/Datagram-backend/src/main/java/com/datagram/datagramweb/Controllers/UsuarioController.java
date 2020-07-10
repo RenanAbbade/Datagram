@@ -65,7 +65,6 @@ public class UsuarioController {
     } else
       return ResponseEntity.ok("EMAIL");
 
-
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
     ResponseEntity.created(uri).build();
@@ -76,29 +75,31 @@ public class UsuarioController {
   @PostMapping
   @RequestMapping(value = "/login")
   public ResponseEntity<String> login(@RequestBody Usuario obj) {
+
+    if (obj.getEmail().contentEquals("admin") && obj.getSenha().contentEquals("admin"))
+      return ResponseEntity.ok("manager");// manager login
+
     Usuario usuario = service.login(obj.getEmail(), obj.getSenha());
-    if(usuario == null) {
+    if (usuario == null)
       return ResponseEntity.ok("NoAuth");
-    }
-    //return ResponseEntity.ok().body(usuario);
     return ResponseEntity.ok("auth");
   }
 
-  //UPDATE usuario logado
+  // UPDATE usuario logado
   @PutMapping(value = "/")
   public ResponseEntity<Void> update(@RequestBody Usuario obj) {
     obj = service.update(obj);
     return ResponseEntity.noContent().build();
   }
 
-  //DELETE
+  // DELETE
   @DeleteMapping(value = "{id}")
   public ResponseEntity<Usuario> delete(@PathVariable Integer id) {
     service.delete(id);
     return ResponseEntity.noContent().build();
   }
 
-  //OBTEM TODOS OS POSTS DE UM USUARIO
+  // OBTEM TODOS OS POSTS DE UM USUARIO
   @GetMapping(value = "{id}/posts")
   public ResponseEntity<List<Postagem>> findPosts(@PathVariable Integer id) {
     Usuario usuario = service.find(id);
@@ -107,54 +108,46 @@ public class UsuarioController {
 
   // consulte por user/nome/?nome_value=rafael
   @GetMapping(value = "/nome")
-  public ResponseEntity<List<Usuario>> findByNome(@RequestParam String nome_value){
+  public ResponseEntity<List<Usuario>> findByNome(@RequestParam String nome_value) {
     List<Usuario> usuarios = service.findByNome(nome_value);
     return ResponseEntity.ok().body(usuarios);
   }
 
   @GetMapping(value = "/instituicao")
-  public ResponseEntity<List<Usuario>> findByInstituicao(@RequestParam String instituicao_value){
+  public ResponseEntity<List<Usuario>> findByInstituicao(@RequestParam String instituicao_value) {
     List<Usuario> usuario = service.findByInstituicao(instituicao_value);
     return ResponseEntity.ok().body(usuario);
   }
 
   @GetMapping(value = "/seguindo/{id}")
-  public ResponseEntity<Boolean> validFollower(@PathVariable Integer id){
+  public ResponseEntity<Boolean> validFollower(@PathVariable Integer id) {
     Boolean resposta = (UsuarioService.usuarioLogado.getIdsSeguindo().contains(id)) ? true : false;
     return ResponseEntity.ok(resposta);
 
   }
 
   @GetMapping(value = "/seguidores")
-  public ResponseEntity <List<Usuario>> findAllSeguidores(){
+  public ResponseEntity<List<Usuario>> findAllSeguidores() {
     List<Usuario> list = new ArrayList<>();
-    for(Integer id: UsuarioService.usuarioLogado.getIdsSeguidores()){
+    for (Integer id : UsuarioService.usuarioLogado.getIdsSeguidores()) {
       list.add(service.find(id));
     }
     return ResponseEntity.ok().body(list);
-}
+  }
 
   @GetMapping(value = "/seguindo")
-  public ResponseEntity <List<Usuario>> findAllSeguindo(){
+  public ResponseEntity<List<Usuario>> findAllSeguindo() {
     List<Usuario> list = new ArrayList<>();
-    for(Integer id: UsuarioService.usuarioLogado.getIdsSeguindo()){
+    for (Integer id : UsuarioService.usuarioLogado.getIdsSeguindo()) {
       list.add(service.find(id));
     }
     return ResponseEntity.ok().body(list);
   }
 
   @GetMapping(value = "/interesses")
-  public ResponseEntity<List<Usuario>> findUsersByInteresses(){
+  public ResponseEntity<List<Usuario>> findUsersByInteresses() {
     List<Usuario> usuariosMutuos = service.findUsersByInteresses();
     return ResponseEntity.ok().body(usuariosMutuos);
   }
 
 }
-
-
-
-
-
-
-
-

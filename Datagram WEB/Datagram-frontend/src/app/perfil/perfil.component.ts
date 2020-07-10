@@ -24,7 +24,8 @@ export class PerfilComponent implements OnInit {
 
   postagens;
 
-  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: []};
+  // tslint:disable-next-line: max-line-length
+  postagem = {id: Number, autor: '', titulo: '', subtitulo: '', conteudo: '', date: '', curtida: 0, idsCurtida: [], url: '', arquivoPublicacao: '', palavrasChave:[], tipoPostagem: ''};
 
   UFS: Array<string> = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
 
@@ -45,15 +46,17 @@ export class PerfilComponent implements OnInit {
 
   listaUsuarioInteresseMutuo;
 
+<<<<<<< HEAD
   listaPostsMaisCurtidos;
+=======
+  palavraChaveEscolhida;
+>>>>>>> a8e29310aa517f7222702874b4092b230c61c303
 
 
   // tslint:disable-next-line: max-line-length
   constructor(private usuarioService: UsuarioServiceService, private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService, private route: ActivatedRoute, private router: Router, private http: HttpClient, private loginService: LoginServiceService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
    }
-
-
 
   public updateUsuario(){
 
@@ -84,6 +87,11 @@ export class PerfilComponent implements OnInit {
         this.postagem.curtida = post.curtida;
         this.postagem.autor = post.autor;
         this.postagem.date = post.date;
+        this.postagem.url = post.url;
+        this.postagem.palavrasChave = post.palavrasChave;
+        this.postagem.arquivoPublicacao = post.arquivoPublicacao;
+        this.postagem.tipoPostagem = post.tipoPostagem;
+
       }
      }
     if (act === 'del'){
@@ -138,6 +146,16 @@ export class PerfilComponent implements OnInit {
     this.updateUsuario();
   }
 
+  escolhePalavraChave(){
+    this.postagem.palavrasChave.push(this.palavraChaveEscolhida);
+    // tslint:disable-next-line: max-line-length
+    this.postagem.palavrasChave = this.postagem.palavrasChave.filter(x => x.trim().length > 0);//Por algum motivo na hora de salvar a lista, o angular salva um espaço em branco como elemento, esta linha tem o papel de tirar este elemento que é um espaco em branco
+  }
+
+  deletaPalavrasChave(){
+    this.postagem.palavrasChave = [];
+  }
+
   mostraSeguidores(){
     this.usuarioService.getSeguidores().subscribe(res => {
       this.seguidoresUsuario = JSON.parse(JSON.stringify(res));
@@ -171,6 +189,48 @@ export class PerfilComponent implements OnInit {
     });
   }
 
+  public mandaPdf(data64){
+    var type = 'application/pdf';
+    let blob = null;
+    const blobURL = URL.createObjectURL( this.pdfBlobConversion(data64, 'application/pdf'));
+    const theWindow = window.open(blobURL);
+    const theDoc = theWindow.document;
+    const theScript = document.createElement('script');
+
+    function injectThis() {
+            window.print();
+    }
+
+    theScript.innerHTML = 'window.onload = ${injectThis.toString()};';
+    theDoc.body.appendChild(theScript);
+
+  }
+
+  //converts base64 to blob type for windows
+  public pdfBlobConversion(b64Data, contentType) {
+    contentType = contentType || '';
+    var sliceSize = 512;
+    b64Data = b64Data.replace(/^[^,]+,/, '');
+    b64Data = b64Data.replace(/\s/g, '');
+    var byteCharacters = window.atob(b64Data);
+    var byteArrays = [];
+
+    for ( var offset = 0; offset < byteCharacters.length; offset = offset + sliceSize ) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
 
 ngOnInit(): void {
 

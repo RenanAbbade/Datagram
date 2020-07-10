@@ -27,6 +27,16 @@ export class AppConstants {
 
   public static get postPublicacao(): string {return this.basePostagem + 'insert/'; }
 
+  public static get getNotificacao(): string {return this.baseServidor + 'notificacao/'; }
+
+  //GERENTE
+
+  public static get baseGerente(): string {return this.baseServidor + 'gerente/'; }
+
+  public static get get10maisConectados(): string {return this.baseGerente + 'maisConectados/'; }
+
+  public static get getNumMedioSeguidores(): string {return this.baseGerente + 'mediaSeguidores/'; }
+
 
 
 

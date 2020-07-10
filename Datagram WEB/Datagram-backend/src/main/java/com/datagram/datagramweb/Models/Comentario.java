@@ -9,15 +9,14 @@ import java.util.Date;
 @Embeddable
 public class Comentario implements Serializable {
 
-  
     private static final long serialVersionUID = 1L;
-    
+
     @Lob
     private Usuario autor;
     private String conteudo;
     private Date date;
 
-    public Comentario(){
+    public Comentario() {
 
     }
 

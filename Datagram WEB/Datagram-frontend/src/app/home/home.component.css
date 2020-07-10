@@ -13,7 +13,7 @@
 }
 
 a:link {
-  color: rgb(255, 255, 255);
+  color: rgb(99, 175, 180);
 }
 
 /* visited link */
@@ -52,5 +52,6 @@ a{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+
+  width: 100%;
 }

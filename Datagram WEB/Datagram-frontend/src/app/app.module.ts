@@ -17,6 +17,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { ManagerComponent } from './manager/manager.component';
 import { FeedComponent } from './feed/feed.component';
 import { PerfilAmigoComponent } from './perfil-amigo/perfil-amigo.component';
+import { GerenteComponent } from './gerente/gerente.component';
 
 
 export const appRouters: Routes = [
@@ -28,7 +29,8 @@ export const appRouters: Routes = [
   {path : 'feed', component : FeedComponent},
   {path : 'feed/perfil-amigo', component : PerfilAmigoComponent},
   {path : 'feed/perfil-amigo/:id', component : PerfilAmigoComponent},
-  {path : 'perfil/perfil-amigo/:id', component : PerfilAmigoComponent}, // criando a rota com parametro
+  {path : 'perfil/perfil-amigo/:id', component : PerfilAmigoComponent},
+  {path : 'gerente', component : GerenteComponent} // criando a rota com parametro
 
 
 
@@ -45,7 +47,8 @@ export const routes: ModuleWithProviders = RouterModule.forRoot(appRouters);
     PerfilComponent,
     ManagerComponent,
     FeedComponent,
-    PerfilAmigoComponent
+    PerfilAmigoComponent,
+    GerenteComponent
   ],
   imports: [
     BrowserModule,

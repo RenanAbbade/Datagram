@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,22 +27,30 @@ public class Postagem implements Serializable {
     private String conteudo;
     private String date;
     private Integer curtida = 0;
-    private String link;
+    private String url;
+    private Integer numComentarios;
+    private String tipoPostagem;
 
+    @Column(columnDefinition = "text")
+    private String arquivoPublicacao;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PalavrasChave")
+    private Set<String> palavrasChave = new HashSet<>();
 
     @ElementCollection
     private Set<Integer> idsCurtida = new HashSet<>();// Para fazer o controle de quem curtiu o post, não permitindo a
                                                       // mesma pessoa curtir um post mais de uma vez.
-    @ElementCollection
-    @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name = "postagem_id"))
-    private List<Comentario> comentarios = new ArrayList<>();
-    
-    private Integer numComentarios;
+    // @ElementCollection
+    // @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name
+    // = "postagem_id"))
+    // private List<Comentario> comentarios = new ArrayList<>();
 
-    public Postagem(){
+    public Postagem() {
     }
 
-    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, String date, Integer curtida) {
+    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, String date,
+            Integer curtida) {
         this.id = id;
         this.autor = autor;
         this.titulo = titulo;
@@ -70,7 +76,6 @@ public class Postagem implements Serializable {
         this.autor = usuario;
     }
 
-    
     public String getTexto() {
         return conteudo;
     }
@@ -91,7 +96,6 @@ public class Postagem implements Serializable {
         this.idsCurtida.add(idCurtida);
         this.curtida = idsCurtida.size();
     }
-
 
     public void setAllIdsCurtida(Set<Integer> idCurtidas) {
         this.idsCurtida = idCurtidas;
@@ -134,12 +138,12 @@ public class Postagem implements Serializable {
         return curtida;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setURL(String url) {
+        this.url = url;
     }
 
     @JsonIgnore
@@ -147,14 +151,14 @@ public class Postagem implements Serializable {
         return idsCurtida;
     }
 
-    public List<Comentario> getComentarios() {
-        return comentarios;
-    }
+    // public List<Comentario> getComentarios() {
+    // return comentarios;
+    // }
 
-    public void setComentarios(Comentario comentario) {
-        this.comentarios.add(comentario);
-        this.numComentarios++;
-    }
+    // public void setComentarios(Comentario comentario) {
+    // this.comentarios.add(comentario);
+    // this.numComentarios++;
+    // }
 
     public Integer getNumComentarios() {
         return numComentarios;
@@ -164,6 +168,21 @@ public class Postagem implements Serializable {
         this.numComentarios = numComentarios;
     }
 
+    public String getArquivoPublicacao() {
+        return arquivoPublicacao;
+    }
+
+    public void setArquivoPublicacao(String arquivoPublicacao) {
+        this.arquivoPublicacao = arquivoPublicacao;
+    }
+
+    public String getTipoPostagem() {
+        return tipoPostagem;
+    }
+
+    public void setTipoPostagem(String tipoPostagem) {
+        this.tipoPostagem = tipoPostagem;
+    }
 
     @Override
     public int hashCode() {
@@ -190,7 +209,12 @@ public class Postagem implements Serializable {
         return true;
     }
 
-    
+    public Set<String> getPalavrasChave() {
+        return palavrasChave;
+    }
 
-    
+    public void setPalavrasChave(Set<String> palavrasChave) {
+        this.palavrasChave = palavrasChave;
+    }
+
 }

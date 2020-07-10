@@ -81,7 +81,7 @@ public class UsuarioValidator {
 
   // validacoes Date
 
-  public boolean isGreatherThan18(String data) {//2020-05-16
+  public boolean isGreatherThan18(String data) {// 2020-05-16
 
     String novaData = formataDataPadraoBr(data);
 
@@ -100,7 +100,7 @@ public class UsuarioValidator {
   }
 
   public boolean isGreatherThan18(String dataNasc, String dataEmp) {
-    
+
     String novaDataNasc = formataDataPadraoBr(dataNasc);
 
     String novaDataEmp = formataDataPadraoBr(dataEmp);
@@ -128,13 +128,13 @@ public class UsuarioValidator {
       return false;
   }
 
-  public String formataDataPadraoBr(String data){
+  public String formataDataPadraoBr(String data) {
     String[] array = data.split("-");
 
     int ano = Integer.parseInt(array[0]);
     int mes = Integer.parseInt(array[1]);
     int dia = Integer.parseInt(array[2]);
 
-    return dia+"/"+mes+"/"+ano;
+    return dia + "/" + mes + "/" + ano;
   }
 }

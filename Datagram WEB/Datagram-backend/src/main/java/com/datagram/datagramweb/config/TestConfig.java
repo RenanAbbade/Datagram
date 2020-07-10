@@ -1,3 +1,5 @@
+/*
+
 package com.datagram.datagramweb.config;
 
 import com.datagram.datagramweb.Models.Comentario;
@@ -11,11 +13,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @Profile("test")
@@ -76,3 +76,4 @@ public class TestConfig implements CommandLineRunner {
         postagemRepository.saveAll(Arrays.asList(postagem1,postagem2));
     }
 }
+*/

@@ -1,6 +1,7 @@
 package com.datagram.datagramweb.Controllers;
 
 import com.datagram.datagramweb.Models.Postagem;
+import com.datagram.datagramweb.Services.NotificacaoService;
 import com.datagram.datagramweb.Services.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +27,19 @@ public class PostagemController {
     @Autowired
     PostagemService service;
 
+    @Autowired
+    NotificacaoService nService;
 
     @GetMapping
-    public ResponseEntity<List<Postagem>> findAll(){
+    public ResponseEntity<List<Postagem>> findAll() {
         List<Postagem> listPostagem = service.findAll();
         return ResponseEntity.ok().body(listPostagem);
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<List<Postagem>> findAllbyId(@PathVariable Integer id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<Postagem>> findAllbyId(@PathVariable Integer id) {
         List<Postagem> listPostagem = service.findAllbyAutorId(id);
-        Collections.reverse(listPostagem);//Reverto a ordem de apresentacao para mostrar da postagem mais recente
+        Collections.reverse(listPostagem);// Reverto a ordem de apresentacao para mostrar da postagem mais recente
         return ResponseEntity.ok().body(listPostagem);
     }
 
@@ -44,8 +47,10 @@ public class PostagemController {
     @CrossOrigin
     @RequestMapping(value = "/insert")
     public ResponseEntity<String> insert(@RequestBody Postagem obj) {
-        
+
         obj = service.insert(obj);
+
+        nService.createNotify(obj);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
@@ -54,15 +59,15 @@ public class PostagemController {
         return ResponseEntity.ok("CREATED");
     }
 
-    //UPDATE
-    @RequestMapping(value="/", method=RequestMethod.PUT)
+    // UPDATE
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody Postagem obj) {
         obj = service.update(obj);
         return ResponseEntity.noContent().build();
     }
 
-    //DELETE
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    // DELETE
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Postagem> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();

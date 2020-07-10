@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.*;
-
 
 @Entity
 public class Usuario implements Serializable {
@@ -46,7 +44,7 @@ public class Usuario implements Serializable {
 
   private String tipoUsuario;
 
-  private int seguidores;
+  private Integer seguidores;
 
   private int seguindo;
 
@@ -55,8 +53,8 @@ public class Usuario implements Serializable {
   @Column(columnDefinition = "text")
   private String fotoPerfil;
 
-  @ElementCollection(fetch = FetchType.EAGER) 
-  @CollectionTable(name="INTERESSES")//Telefone se torna em uma tabela auxiliar de identididade fraca
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "INTERESSES") // Telefone se torna em uma tabela auxiliar de identididade fraca
   private Set<String> interesses = new HashSet<>();
 
   @JsonIgnore
@@ -64,21 +62,24 @@ public class Usuario implements Serializable {
   private List<Postagem> postagem = new ArrayList<>();
 
   @JsonIgnore
-  @ElementCollection(fetch = FetchType.EAGER) 
-  @CollectionTable(name="Ids_seguidores")
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "Ids_seguidores")
   private Set<Integer> idsSeguidores = new HashSet<>();
 
   @JsonIgnore
-  @ElementCollection(fetch = FetchType.EAGER) 
-  @CollectionTable(name="Id_seguindo")
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "Id_seguindo")
   private Set<Integer> idsSeguindo = new HashSet<>();
+
+  @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+  private List<Notificacao> notificacoes = new ArrayList<>();
 
   public Usuario() {
   }
-  
-  //Pesquisador constructor
-  public Usuario(Integer id, String nome, String senha, String email, String dataNasc, String escolaridade, String estado,
-      String municipio, String instituicao, String linkCv, String dataInicio, String tipoUsuario) {
+
+  // Pesquisador constructor
+  public Usuario(Integer id, String nome, String senha, String email, String dataNasc, String escolaridade,
+      String estado, String municipio, String instituicao, String linkCv, String dataInicio, String tipoUsuario) {
     this.id = id;
     this.nome = nome;
     this.senha = senha;
@@ -92,10 +93,11 @@ public class Usuario implements Serializable {
     this.dataInicio = dataInicio;
     this.tipoUsuario = tipoUsuario;
     this.cpf = null;
-}
+  }
 
-  //membro constructor
-  public Usuario(Integer id, String nome, String senha, String email, String cpf, String escolaridade, String tipoUsuario) {
+  // membro constructor
+  public Usuario(Integer id, String nome, String senha, String email, String cpf, String escolaridade,
+      String tipoUsuario) {
     this.id = id;
     this.nome = nome;
     this.senha = senha;
@@ -110,10 +112,7 @@ public class Usuario implements Serializable {
     this.dataInicio = null;
   }
 
-  
-
-
-public static long getSerialversionuid() {
+  public static long getSerialversionuid() {
     return serialVersionUID;
   }
 
@@ -222,18 +221,20 @@ public static long getSerialversionuid() {
   }
 
   public List<Postagem> getPostagem() {
+    this.posts = postagem.size();
     return postagem;
   }
 
-  public void setPostagem(Postagem post) {
-    this.postagem.add(post);
+  public void setPostagem(List<Postagem> post) {
+    this.postagem = post;
+    this.posts = postagem.size();
   }
 
-  public int getSeguidores() {
+  public Integer getSeguidores() {
     return seguidores;
   }
 
-  public void setSeguidores(int seguidores) {
+  public void setSeguidores(Integer seguidores) {
     this.seguidores = seguidores;
   }
 
@@ -245,8 +246,8 @@ public static long getSerialversionuid() {
     this.seguindo = seguindo;
   }
 
-  public void setPosts(){
-    this.posts = postagem.size();
+  public void setPosts(int i) {
+    this.posts = this.posts + i;
   }
 
   public int getPosts() {
@@ -278,7 +279,7 @@ public static long getSerialversionuid() {
     this.seguidores = idsSeguidores.size();
   }
 
-  public void setIdsAllSeguidores(Set<Integer> idsSeguidores) {//recebe um set inteiro na atualizacao
+  public void setIdsAllSeguidores(Set<Integer> idsSeguidores) {// recebe um set inteiro na atualizacao
     this.idsSeguidores = idsSeguidores;
   }
 
@@ -291,11 +292,17 @@ public static long getSerialversionuid() {
     this.seguindo = idsSeguindo.size();
   }
 
-  public void setIdsAllSeguindo(Set<Integer> idsSeguindo) {//recebe um set inteiro na atualizacao
+  public void setIdsAllSeguindo(Set<Integer> idsSeguindo) {// recebe um set inteiro na atualizacao
     this.idsSeguindo = idsSeguindo;
   }
 
-  
+  public List<Notificacao> getNotificacoes() {
+    return notificacoes;
+  }
+
+  public void setNotificacoes(List<Notificacao> notificacoes) {
+    this.notificacoes = notificacoes;
+  }
 
   @Override
   public int hashCode() {
@@ -304,8 +311,6 @@ public static long getSerialversionuid() {
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     return result;
   }
-
-
 
   @Override
   public boolean equals(Object obj) {
@@ -323,12 +328,5 @@ public static long getSerialversionuid() {
       return false;
     return true;
   }
-
-
-
-
-
-
-
 
 }

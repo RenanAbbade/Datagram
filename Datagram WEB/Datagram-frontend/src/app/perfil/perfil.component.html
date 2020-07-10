@@ -6,10 +6,7 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
 />
 
-
-
 <app-home></app-home>
-
 
 <style>
   html,
@@ -36,8 +33,8 @@
         <div class="w3-white w3-text-grey w3-card-4">
           <div class="w3-display-container">
 
-            <img *ngIf="usuario.fotoPerfil === null" src="../../assets/img/usuario.png" class="img-thumbnail center" id="fotoPerfil" style="width:100%; height: 50%; padding-bottom: 5%;" alt="Avatar">
-            <img *ngIf="usuario.fotoPerfil != null" [src]="usuario.fotoPerfil" class="img-thumbnail center" id="fotoPerfil" style="width:100%; height: 50%; padding-bottom: 0%;" alt="Avatar">
+            <img *ngIf="usuario.fotoPerfil === null" src="../../assets/img/usuario.png" class="rounded-circle center" id="fotoPerfil" style="width:100%; height: 50%; padding-bottom: 5%;" alt="Avatar">
+            <img *ngIf="usuario.fotoPerfil != null" [src]="usuario.fotoPerfil" class="rounded-circle center" id="fotoPerfil" style="width:100%; height: 50%; padding-bottom: 0%;" alt="Avatar">
            <!-- <span class="btn-file file-upload btn btn-primary">-->
               <!-- Escolha uma foto de perfil-->
            <!--  </span>-->
@@ -47,9 +44,6 @@
             <input type="file"  class="custom-file-input" id="file" accept="image/*" (change)="visualizarImg($event)" ></i>
           </span>
           </div>
-
-
-
             <div
               class="w3-display-bottomleft w3-container w3-text-black"
               style="padding-top: 10%;">
@@ -101,12 +95,14 @@
               ></i
               >{{ usuario.email }}
             </p>
+            <a href="{{usuario.linkCv}}">
             <p *ngIf="usuario.linkCv != null">
               <i
                 class="fa fa-quote-right fa-fw w3-margin-right w3-large w3-text-teal"
               ></i
-              >{{ usuario.linkCv }}
+              >{{usuario.linkCv }}
             </p>
+          </a>
             <p *ngIf="usuario.linkCv != null">
               <i
                 class="fa fa-book fa-fw w3-margin-right w3-large w3-text-teal"
@@ -169,7 +165,6 @@
                   </select>
 
                   <button type="button" style="float: right; margin-bottom: 10px;" class="btn btn-info" (click) = "escolheInteresse()">Adicionar interesse</button>
-
           </div>
         </form>
 
@@ -209,8 +204,7 @@
             <i
               class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"
               style="float: left;"
-            ></i
-            >{{ post.titulo }}
+            ></i>{{ post.titulo }}
           </h2>
 
           <div class="w3-container">
@@ -222,7 +216,17 @@
               >{{ post.date }}
             </h6>
             <p>{{ post.conteudo }}</p>
-            <hr />
+
+          <div *ngIf="post.tipoPostagem === 'cientifica'">
+
+              <p *ngIf="post.url != null || post.url != undefined">Disponível em: <a href="{{ post.url }}">{{ post.url }}</a></p>
+              <img *ngIf="post.arquivoPublicacao != null || post.arquivoPublicacao != undefined" src="../../assets/img/pdfArq.svg" height="35px" width="35px" (click)="mandaPdf(post.arquivoPublicacao)"><a (click)="mandaPdf(post.arquivoPublicacao)"><i  *ngIf="post.arquivoPublicacao != null || post.arquivoPublicacao != undefined">{{ post.titulo }}.pdf</i></a>
+              <div *ngIf="post.palavrasChave != null || post.palavrasChave != undefined">
+                <p><i *ngFor="let tags of post.palavrasChave" style="color:black; font-size:12; font-family:Arial;">#{{tags}}  </i></p>
+              </div>
+          </div>
+
+            <hr/>
           </div>
           <i
             class="fa fa-heart-o like"
@@ -655,8 +659,6 @@
 
         </form>
 
-
-
 <!-- EDIÇÃO DE POST -->
 <form class="modal fade" id="edit">
   <div class="modal-dialog modal-lg">
@@ -677,6 +679,7 @@
       <!-- corpo  #email = "ngModel" [(ngModel)] = "usuario.email" id="email" name="email" -->
       <div class="modal-body">
         <div class="form-group">
+          <label>Titulo</label>
           <input
             type="titulo"
             class="form-control"
@@ -689,6 +692,7 @@
         </div>
 
         <div class="form-group">
+          <label>Subtitulo</label>
           <input
             type="subtitulo"
             class="form-control"
@@ -701,6 +705,7 @@
         </div>
 
         <div class="form-group">
+          <label>Conteúdo</label>
           <textarea
             class="form-control"
             #conteudo="ngModel"
@@ -711,6 +716,53 @@
             value="{{ postagem.conteudo }}"
           ></textarea>
         </div>
+
+
+        <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="form-group">
+          <label>URL</label>
+          <input
+            class="form-control"
+            #url="ngModel"
+            [(ngModel)]="postagem.url"
+            name="url"
+            id="url"
+            value="{{postagem.url}}"
+          >
+        </div>
+
+        <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="form-group">
+          <label>Arquivo Publicação (PDF)</label>
+          <input
+            type="file"
+            class="form-control"
+            #arquivoPublicacao="ngModel"
+            [(ngModel)]="postagem.arquivoPublicacao"
+            name="arquivoPublicacao"
+            id="arquivoPublicacao"
+          >
+        </div>
+
+        <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="form-group">
+          <p>Adicione palavras-chave a sua publicação!</p>
+          <select style="width: 100%; margin-right: 10px; margin-bottom: 10px; "
+            id="interesses"
+            class="form-control"
+            #usuarioInteresses="ngModel"
+            [(ngModel)]="palavraChaveEscolhida"
+            name="interesses"
+            required >
+            <option *ngFor="let i of interessesPossiveis" >{{i}}</option>
+          </select>
+          <button type="button" style="float: left; margin-bottom: 10px;" class="btn btn-success" (click) = "escolhePalavraChave()">Add</button>
+          <button type="button" style="float: left; margin-bottom: 10px; margin-left: 10px;" class="btn btn-danger" (click) = "deletaPalavrasChave()">Del</button>
+
+      </div>
+      <div *ngIf="postagem.tipoPostagem === 'cientifica'" class="input-group" style="margin-bottom: 10px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">#</span>
+        </div>
+        <textarea  class="form-control" rows="1" aria-label="With textarea" ng-list="/\n/"  disabled > {{postagem.palavrasChave}}</textarea>
+      </div>
       </div>
 
       <div class="modal-footer">
@@ -753,8 +805,8 @@
       <div class="modal-body">
           <div *ngFor="let usuario of seguidoresUsuario">
             <div class="w3-container w3-card w3-white w3-margin-bottom">
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="img-circle " style="width:50px" > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="rounded-circle" style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="rounded-circle" style="width:50px" > <strong>{{usuario.nome}}</strong></a>
             </div>
           </div>
       </div>
@@ -779,32 +831,8 @@
       <div class="modal-body">
           <div *ngFor="let usuario of usuarioSeguindo">
             <div class="w3-container w3-card w3-white w3-margin-bottom">
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="img-circle " style="width:50px" > <strong>{{usuario.nome}}</strong></a>
-            </div>
-          </div>
-      </div>
-      <!-- rodape -->
-    </div>
-  </div>
-</form>
-
-<form class="modal fade" id="mostraUsuariosComInteressesMutuo">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <!-- cabecalho -->
-      <div class="modal-header">
-        <h4 class="modal-title " style="float:left; ">Pessoas que você deveria conhecer</h4>
-        <button type="button" class="close" style="float: right; " data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-          <div *ngFor="let usuario of listaUsuarioInteresseMutuo">
-            <div class="w3-container w3-card w3-white w3-margin-bottom">
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="img-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
-              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="img-circle " style="width:50px" > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil === null" class="navbar-brand" [routerLink]="['perfil-amigo', usuario.id ]"  style="float: left;"><img src="./assets/img/usuario.png" class="rounded-circle " style="width:50px"  > <strong>{{usuario.nome}}</strong></a>
+              <a data-dismiss="modal" *ngIf="usuario.fotoPerfil != null" class="navbar-brand"  [routerLink]="['perfil-amigo', usuario.id ]" style="float: left;"><img [src]="usuario.fotoPerfil" class="rounded-circle" style="width:50px" > <strong>{{usuario.nome}}</strong></a>
             </div>
           </div>
       </div>
