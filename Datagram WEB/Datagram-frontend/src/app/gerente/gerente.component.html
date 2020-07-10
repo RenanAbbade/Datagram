@@ -149,9 +149,9 @@
                   <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
                   >
-                    <h6 class="m-0 font-weight-bold text-primary">
+                    <h4 class="m-0 font-weight-bold text-primary">
                       Os 10 mais conectados!
-                    </h6>
+                    </h4>
                     <div class="dropdown no-arrow">
                       <a
                         class="dropdown-toggle"
@@ -174,7 +174,8 @@
                     <div class="chart-area" style="height: 100%;">
                       <div class="card-body" >
                         <div  *ngFor="let user of usuariosMaisConectados">
-                          <img [src]="user.fotoPerfil" class="rounded-circle" style="width:80px" ><h5><span style="color: blueviolet;"><b>{{user.nome}}</b></span>, <span style="color: blue;">{{user.tipoUsuario}}</span> com <b>{{user.seguidores}}</b> <span *ngIf="user.seguidores === 1"> seguidor </span><span *ngIf="user.seguidores > 1"> seguidores </span></h5>
+                          <img *ngIf="user.fotoPerfil === null" src="../../assets/img/usuario.png" class="rounded-circle center" id="fotoPerfil" style="width:80px" alt="Avatar">
+                          <img *ngIf="user.fotoPerfil != null" [src]="user.fotoPerfil" class="rounded-circle" style="width:80px" ><h5><span style="color: blueviolet;"><b>{{user.nome}}</b></span>, <span style="color: blue;">{{user.tipoUsuario}}</span> com <b>{{user.seguidores}}</b> <span *ngIf="user.seguidores === 1"> seguidor </span><span *ngIf="user.seguidores > 1"> seguidores </span></h5>
                         </div>
                         <div class="chartjs-size-monitor-shrink">
                           <div class=""></div>
