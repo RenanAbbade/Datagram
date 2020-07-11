@@ -127,7 +127,7 @@
 
             <p>
               Seguidores:<b class="colorS"><a (click)="mostraSeguidores()"  data-toggle="modal"
-                data-target="#mostraSeguidores">{{ usuario.seguidores }}</a></b>
+                data-target="#mostraSeguidores"><span *ngIf="usuario.seguidores === null">0</span><span *ngIf="usuario.seguidores != null">{{ usuario.seguidores }}</span></a></b>
             </p>
             <p>
               Seguindo:<b class="colorS"><a (click)="mostraSeguindo()"  data-toggle="modal"
@@ -137,10 +137,7 @@
               Posts:<b class="colorS">{{ usuario.posts }} </b>
             </p>
             <br />
-            <p>
-              <button id="openModal2" #openModal2 [hidden]="false"  class="btn btn-info" (click)="mostraPostsMaisCurtidos()"
-              data-toggle="modal" data-target="#mostraPostsMaisCurtidos">Postagens/Publicacoes mais populares</button>
-            </p>
+
             <br />
 
             <p class="w3-large">
@@ -175,6 +172,11 @@
           <textarea  class="form-control" rows="5" aria-label="With textarea" ng-list="/\n/"  disabled > {{usuario.interesses}}</textarea>
         </div>
 
+        <p>
+          <button id="openModal2" #openModal2 [hidden]="false"  class="btn btn-light center" (click)="mostraPostsMaisCurtidos()"
+          data-toggle="modal" data-target="#mostraPostsMaisCurtidos" style="color: rgb(41, 168, 168);"><i>Minhas publicações + populares</i></button>
+        </p>
+
           </div>
         </div>
         <br />
@@ -204,7 +206,7 @@
             <i
               class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"
               style="float: left;"
-            ></i>{{ post.titulo }}
+            ></i> {{post.titulo}}
           </h2>
 
           <div class="w3-container">
@@ -873,7 +875,7 @@ data-toggle="modal" data-target="#mostraUsuariosComInteressesMutuo"></button>
     <div class="modal-content">
       <!-- cabecalho -->
       <div class="modal-header">
-        <h4 class="modal-title " style="float:left; ">Aqui você encontra a suas postagens e publicacoes mais populares</h4>
+        <h4 class="modal-title " style="float:left; ">Aqui você encontra suas postagens e publicações mais populares!</h4>
         <button type="button" class="close" style="float: right; " data-dismiss="modal">
           <span>&times;</span>
         </button>

@@ -113,7 +113,7 @@
             </p>
 
             <p>
-              Seguidores:<b class="colorS">{{ usuario.seguidores }}</b>
+              Seguidores:<b class="colorS"><span *ngIf="usuario.seguidores === null">0</span><span *ngIf="usuario.seguidores != null">{{ usuario.seguidores }}</span></b>
             </p>
             <p>
               Seguindo:<b class="colorS">{{ usuario.seguindo }}</b>

@@ -231,7 +231,7 @@ public class Usuario implements Serializable {
   }
 
   public Integer getSeguidores() {
-    return seguidores;
+    return seguidores != null ? seguidores : 0;
   }
 
   public void setSeguidores(Integer seguidores) {

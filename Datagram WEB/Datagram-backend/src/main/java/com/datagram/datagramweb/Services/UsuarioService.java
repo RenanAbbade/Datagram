@@ -186,9 +186,12 @@ public class UsuarioService {
     myList.sort(new Comparator<Usuario>() {
       @Override
       public int compare(Usuario usuario1, Usuario usuario2) {
+        if (usuario1.getSeguidores() == null || usuario2.getSeguidores() == null)
+              return 0;
         return usuario1.getSeguidores().compareTo(usuario2.getSeguidores());
       }
     });
+    Collections.reverse(myList);
     return myList;
   }
 
