@@ -1,6 +1,6 @@
 <h1>Datagram</h1>
 
-<li>Rede social para pesquisadores de ciencia de dados, contendo as seguintes funcionalidades:</li><br>
+Rede social para pesquisadores de ciencia de dados, contendo as seguintes funcionalidades:<br>
 <ul>
 <li>Criação de perfil, podendo ser de pesquisador ou membro comum;</li>
 <li>Edição de perfil;</li>
@@ -19,7 +19,7 @@
 <li>Módulo de informações analiticas, para gerenciamento da aplicação;</li>
 </ul>
 
-Criada em parceria com @RafaelSanzio0
+Criada em parceria com <a href="https://github.com/RafaelSanzio0">@RafaelSanzio0</a>
 
 
 
