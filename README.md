@@ -30,7 +30,7 @@ Rede social para pesquisadores de ciencia de dados, contendo as seguintes funcio
 <li>CSS3;</li>
 <li>ECMAScript;</li>
 <li>Bootstrap;</li>
-<li>Materialize CSS;</li>
+<li>Materialize CSS;</li><br>
 
 Criada em parceria com <a href="https://github.com/RafaelSanzio0">@RafaelSanzio0</a>
 
