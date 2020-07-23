@@ -19,6 +19,19 @@ Rede social para pesquisadores de ciencia de dados, contendo as seguintes funcio
 <li>Módulo de informações analiticas, para gerenciamento da aplicação;</li>
 </ul>
 
+<h2>Tecnologias Backend</h2>
+<li>JAVA 11;</li>
+<li>Ecossistema Spring;</li>
+<li>API RESTful;</li>
+
+<h2>Tecnologias Frontend</h2>
+<li>Angular 9;</li>
+<li>HTML5;</li>
+<li>CSS3;</li>
+<li>ECMAScript;</li>
+<li>Bootstrap;</li>
+<li>Materialize CSS;</li>
+
 Criada em parceria com <a href="https://github.com/RafaelSanzio0">@RafaelSanzio0</a>
 
 
