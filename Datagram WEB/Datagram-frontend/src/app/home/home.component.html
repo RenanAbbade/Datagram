@@ -104,7 +104,7 @@
     </div><!--  private Set<String> palavrasChave;-->
 
       <div style="display: none;" id="arquivoPesquisador">
-          <input #arquivoPublicacao #arquivoPublicacao = "ngModel" [(ngModel)] = "postagem.arquivoPublicacao" type="file" name="arquivoPublicacao"  accept="pdf/*" accept=
+          <input #arquivoPublicacao = "ngModel" [(ngModel)] = "postagem.arquivoPublicacao" type="file" name="arquivoPublicacao"  accept="pdf/*" accept=
           "application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
           text/plain, application/pdf, image/*" (change)="uploadArquivo($event)" multiple>
           <p> O formato do arquivo necessita ser .pdf</p>

@@ -1,8 +1,8 @@
-package com.datagram.datagramweb.Services;
+package com.datagram.datagramweb.Service;
 
-import com.datagram.datagramweb.Models.Postagem;
-import com.datagram.datagramweb.Repositories.PostagemRepository;
-import com.datagram.datagramweb.Repositories.UsuarioRepository;
+import com.datagram.datagramweb.Domain.Postagem;
+import com.datagram.datagramweb.Repository.PostagemRepository;
+import com.datagram.datagramweb.Repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

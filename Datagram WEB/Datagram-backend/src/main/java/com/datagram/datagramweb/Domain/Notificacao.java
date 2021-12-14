@@ -1,5 +1,5 @@
 
-package com.datagram.datagramweb.Models;
+package com.datagram.datagramweb.Domain;
 
 import java.io.Serializable;
 

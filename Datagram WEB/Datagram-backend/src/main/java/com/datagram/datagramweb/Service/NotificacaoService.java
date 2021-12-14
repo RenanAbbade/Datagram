@@ -1,13 +1,13 @@
-package com.datagram.datagramweb.Services;
+package com.datagram.datagramweb.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.datagram.datagramweb.Models.Notificacao;
-import com.datagram.datagramweb.Models.Postagem;
-import com.datagram.datagramweb.Models.Usuario;
-import com.datagram.datagramweb.Repositories.NotificacaoRepository;
-import com.datagram.datagramweb.Repositories.UsuarioRepository;
+import com.datagram.datagramweb.Domain.Notificacao;
+import com.datagram.datagramweb.Domain.Postagem;
+import com.datagram.datagramweb.Domain.Usuario;
+import com.datagram.datagramweb.Repository.NotificacaoRepository;
+import com.datagram.datagramweb.Repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

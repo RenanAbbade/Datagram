@@ -1,4 +1,4 @@
-package com.datagram.datagramweb.Models;
+package com.datagram.datagramweb.Domain;
 
 import javax.persistence.*;
 

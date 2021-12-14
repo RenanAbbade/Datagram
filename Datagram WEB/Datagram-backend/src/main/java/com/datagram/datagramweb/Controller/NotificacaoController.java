@@ -1,8 +1,8 @@
-package com.datagram.datagramweb.Controllers;
+package com.datagram.datagramweb.Controller;
 
-import com.datagram.datagramweb.Models.Postagem;
-import com.datagram.datagramweb.Services.NotificacaoService;
-import com.datagram.datagramweb.Services.UsuarioService;
+import com.datagram.datagramweb.Domain.Postagem;
+import com.datagram.datagramweb.Service.NotificacaoService;
+import com.datagram.datagramweb.Service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

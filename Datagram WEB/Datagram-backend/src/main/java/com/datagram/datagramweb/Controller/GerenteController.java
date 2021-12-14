@@ -1,7 +1,7 @@
-package com.datagram.datagramweb.Controllers;
+package com.datagram.datagramweb.Controller;
 import java.util.List;
-import com.datagram.datagramweb.Models.Usuario;
-import com.datagram.datagramweb.Services.UsuarioService;
+import com.datagram.datagramweb.Domain.Usuario;
+import com.datagram.datagramweb.Service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

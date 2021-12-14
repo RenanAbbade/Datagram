@@ -1,8 +1,8 @@
-package com.datagram.datagramweb.Controllers;
+package com.datagram.datagramweb.Controller;
 
 import java.util.List;
 
-import com.datagram.datagramweb.Services.MunicipioRestService;
+import com.datagram.datagramweb.Service.MunicipioRestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

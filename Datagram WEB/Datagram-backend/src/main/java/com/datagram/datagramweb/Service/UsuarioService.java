@@ -1,11 +1,9 @@
-package com.datagram.datagramweb.Services;
+package com.datagram.datagramweb.Service;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.datagram.datagramweb.Models.Postagem;
-import com.datagram.datagramweb.Models.Usuario;
-import com.datagram.datagramweb.Repositories.UsuarioRepository;
+import com.datagram.datagramweb.Domain.Usuario;
+import com.datagram.datagramweb.Repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

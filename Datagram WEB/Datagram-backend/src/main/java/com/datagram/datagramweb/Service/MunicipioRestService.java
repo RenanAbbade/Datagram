@@ -1,4 +1,4 @@
-package com.datagram.datagramweb.Services;
+package com.datagram.datagramweb.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;

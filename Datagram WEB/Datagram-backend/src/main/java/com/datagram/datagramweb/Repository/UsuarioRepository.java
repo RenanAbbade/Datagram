@@ -1,6 +1,6 @@
-package com.datagram.datagramweb.Repositories;
+package com.datagram.datagramweb.Repository;
 
-import com.datagram.datagramweb.Models.Usuario;
+import com.datagram.datagramweb.Domain.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

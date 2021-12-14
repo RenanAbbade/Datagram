@@ -1,13 +1,13 @@
-package com.datagram.datagramweb.Controllers;
+package com.datagram.datagramweb.Controller;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.datagram.datagramweb.Models.Postagem;
-import com.datagram.datagramweb.Models.Usuario;
-import com.datagram.datagramweb.Services.UsuarioService;
-import com.datagram.datagramweb.Services.validation.UsuarioValidator;
+import com.datagram.datagramweb.Domain.Postagem;
+import com.datagram.datagramweb.Domain.Usuario;
+import com.datagram.datagramweb.Service.UsuarioService;
+import com.datagram.datagramweb.Service.validation.UsuarioValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
