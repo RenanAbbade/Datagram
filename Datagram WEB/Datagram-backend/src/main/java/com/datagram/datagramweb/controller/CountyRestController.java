@@ -1,8 +1,8 @@
-package com.datagram.datagramweb.Controller;
+package com.datagram.datagramweb.controller;
 
 import java.util.List;
 
-import com.datagram.datagramweb.Service.MunicipioRestService;
+import com.datagram.datagramweb.service.MunicipioRestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/municipios")
-public class MunicipioRestController {
+public class CountyRestController {
 
   @Autowired
   MunicipioRestService service;
 
   @ResponseBody
   @PostMapping
-  public ResponseEntity<List<String>> municipios(@RequestBody String Uf) {
+  public ResponseEntity<List<String>> listCounty(@RequestBody String Uf) {
     return ResponseEntity.ok(service.listarMunicipios(Uf));
 
   }

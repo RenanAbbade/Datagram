@@ -1,4 +1,4 @@
-package com.datagram.datagramweb.Domain;
+package com.datagram.datagramweb.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,7 +11,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-public class Usuario implements Serializable {
+public class Member implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -74,12 +74,12 @@ public class Usuario implements Serializable {
   @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
   private List<Notificacao> notificacoes = new ArrayList<>();
 
-  public Usuario() {
+  public Member() {
   }
 
   // Pesquisador constructor
-  public Usuario(Integer id, String nome, String senha, String email, String dataNasc, String escolaridade,
-      String estado, String municipio, String instituicao, String linkCv, String dataInicio, String tipoUsuario) {
+  public Member(Integer id, String nome, String senha, String email, String dataNasc, String escolaridade,
+                String estado, String municipio, String instituicao, String linkCv, String dataInicio, String tipoUsuario) {
     this.id = id;
     this.nome = nome;
     this.senha = senha;
@@ -96,8 +96,8 @@ public class Usuario implements Serializable {
   }
 
   // membro constructor
-  public Usuario(Integer id, String nome, String senha, String email, String cpf, String escolaridade,
-      String tipoUsuario) {
+  public Member(Integer id, String nome, String senha, String email, String cpf, String escolaridade,
+                String tipoUsuario) {
     this.id = id;
     this.nome = nome;
     this.senha = senha;
@@ -320,7 +320,7 @@ public class Usuario implements Serializable {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    Usuario other = (Usuario) obj;
+    Member other = (Member) obj;
     if (id == null) {
       if (other.id != null)
         return false;

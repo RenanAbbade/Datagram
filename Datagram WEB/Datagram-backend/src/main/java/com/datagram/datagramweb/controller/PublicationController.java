@@ -1,8 +1,8 @@
-package com.datagram.datagramweb.Controller;
+package com.datagram.datagramweb.controller;
 
-import com.datagram.datagramweb.Domain.Postagem;
-import com.datagram.datagramweb.Service.NotificacaoService;
-import com.datagram.datagramweb.Service.PostagemService;
+import com.datagram.datagramweb.domain.Postagem;
+import com.datagram.datagramweb.service.NotificacaoService;
+import com.datagram.datagramweb.service.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,7 +22,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/post")
-public class PostagemController {
+public class PublicationController {
 
     @Autowired
     PostagemService service;

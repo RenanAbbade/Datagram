@@ -1,6 +1,6 @@
-package com.datagram.datagramweb.Repository;
+package com.datagram.datagramweb.repository;
 
-import com.datagram.datagramweb.Domain.Usuario;
+import com.datagram.datagramweb.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,14 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface MemberRepository extends JpaRepository<Member, Integer> {
   @Transactional(readOnly = true)
-  Usuario findByEmail(String email);
+  Member findByEmail(String email);
 
   @Query("FROM Usuario WHERE NOME LIKE ?1%")
-  List<Usuario> findByNome(String nome);
+  List<Member> findByNome(String nome);
 
   @Query("FROM Usuario WHERE INSTITUICAO LIKE ?1%")
-  List<Usuario> findByInstituicao(String instituicao);
+  List<Member> findByInstituicao(String instituicao);
   
 }
