@@ -7,10 +7,7 @@ import com.datagram.datagramweb.domain.Notificacao;
 import com.datagram.datagramweb.domain.Postagem;
 import com.datagram.datagramweb.domain.Member;
 import com.datagram.datagramweb.repository.MemberRepository;
-import com.datagram.datagramweb.repository.MemberoRepository;
 import com.datagram.datagramweb.repository.NotificacaoRepository;
-import com.datagram.datagramweb.repository.UsuarioRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

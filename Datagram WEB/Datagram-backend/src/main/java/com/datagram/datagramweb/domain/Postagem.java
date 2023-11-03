@@ -21,7 +21,7 @@ public class Postagem implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "Autor_id")
-    private Member autor;
+    private com.datagram.datagramweb.domain.Member autor;
     private String titulo;
     private String subtitulo;
     private String conteudo;

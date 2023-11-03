@@ -1,39 +1,21 @@
 package com.datagram.datagramweb.dto;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+@Getter
+@Setter
+@Builder
 public class MemberDTO {
 
     @Email
     private String email;
 
     @NotBlank
-    private String nome;
-
-    @NotBlank
     private String senha;
-
-    @NotBlank
-    private String dataNasc;
-
-    @NotBlank
-    private String cpf;
-
-    @NotBlank
-    private String escolaridade;
-
-    @NotBlank
-    private String estado;
-
-    @NotBlank
-    private String municipio;
-
-    @NotBlank
-    private String instituicao;
-
-    private String linkCv;
-
-    private String tipoUsuario;
 
 }

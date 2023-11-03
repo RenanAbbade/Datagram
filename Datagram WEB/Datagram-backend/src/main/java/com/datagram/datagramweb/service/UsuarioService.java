@@ -6,9 +6,6 @@ import com.datagram.datagramweb.domain.Member;
 import com.datagram.datagramweb.dto.MemberDTO;
 import com.datagram.datagramweb.mapper.MemberMapper;
 import com.datagram.datagramweb.repository.MemberRepository;
-import com.datagram.datagramweb.repository.MemberoRepository;
-import com.datagram.datagramweb.repository.UsuarioRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

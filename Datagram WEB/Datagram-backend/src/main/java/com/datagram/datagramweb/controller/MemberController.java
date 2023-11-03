@@ -17,12 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/user")
-public class UserController {
+public class MemberController {
 
   @Autowired
   UsuarioService service;
@@ -45,6 +46,7 @@ public class UserController {
 
   @PostMapping
   @CrossOrigin
+  @Transactional
   @RequestMapping(value = "/insert")
   public ResponseEntity<MemberDTO> insert(@RequestBody @Valid MemberDTO memberDTOrequest) {
 
@@ -57,12 +59,8 @@ public class UserController {
 
   @PostMapping
   @RequestMapping(value = "/login")
+  @Transactional
   public ResponseEntity<String> login(@RequestBody Member obj) {
-
-    // manager login
-//    if (obj.getEmail().contentEquals("admin") && obj.getSenha().contentEquals("admin"))
-//      return ResponseEntity.ok("manager");
-
     Member member = service.login(obj.getEmail(), obj.getSenha());
     if (member == null)
       return ResponseEntity.ok("NoAuth");
@@ -71,13 +69,14 @@ public class UserController {
 
   // UPDATE usuario logado
   @PutMapping(value = "/")
-  public ResponseEntity<Void> update(@RequestBody Member obj) {
-    obj = service.update(obj);
-    return ResponseEntity.noContent().build();
+  @Transactional
+  public ResponseEntity<Member> update(@RequestBody Member updatedMember) {
+    return ResponseEntity.ok(service.update(updatedMember));
   }
 
   // DELETE
   @DeleteMapping(value = "{id}")
+  @Transactional
   public ResponseEntity<Member> delete(@PathVariable Integer id) {
     service.delete(id);
     return ResponseEntity.noContent().build();
@@ -91,13 +90,13 @@ public class UserController {
   }
 
   // consulte por user/nome/?nome_value=rafael
-  @GetMapping(value = "/nome")
+  @GetMapping(value = "/name")
   public ResponseEntity<List<Member>> findByNome(@RequestParam String nome_value) {
     List<Member> members = service.findByNome(nome_value);
     return ResponseEntity.ok().body(members);
   }
 
-  @GetMapping(value = "/instituicao")
+  @GetMapping(value = "/university")
   public ResponseEntity<List<Member>> findByInstituicao(@RequestParam String instituicao_value) {
     List<Member> member = service.findByInstituicao(instituicao_value);
     return ResponseEntity.ok().body(member);
