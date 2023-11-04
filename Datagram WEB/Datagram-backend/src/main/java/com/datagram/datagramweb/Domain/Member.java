@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -76,7 +76,7 @@ public class Member implements Serializable {
     @CollectionTable(name = "Id_seguindo")
     private Set<Integer> idsSeguindo = new HashSet<>();
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Notificacao> notificacoes = new ArrayList<>();
 
     public Member() {

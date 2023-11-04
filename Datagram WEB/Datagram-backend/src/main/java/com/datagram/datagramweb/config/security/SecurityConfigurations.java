@@ -10,14 +10,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 /*
  * A próxima alteração é configurar o Spring Security para ele não usar o processo de segurança tradicional, o stateful. Como estamos trabalhando com uma API Rest, o processo de autenticação precisa ser stateless.
  *
  * */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigurations {
+public class SecurityConfigurations  {
 
     /*
      * Estamos desabilitando o tratamento contra-ataque CSRF e, na sequência, desabilitando o processo de autenticação padrão do Spring. Isso porque estamos usando uma API Rest, e queremos que seja stateless.
@@ -46,6 +45,7 @@ public class SecurityConfigurations {
         return new BCryptPasswordEncoder();
     }
     //Como método de criptografia de senhas, utilizamos o método de hashing Bcrypt.
+
 }
 
 

@@ -1,16 +1,10 @@
 
 package com.datagram.datagramweb.domain;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 public class Notificacao implements Serializable {
@@ -23,7 +17,7 @@ public class Notificacao implements Serializable {
 
   @JsonIgnore
   @ManyToOne
-  @JoinColumn(name = "usuario_id")
+  @JoinColumn(name = "member_id")
   private Member member;
 
   private Integer postagem_id;

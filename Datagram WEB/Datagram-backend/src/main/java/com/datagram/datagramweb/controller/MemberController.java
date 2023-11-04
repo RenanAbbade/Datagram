@@ -1,24 +1,19 @@
 package com.datagram.datagramweb.controller;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.datagram.datagramweb.domain.Postagem;
 import com.datagram.datagramweb.domain.Member;
+import com.datagram.datagramweb.domain.Postagem;
 import com.datagram.datagramweb.dto.MemberDTO;
 import com.datagram.datagramweb.service.UsuarioService;
 import com.datagram.datagramweb.service.validation.UsuarioValidator;
-
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -46,9 +41,8 @@ public class MemberController {
 
   @PostMapping
   @CrossOrigin
-  @Transactional
   @RequestMapping(value = "/insert")
-  public ResponseEntity<MemberDTO> insert(@RequestBody @Valid MemberDTO memberDTOrequest) {
+  public ResponseEntity<MemberDTO> insert(@RequestBody  MemberDTO memberDTOrequest) {
 
     MemberDTO memberDTO = service.save(memberDTOrequest);
 

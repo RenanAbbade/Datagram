@@ -1,7 +1,5 @@
 package com.datagram.datagramweb.service;
 
-import java.util.*;
-
 import com.datagram.datagramweb.domain.Member;
 import com.datagram.datagramweb.dto.MemberDTO;
 import com.datagram.datagramweb.mapper.MemberMapper;
@@ -11,7 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 public class UsuarioService {
@@ -22,7 +20,6 @@ public class UsuarioService {
   private MemberRepository repository;
 
   // CREATE
-  @Transactional
   public MemberDTO save(MemberDTO memberDTO) {
     Member member = MemberMapper.INSTANCE.memberDTOToMember(memberDTO);
     member.setId(null);
