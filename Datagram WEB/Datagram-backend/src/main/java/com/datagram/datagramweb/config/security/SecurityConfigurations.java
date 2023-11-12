@@ -2,6 +2,7 @@ package com.datagram.datagramweb.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,11 +25,11 @@ public class SecurityConfigurations  {
      *
      * */
     @Bean
-    public SecurityFilterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .and().authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .anyRequest().authenticated()
                 .and().build();
     }
