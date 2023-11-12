@@ -24,12 +24,14 @@ public class SecurityConfigurations  {
      *
      * */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain (HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .anyRequest().authenticated()
                 .and().build();
     }
-
     @Bean
     //A anotação @Bean serve para exportar uma classe para o Spring, fazendo com que ele consiga carregá-la e realizar a sua injeção de dependência em outras classes.
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -48,5 +50,11 @@ public class SecurityConfigurations  {
 
 }
 
+/*
+Vamos acessar a classe "SecurityConfigurations.java" para trabalhar em algumas alterações. No método SecurityFilterChain, vamos dar um enter antes de .and().build(). Nessa linha em branco, passaremos .and().authorizeRequests().
 
+Com o método authorizeRequest, configuramos a autorização das requisições. Vamos dar um enter e, na nova linha em branco, passaremos antMatchers(HttpMethod.POST, "/login").permitAll(). Essa definição diz para o Spring que a única requisição que deve ser liberada é a de login.
+
+Abaixo, passaremos .anyRequest().authenticated(). Com essa duas linhas, definimos o controle de acesso na API.
+ */
 

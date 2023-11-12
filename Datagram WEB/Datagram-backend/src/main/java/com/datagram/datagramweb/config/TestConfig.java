@@ -24,8 +24,8 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         User user = new User();
-        user.setLogin("Renan@voll.med");
-        String passwordEncoded = passwordEncoder.encode("123456");
+        user.setLogin("renan@gmail.com");
+        String passwordEncoded = passwordEncoder.encode("renanLindo");
         user.setPassword(passwordEncoded);
         userRepository.save(user);
     }

@@ -48,7 +48,7 @@ public class Postagem implements Serializable {
     public Postagem() {
     }
 
-    public Postagem(Integer id, Member autor, String titulo, String subtitulo, String conteudo, String date,
+    public Postagem(Integer id, com.datagram.datagramweb.domain.Member autor, String titulo, String subtitulo, String conteudo, String date,
                     Integer curtida) {
         this.id = id;
         this.autor = autor;
@@ -71,7 +71,7 @@ public class Postagem implements Serializable {
         return autor;
     }
 
-    public void setUsuario(Member member) {
+    public void setUsuario(com.datagram.datagramweb.domain.Member member) {
         this.autor = member;
     }
 
