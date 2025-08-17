@@ -1,7 +1,7 @@
 package com.datagram.datagramweb.Domain;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Lob;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Lob;
 
 import java.io.Serializable;
 import java.util.Date;
