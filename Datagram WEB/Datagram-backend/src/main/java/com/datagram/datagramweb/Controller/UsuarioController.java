@@ -3,6 +3,7 @@ package com.datagram.datagramweb.Controller;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.datagram.datagramweb.Domain.Postagem;
 import com.datagram.datagramweb.Domain.Usuario;
@@ -36,7 +37,7 @@ public class UsuarioController {
 
     @GetMapping("/userLogado")
     public ResponseEntity<Usuario> findAuthUser() {
-        Usuario obj = UsuarioService.getUsuarioLogado();
+        Usuario obj = service.authenticated();
         return ResponseEntity.ok().body(obj);
     }
 
@@ -70,15 +71,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Usuario obj) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Usuario obj) {
 
-        if (obj.getEmail().contentEquals("admin") && obj.getSenha().contentEquals("admin"))
-            return ResponseEntity.ok("manager");// manager login
-
-        Usuario usuario = service.login(obj.getEmail(), obj.getSenha());
-        if (usuario == null)
-            return ResponseEntity.ok("NoAuth");
-        return ResponseEntity.ok("auth");
+        Map<String, String> response = service.login(obj.getEmail(), obj.getSenha());
+        return ResponseEntity.ok(response);
     }
 
     // UPDATE usuario logado
@@ -117,15 +113,17 @@ public class UsuarioController {
 
     @GetMapping("/seguindo/{id}")
     public ResponseEntity<Boolean> validFollower(@PathVariable Integer id) {
-        Boolean resposta = (UsuarioService.usuarioLogado.getIdsSeguindo().contains(id)) ? true : false;
+        Usuario authenticatedUser = service.authenticated();
+        Boolean resposta = authenticatedUser.getIdsSeguindo().contains(id);
         return ResponseEntity.ok(resposta);
 
     }
 
     @GetMapping("/seguidores")
     public ResponseEntity<List<Usuario>> findAllSeguidores() {
+        Usuario authenticatedUser = service.authenticated();
         List<Usuario> list = new ArrayList<>();
-        for (Integer id : UsuarioService.usuarioLogado.getIdsSeguidores()) {
+        for (Integer id : authenticatedUser.getIdsSeguidores()) {
             list.add(service.find(id));
         }
         return ResponseEntity.ok().body(list);
@@ -133,8 +131,9 @@ public class UsuarioController {
 
     @GetMapping("/seguindo")
     public ResponseEntity<List<Usuario>> findAllSeguindo() {
+        Usuario authenticatedUser = service.authenticated();
         List<Usuario> list = new ArrayList<>();
-        for (Integer id : UsuarioService.usuarioLogado.getIdsSeguindo()) {
+        for (Integer id : authenticatedUser.getIdsSeguindo()) {
             list.add(service.find(id));
         }
         return ResponseEntity.ok().body(list);

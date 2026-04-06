@@ -14,20 +14,22 @@ public class PostagemService {
 
     private final PostagemRepository repo;
     private final UsuarioRepository uRepo;
+    private final UsuarioService usuarioService;
 
-    public PostagemService(PostagemRepository repo, UsuarioRepository uRepo) {
+    public PostagemService(PostagemRepository repo, UsuarioRepository uRepo, UsuarioService usuarioService) {
         this.repo = repo;
         this.uRepo = uRepo;
+        this.usuarioService = usuarioService;
     }
 
     // CREATE
     public Postagem insert(Postagem obj) {
         obj.setId(null);
-        obj.setAutor(UsuarioService.usuarioLogado);
+        obj.setAutor(usuarioService.authenticated());
 
-        UsuarioService.usuarioLogado.setPosts(1);
+        usuarioService.authenticated().setPosts(1);
 
-        uRepo.save(UsuarioService.usuarioLogado);
+        uRepo.save(usuarioService.authenticated());
 
         return repo.save(obj);
     }
@@ -60,14 +62,14 @@ public class PostagemService {
         // Se o Id do usuário logado estiver entre o set de curtidas da postagem,
         // removo, caracterizando deslike.
         Boolean descurtida = postEstadoAntigo.getIdsCurtida()
-                .removeIf(x -> x.equals(UsuarioService.getUsuarioLogado().getId())) ? true : false;
+                .removeIf(x -> x.equals(usuarioService.authenticated().getId())) ? true : false;
 
         if (postEstadoAntigo.getCurtida() == null) {
-            obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
+            obj.setIdsCurtida(usuarioService.authenticated().getId());
         } else if (obj.getCurtida() > postEstadoAntigo.getCurtida()) {
             obj.setAllIdsCurtida(postEstadoAntigo.getIdsCurtida());// reinserindo as curtidas anteriores
             if (!descurtida)// Se descurtida for false, a ação é uma curtida
-                obj.setIdsCurtida(UsuarioService.getUsuarioLogado().getId());
+                obj.setIdsCurtida(usuarioService.authenticated().getId());
         }
 
         return repo.save(obj);
@@ -80,8 +82,8 @@ public class PostagemService {
         find(id);
         try {
             repo.deleteById(id);
-            UsuarioService.usuarioLogado.setPosts(-1);
-            uRepo.save(UsuarioService.usuarioLogado);
+            usuarioService.authenticated().setPosts(-1);
+            uRepo.save(usuarioService.authenticated());
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível excluir essa entidade!");
         }
@@ -89,7 +91,7 @@ public class PostagemService {
 
     // FEED
     public List<Postagem> findPostsSeguidores() {
-        Set<Integer> seguidores = UsuarioService.usuarioLogado.getIdsSeguindo();
+        Set<Integer> seguidores = usuarioService.authenticated().getIdsSeguindo();
         List<Postagem> listPostSeguidores = new ArrayList<Postagem>();
         for (Integer id : seguidores) {
             listPostSeguidores.addAll(findAllbyAutorId(id));
@@ -111,7 +113,7 @@ public class PostagemService {
     }
 
     public List<Postagem> findPostsMaisCurtidos() {
-        Integer id = UsuarioService.usuarioLogado.getId();
+        Integer id = usuarioService.authenticated().getId();
         List<Postagem> listPost = new ArrayList<Postagem>(findAllbyAutorId(id));
         Collections.reverse(sortPostByCurtida(listPost));
         return listPost;

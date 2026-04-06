@@ -18,14 +18,16 @@ import java.util.List;
 public class NotificacaoController {
 
     private final NotificacaoService service;
+    private final UsuarioService usuarioService;
 
-    public NotificacaoController(NotificacaoService service) {
+    public NotificacaoController(NotificacaoService service, UsuarioService usuarioService) {
         this.service = service;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/")
     public ResponseEntity<List<Postagem>> findAllNotifyById() {
-        List<Postagem> list = service.findAllbyFollowerId(UsuarioService.usuarioLogado.getId());
+        List<Postagem> list = service.findAllbyFollowerId(usuarioService.authenticated().getId());
         Collections.reverse(list);// Reverto a ordem de apresentacao para mostrar da postagem mais recente
         return ResponseEntity.ok().body(list);
     }

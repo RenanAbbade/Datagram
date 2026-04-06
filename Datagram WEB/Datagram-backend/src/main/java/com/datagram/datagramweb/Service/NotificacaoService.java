@@ -29,7 +29,7 @@ public class NotificacaoService {
     public void createNotify(Postagem obj) {
         // Compartilhando notificacao da postagem realizada com os seguidores do usuário
         // logado.
-        for (Integer i : UsuarioService.usuarioLogado.getIdsSeguidores()) {
+        for (Integer i : uService.authenticated().getIdsSeguidores()) {
             Usuario seguidor = uService.find(i);
             var notificacao = new Notificacao(seguidor, obj.getId());
             seguidor.getNotificacoes().add(notificacao);
@@ -46,7 +46,7 @@ public class NotificacaoService {
 
         List<Postagem> notificacoes = new ArrayList<>();
 
-        for (Notificacao notify : UsuarioService.usuarioLogado.getNotificacoes()) {
+        for (Notificacao notify : uService.authenticated().getNotificacoes()) {
 
             Postagem post = pService.find(notify.getPostagem_id());
 

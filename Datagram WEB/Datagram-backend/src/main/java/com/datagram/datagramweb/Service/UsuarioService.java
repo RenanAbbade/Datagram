@@ -4,17 +4,22 @@ import java.util.*;
 
 import com.datagram.datagramweb.Domain.Usuario;
 import com.datagram.datagramweb.Repository.UsuarioRepository;
+import com.datagram.datagramweb.config.JWTUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 @Service
 public class UsuarioService {
 
-    public static Usuario usuarioLogado;
-
     private final UsuarioRepository repo;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     public UsuarioService(UsuarioRepository repo) {
         this.repo = repo;
@@ -46,29 +51,30 @@ public class UsuarioService {
         obj.setIdsAllSeguidores(oldObj.getIdsSeguidores());
         obj.setIdsAllSeguindo(oldObj.getIdsSeguindo());
 
-        if (usuarioLogado.getId() == obj.getId()) {
+        Usuario authenticatedUser = authenticated();
+        if (authenticatedUser.getId().equals(obj.getId())) {
             // atualizando o usuario logado para refletir no sistema em tempo real.
-            usuarioLogado = obj;
+            // Como não há mais estado estático, isso pode ser removido ou ajustado se necessário
         } else {// só ocorre no cenario follow
 
-            if (obj.getSeguidores() != oldObj.getSeguidores()) {
+            if (obj.getSeguidores() != null && oldObj.getSeguidores() != null && !obj.getSeguidores().equals(oldObj.getSeguidores())) {
 
                 // verifico se o usuário logado deu unfollow no usuario target & verifico se
                 // está aumentando ou decrementando o número de seguidores do usuário alvo.
-                if (obj.getIdsSeguidores().contains(usuarioLogado.getId())) {
-                    obj.getIdsSeguidores().remove(usuarioLogado.getId());
-                    usuarioLogado.getIdsSeguindo().remove(obj.getId());
+                if (obj.getIdsSeguidores().contains(authenticatedUser.getId())) {
+                    obj.getIdsSeguidores().remove(authenticatedUser.getId());
+                    authenticatedUser.getIdsSeguindo().remove(obj.getId());
                     // Atualiza o num de seguidores e quem esta seguindo em ambos obj
                     obj.setSeguidores(obj.getIdsSeguidores().size());
-                    usuarioLogado.setSeguindo(usuarioLogado.getIdsSeguindo().size());
+                    authenticatedUser.setSeguindo(authenticatedUser.getIdsSeguindo().size());
                 }
                 // Novo seguidor
                 else {
-                    obj.setIdsSeguidores(usuarioLogado.getId());// settando os seguidores no target
-                    usuarioLogado.setIdsSeguindo(obj.getId());// settando na lista dos que o user logado esta seguindo, o número
+                    obj.setIdsSeguidores(authenticatedUser.getId());// settando os seguidores no target
+                    authenticatedUser.setIdsSeguindo(obj.getId());// settando na lista dos que o user logado esta seguindo, o número
                                                              // dos seguidores e atualizado dentro destes métodos
                 }
-                repo.save(usuarioLogado);// salvando o user logado.
+                repo.save(authenticatedUser);// salvando o user logado.
             }
         }
         return repo.save(obj);// salvando o objeto passado no parametro.
@@ -85,18 +91,19 @@ public class UsuarioService {
         }
     }
 
-    // Verifica se tentativa de login é válida
-    public Usuario login(String email, String senha) {
+    // Verifica se tentativa de login é válida e retorna token JWT
+    public Map<String, String> login(String email, String senha) {
         Usuario obj = repo.findByEmail(email);
         if (obj == null) {
-            return null;
+            throw new RuntimeException("Usuário não encontrado");
         } else if (!obj.getSenha().equalsIgnoreCase(senha)) {
-            return null;
+            throw new RuntimeException("Senha inválida");
         }
 
-        usuarioLogado = obj;
-
-        return obj;
+        String token = jwtUtil.generateToken(obj);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        return response;
     }
 
     public boolean validaExistenciaEmail(String email) {
@@ -106,14 +113,25 @@ public class UsuarioService {
         return true;
     }
 
-    public static synchronized Usuario getUsuarioLogado() {
-        return usuarioLogado;
+    // Método auxiliar para obter o usuário autenticado via SecurityContextHolder
+    public Usuario authenticated() {
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            return repo.findByEmail(username);
+        } catch (Exception e) {
+            throw new RuntimeException("Usuário não autenticado");
+        }
+    }
+
+    public Usuario findByEmail(String email) {
+        return repo.findByEmail(email);
     }
 
     public List<Usuario> findByNome(String nome) {
         List<Usuario> usuariosPesquisa = repo.findByNome(nome);
 
-        usuariosPesquisa.removeIf(x -> x.getId() == usuarioLogado.getId());// irá remover o usuario logado do retorno da
+        Usuario authenticatedUser = authenticated();
+        usuariosPesquisa.removeIf(x -> x.getId().equals(authenticatedUser.getId()));// irá remover o usuario logado do retorno da
                                                                         // pesquisa
 
         return usuariosPesquisa;
@@ -121,20 +139,22 @@ public class UsuarioService {
 
     public List<Usuario> findByInstituicao(String instituicao) {
         List<Usuario> usuariosPesquisa = repo.findByInstituicao(instituicao);
-        usuariosPesquisa.removeIf(x -> x.getId().equals(usuarioLogado.getId()));
+        Usuario authenticatedUser = authenticated();
+        usuariosPesquisa.removeIf(x -> x.getId().equals(authenticatedUser.getId()));
 
         return usuariosPesquisa;
     }
 
     public List<Usuario> findUsersByInteresses() {
-        Set<String> interessesLogado = UsuarioService.usuarioLogado.getInteresses();
-        Set<Integer> seguindoLogado = UsuarioService.usuarioLogado.getIdsSeguindo();
-        Set<Integer> seguidoresLogado = UsuarioService.usuarioLogado.getIdsSeguidores();
+        Usuario authenticatedUser = authenticated();
+        Set<String> interessesLogado = authenticatedUser.getInteresses();
+        Set<Integer> seguindoLogado = authenticatedUser.getIdsSeguindo();
+        Set<Integer> seguidoresLogado = authenticatedUser.getIdsSeguidores();
 
         List<Usuario> usuarios = repo.findAll();
         List<Usuario> usuariosMutuos = new ArrayList<Usuario>();
 
-        usuarios.removeIf(x -> x.getId().equals(usuarioLogado.getId()));
+        usuarios.removeIf(x -> x.getId().equals(authenticatedUser.getId()));
 
         for (Usuario user : usuarios) {
             if (!checkFollower(user.getId())) {
@@ -151,7 +171,8 @@ public class UsuarioService {
     }
 
     public Boolean checkFollower(Integer id) {
-        Set<Integer> seguindoLogado = UsuarioService.usuarioLogado.getIdsSeguindo();
+        Usuario authenticatedUser = authenticated();
+        Set<Integer> seguindoLogado = authenticatedUser.getIdsSeguindo();
         return seguindoLogado.contains(id);
     }
 
