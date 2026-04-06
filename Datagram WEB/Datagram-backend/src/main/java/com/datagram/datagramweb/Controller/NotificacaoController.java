@@ -4,7 +4,6 @@ import com.datagram.datagramweb.Domain.Postagem;
 import com.datagram.datagramweb.Service.NotificacaoService;
 import com.datagram.datagramweb.Service.UsuarioService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +17,13 @@ import java.util.List;
 @RequestMapping(value = "/notificacao")
 public class NotificacaoController {
 
-    @Autowired
-    NotificacaoService service;
+    private final NotificacaoService service;
 
-    @GetMapping(value = "/")
+    public NotificacaoController(NotificacaoService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/")
     public ResponseEntity<List<Postagem>> findAllNotifyById() {
         List<Postagem> list = service.findAllbyFollowerId(UsuarioService.usuarioLogado.getId());
         Collections.reverse(list);// Reverto a ordem de apresentacao para mostrar da postagem mais recente

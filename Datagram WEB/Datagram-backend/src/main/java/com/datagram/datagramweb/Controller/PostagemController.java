@@ -3,15 +3,15 @@ package com.datagram.datagramweb.Controller;
 import com.datagram.datagramweb.Domain.Postagem;
 import com.datagram.datagramweb.Service.NotificacaoService;
 import com.datagram.datagramweb.Service.PostagemService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,11 +24,13 @@ import java.util.List;
 @RequestMapping(value = "/post")
 public class PostagemController {
 
-    @Autowired
-    PostagemService service;
+    private final PostagemService service;
+    private final NotificacaoService nService;
 
-    @Autowired
-    NotificacaoService nService;
+    public PostagemController(PostagemService service, NotificacaoService nService) {
+        this.service = service;
+        this.nService = nService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Postagem>> findAll() {
@@ -36,17 +38,16 @@ public class PostagemController {
         return ResponseEntity.ok().body(listPostagem);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public ResponseEntity<List<Postagem>> findAllbyId(@PathVariable Integer id) {
         List<Postagem> listPostagem = service.findAllbyAutorId(id);
         Collections.reverse(listPostagem);// Reverto a ordem de apresentacao para mostrar da postagem mais recente
         return ResponseEntity.ok().body(listPostagem);
     }
 
-    @PostMapping
+    @PostMapping("/insert")
     @CrossOrigin
-    @RequestMapping(value = "/insert")
-    public ResponseEntity<String> insert(@RequestBody Postagem obj) {
+    public ResponseEntity<Void> insert(@RequestBody Postagem obj) {
 
         obj = service.insert(obj);
 
@@ -54,32 +55,30 @@ public class PostagemController {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
-        ResponseEntity.created(uri).build();
-
-        return ResponseEntity.ok("CREATED");
+        return ResponseEntity.created(uri).build();
     }
 
     // UPDATE
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @PutMapping("/")
     public ResponseEntity<Void> update(@RequestBody Postagem obj) {
-        obj = service.update(obj);
+        service.update(obj);
         return ResponseEntity.noContent().build();
     }
 
     // DELETE
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Postagem> delete(@PathVariable Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/feed")
+    @GetMapping("/feed")
     public ResponseEntity<List<Postagem>> findPostsSeguidores() {
         List<Postagem> postsSeguidores = service.findPostsSeguidores();
         return ResponseEntity.ok().body(postsSeguidores);
     }
 
-    @GetMapping(value = "/maisCurtido")
+    @GetMapping("/maisCurtido")
     public ResponseEntity<List<Postagem>> findPostsMaisCurtidos() {
         List<Postagem> postsPopulares = service.findPostsMaisCurtidos();
         return ResponseEntity.ok().body(postsPopulares);

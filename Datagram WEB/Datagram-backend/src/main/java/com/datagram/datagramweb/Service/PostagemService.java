@@ -4,7 +4,6 @@ import com.datagram.datagramweb.Domain.Postagem;
 import com.datagram.datagramweb.Repository.PostagemRepository;
 import com.datagram.datagramweb.Repository.UsuarioRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,13 @@ import java.util.*;
 @Service
 public class PostagemService {
 
-    @Autowired
-    private PostagemRepository repo;
+    private final PostagemRepository repo;
+    private final UsuarioRepository uRepo;
 
-    @Autowired
-    private UsuarioRepository uRepo;
+    public PostagemService(PostagemRepository repo, UsuarioRepository uRepo) {
+        this.repo = repo;
+        this.uRepo = uRepo;
+    }
 
     // CREATE
     public Postagem insert(Postagem obj) {
@@ -129,4 +130,3 @@ public class PostagemService {
     }
 
 }
-

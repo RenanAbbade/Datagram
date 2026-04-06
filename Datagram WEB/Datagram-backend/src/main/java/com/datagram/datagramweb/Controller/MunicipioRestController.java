@@ -4,13 +4,11 @@ import java.util.List;
 
 import com.datagram.datagramweb.Service.MunicipioRestService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
@@ -18,14 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/municipios")
 public class MunicipioRestController {
 
-  @Autowired
-  MunicipioRestService service;
+    private final MunicipioRestService service;
 
-  @ResponseBody
-  @PostMapping
-  public ResponseEntity<List<String>> municipios(@RequestBody String Uf) {
-    return ResponseEntity.ok(service.listarMunicipios(Uf));
+    public MunicipioRestController(MunicipioRestService service) {
+        this.service = service;
+    }
 
-  }
+    @PostMapping
+    public ResponseEntity<List<String>> municipios(@RequestBody String Uf) {
+        return ResponseEntity.ok(service.listarMunicipios(Uf));
+    }
 
 }
