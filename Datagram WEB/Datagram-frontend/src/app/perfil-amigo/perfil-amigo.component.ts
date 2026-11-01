@@ -1,11 +1,13 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UsuarioServiceService } from '../services/usuario-service.service';
 import { PostServiceService } from '../services/post-service.service';
 import { UsuarioLogadoService } from '../services/usuarioLogado.service';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-perfil-amigo',
   templateUrl: './perfil-amigo.component.html',
   styleUrls: ['./perfil-amigo.component.css']

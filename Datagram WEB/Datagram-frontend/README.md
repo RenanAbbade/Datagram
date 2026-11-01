@@ -1,27 +1,31 @@
 # Datagram frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
+Migrated from Angular 9.1 to Angular/CLI 22.2.4, TypeScript 6.0 and RxJS 7.8.
+Use Node.js 24 (the tested version is pinned in `.nvmrc`).
 
-## Development server
+```sh
+nvm use
+npm ci
+npm start
+npm run build
+npm test -- --watch=false
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The development server runs at http://localhost:4200. The default build is
+production with AOT and optimization; output is `dist/primeiro-projeto/browser`.
+For a development build, run `npm run build -- --configuration development`.
+Tests use the Angular CLI Vitest builder and jsdom, without a browser download.
+The legacy Protractor and TSLint targets have been retired; their old configuration
+files are historical and are not used by these commands.
 
-## Code scaffolding
+NgModule components explicitly retain eager change detection and Zone.js so that
+existing HTTP subscriptions continue to update templates under Angular 22.
+The existing non-strict TypeScript policy is explicit because TypeScript 6 enables
+strict mode by default. Template checking remains enabled.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The component CSS budget is 125 kB warning / 150 kB error to accommodate the
+existing manager theme (about 121 kB optimized); the initial bundle budget is
+unchanged. Bootstrap 4 markup and its jQuery/Popper integration are retained.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+The backend already targets Java 21 in `../Datagram-backend/pom.xml`.
+With JDK 21 and Maven installed, validate it using `mvn clean verify` in that folder.

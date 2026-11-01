@@ -183,7 +183,7 @@
             class="fa fa-heart-o like"
             aria-hidden="true"
             id="like"
-            (click)="editPost(this.post.id, 'like')"
+            (click)="editPost(post.id, 'like')"
             ><p *ngIf="post.curtida != null">{{ post.curtida }}</p></i
           >
           <i class="fa fa-comments-o comment" aria-hidden="true"

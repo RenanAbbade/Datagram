@@ -1,15 +1,16 @@
-import { element } from 'protractor';
+
 import { LoginServiceService } from './../services/login-service.service';
 import { PostServiceService } from './../services/post-service.service';
 import { UsuarioLogadoService } from './../services/usuarioLogado.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioServiceService } from '../services/usuario-service.service';
 import { HttpClient } from '@angular/common/http';
 import { AppConstants } from '../app-constants';
 
-
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
@@ -50,7 +51,6 @@ export class PerfilComponent implements OnInit {
 
   listaPostsMaisCurtidos;
 
-
   // tslint:disable-next-line: max-line-length
   constructor(private usuarioService: UsuarioServiceService, private usuarioLogadoService: UsuarioLogadoService, private postService: PostServiceService, private route: ActivatedRoute, private router: Router, private http: HttpClient, private loginService: LoginServiceService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -73,7 +73,6 @@ export class PerfilComponent implements OnInit {
       });
     }
   }
-
 
   public editPost(id, act){
     for (let post of this.postagens) {
@@ -104,7 +103,6 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-
   public updatePost(){
     this.postService.updatePost(this.postagem).subscribe(res => {
       this.postagens = JSON.parse(JSON.stringify(res));
@@ -118,7 +116,6 @@ export class PerfilComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
 
   public visualizarImg(e){
     var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];

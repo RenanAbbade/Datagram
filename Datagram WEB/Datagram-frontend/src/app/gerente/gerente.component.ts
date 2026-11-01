@@ -1,7 +1,9 @@
 import { GerenteServiceService } from './../services/gerente-service.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-gerente',
   templateUrl: './gerente.component.html',
   styleUrls: ['./gerente.component.css']

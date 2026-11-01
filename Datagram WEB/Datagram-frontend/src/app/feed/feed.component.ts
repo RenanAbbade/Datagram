@@ -1,10 +1,12 @@
 import { UsuarioLogadoService } from './../services/usuarioLogado.service';
 import { UsuarioServiceService } from './../services/usuario-service.service';
 import { PostServiceService } from './../services/post-service.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
+  standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-feed',
   templateUrl: './feed.component.html',
   styleUrls: ['./feed.component.css']

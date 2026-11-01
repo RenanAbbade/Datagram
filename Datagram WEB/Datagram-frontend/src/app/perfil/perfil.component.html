@@ -191,14 +191,14 @@
             class="nav-link icon-action-post"
             data-toggle="modal"
             data-target="#delete"
-            (click)="editPost(this.post.id, 'del')"
+            (click)="editPost(post.id, 'del')"
             ><i class="fa fa-trash-o" aria-hidden="true"></i
           ></a>
           <a
             class="nav-link icon-action-post"
             data-toggle="modal"
             data-target="#edit"
-            (click)="editPost(this.post.id, 'upd')"
+            (click)="editPost(post.id, 'upd')"
             ><i class="fa fa-pencil" aria-hidden="true"></i
           ></a>
 
@@ -234,7 +234,7 @@
             class="fa fa-heart-o like"
             aria-hidden="true"
             id="like"
-            (click)="editPost(this.post.id, 'like')"
+            (click)="editPost(post.id, 'like')"
             ><p *ngIf="post.curtida != null">{{ post.curtida }}</p></i
           >
           <i class="fa fa-comments-o comment" aria-hidden="true"
