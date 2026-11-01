@@ -1,15 +1,8 @@
-import { LoginServiceService } from './services/login-service.service';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 @Component({
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  imports: [RouterOutlet],
+  template: '<router-outlet/>',
 })
-export class AppComponent {
-  title = 'Datagram';
-
-
-}
+export class AppComponent {}

@@ -1,148 +1,179 @@
 package com.datagram.datagramweb.Controller;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import com.datagram.datagramweb.Domain.Postagem;
 import com.datagram.datagramweb.Domain.Usuario;
-import com.datagram.datagramweb.Service.UsuarioService;
+import com.datagram.datagramweb.Service.*;
 import com.datagram.datagramweb.Service.validation.UsuarioValidator;
-
-import org.springframework.http.ResponseEntity;
-
+import com.datagram.datagramweb.api.ApiDtos.*;
+import jakarta.validation.Valid;
+import java.net.URI;
+import java.util.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
-@CrossOrigin
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping("/user")
+@org.springframework.transaction.annotation.Transactional
 public class UsuarioController {
+  private final UsuarioService users;
+  private final PostagemService posts;
+  private final UsuarioValidator validator;
 
-    private final UsuarioService service;
-    private final UsuarioValidator validator;
+  @PostMapping("/login")
+  public Session login(@Valid @RequestBody Login data) {
+    var token = users.login(data.email(), data.senha()).get("token");
+    return new Session(
+        token, UserView.of(users.findByEmail(data.email().trim().toLowerCase(Locale.ROOT)), true));
+  }
 
-    public UsuarioController(UsuarioService service, UsuarioValidator validator) {
-        this.service = service;
-        this.validator = validator;
+  @PostMapping("/insert")
+  public ResponseEntity<UserView> register(@Valid @RequestBody Register r) {
+    if (!Set.of("Membro", "Pesquisador").contains(r.tipoUsuario()))
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de usuário inválido");
+    if (users.validaExistenciaEmail(r.email().trim().toLowerCase(Locale.ROOT)))
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Email já cadastrado");
+    if ("Pesquisador".equals(r.tipoUsuario())
+        && (r.instituicao() == null || r.instituicao().isBlank() || r.dataInicio() == null)) {
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "Informe instituição e data de início");
     }
-
-    // GET id
-    @GetMapping("/{id}")
-    public ResponseEntity<Usuario> find(@PathVariable Integer id) {
-        Usuario obj = service.find(id);
-        return ResponseEntity.ok().body(obj);
+    boolean adult;
+    try {
+      adult = validator.isGreatherThan18(r.dataNasc());
+      if ("Pesquisador".equals(r.tipoUsuario()))
+        adult = adult && validator.isGreatherThan18(r.dataNasc(), r.dataInicio());
+    } catch (RuntimeException e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Datas inválidas");
     }
+    if (!adult)
+      throw new ResponseStatusException(
+          HttpStatus.BAD_REQUEST, "É necessário ter 18 anos e informar datas válidas");
+    if ("Membro".equals(r.tipoUsuario()) && (r.cpf() == null || !validator.isCPF(r.cpf())))
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF inválido");
+    Usuario u = new Usuario();
+    u.setNome(r.nome().trim());
+    u.setEmail(r.email());
+    u.setSenha(r.senha());
+    u.setDataNasc(r.dataNasc());
+    u.setCpf(r.cpf());
+    u.setTipoUsuario(r.tipoUsuario());
+    u.setEscolaridade(r.escolaridade());
+    u.setEstado(r.estado());
+    u.setMunicipio(r.municipio());
+    u.setInstituicao(r.instituicao());
+    u.setLinkCv(UsuarioService.safeUrl(r.linkCv()));
+    u.setDataInicio(r.dataInicio());
+    u = users.insert(u);
+    return ResponseEntity.created(URI.create("/user/" + u.getId())).body(UserView.of(u, true));
+  }
 
-    @GetMapping("/userLogado")
-    public ResponseEntity<Usuario> findAuthUser() {
-        Usuario obj = service.authenticated();
-        return ResponseEntity.ok().body(obj);
-    }
+  @GetMapping("/userLogado")
+  public UserView me() {
+    return UserView.of(users.authenticated(), true);
+  }
 
-    @PostMapping("/insert")
-    @CrossOrigin
-    public ResponseEntity<Void> insert(@RequestBody Usuario obj) {
+  @GetMapping("/{id}")
+  public UserView user(@PathVariable Integer id) {
+    return UserView.of(users.find(id), users.authenticated().getId().equals(id));
+  }
 
-        if (!service.validaExistenciaEmail(obj.getEmail())) {
+  @PutMapping({"", "/"})
+  public UserView update(@Valid @RequestBody Profile data) {
+    return UserView.of(users.updateProfile(data), true);
+  }
 
-            if (obj.getTipoUsuario().equalsIgnoreCase("Pesquisador"))
-                if (validator.isGreatherThan18(obj.getDataNasc(), obj.getDataInicio()))
-                    obj = service.insert(obj);
+  @PutMapping("/{id}/follow")
+  public UserView follow(@PathVariable Integer id) {
+    return UserView.of(users.follow(id, true), false);
+  }
 
-                else
-                    return ResponseEntity.badRequest().build();
+  @DeleteMapping("/{id}/follow")
+  public UserView unfollow(@PathVariable Integer id) {
+    return UserView.of(users.follow(id, false), false);
+  }
 
-            else if (validator.isCPF(obj.getCpf())) {
-                if (validator.isGreatherThan18(obj.getDataNasc()))
-                    obj = service.insert(obj);
-                else
-                    return ResponseEntity.badRequest().build();
-            } else
-                return ResponseEntity.badRequest().build();
+  @GetMapping("/seguindo/{id}")
+  public boolean following(@PathVariable Integer id) {
+    return users.checkFollower(id);
+  }
 
-        } else
-            return ResponseEntity.badRequest().build();
+  @GetMapping("/seguidores")
+  public List<UserView> followers() {
+    return users.authenticated().getIdsSeguidores().stream()
+        .map(users::find)
+        .map(u -> UserView.of(u, false))
+        .toList();
+  }
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+  @GetMapping("/seguindo")
+  public List<UserView> following() {
+    return users.authenticated().getIdsSeguindo().stream()
+        .map(users::find)
+        .map(u -> UserView.of(u, false))
+        .toList();
+  }
 
-        return ResponseEntity.created(uri).build();
-    }
+  @GetMapping("/interesses")
+  public List<UserView> suggestions() {
+    return users.findUsersByInteresses().stream().map(u -> UserView.of(u, false)).toList();
+  }
 
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Usuario obj) {
+  @GetMapping("/nome")
+  public List<UserView> byName(@RequestParam String nome_value) {
+    return users.findByNome(nome_value).stream().map(u -> UserView.of(u, false)).limit(50).toList();
+  }
 
-        Map<String, String> response = service.login(obj.getEmail(), obj.getSenha());
-        return ResponseEntity.ok(response);
-    }
+  @GetMapping("/instituicao")
+  public List<UserView> byInstitution(@RequestParam String instituicao_value) {
+    return users.findByInstituicao(instituicao_value).stream()
+        .map(u -> UserView.of(u, false))
+        .limit(50)
+        .toList();
+  }
 
-    // UPDATE usuario logado
-    @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Usuario obj) {
-        obj = service.update(obj);
-        return ResponseEntity.noContent().build();
-    }
+  @GetMapping("/{id}/posts")
+  public List<PostView> posts(@PathVariable Integer id) {
+    return posts.findAllbyAutorId(id).stream()
+        .map(p -> PostView.of(p, users.authenticated().getId()))
+        .toList();
+  }
 
-    // DELETE
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+  @PostMapping(value = "/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public UserView photo(@RequestParam("file") MultipartFile file) throws java.io.IOException {
+    String data = com.datagram.datagramweb.api.Uploads.image(file);
+    Usuario u = users.authenticated();
+    u.setFotoPerfil(data);
+    photoRepo.save(u);
+    return UserView.of(u, true);
+  }
 
-    // OBTEM TODOS OS POSTS DE UM USUARIO
-    @GetMapping("/{id}/posts")
-    public ResponseEntity<List<Postagem>> findPosts(@PathVariable Integer id) {
-        Usuario usuario = service.find(id);
-        return ResponseEntity.ok().body(usuario.getPostagem());
-    }
+  private final com.datagram.datagramweb.Repository.UsuarioRepository photoRepo;
 
-    // consulte por user/nome/?nome_value=rafael
-    @GetMapping("/nome")
-    public ResponseEntity<List<Usuario>> findByNome(@RequestParam String nome_value) {
-        List<Usuario> usuarios = service.findByNome(nome_value);
-        return ResponseEntity.ok().body(usuarios);
-    }
+  @org.springframework.beans.factory.annotation.Autowired
+  public UsuarioController(
+      UsuarioService u,
+      PostagemService p,
+      UsuarioValidator v,
+      com.datagram.datagramweb.Repository.UsuarioRepository repo) {
+    users = u;
+    posts = p;
+    validator = v;
+    photoRepo = repo;
+  }
 
-    @GetMapping("/instituicao")
-    public ResponseEntity<List<Usuario>> findByInstituicao(@RequestParam String instituicao_value) {
-        List<Usuario> usuario = service.findByInstituicao(instituicao_value);
-        return ResponseEntity.ok().body(usuario);
-    }
-
-    @GetMapping("/seguindo/{id}")
-    public ResponseEntity<Boolean> validFollower(@PathVariable Integer id) {
-        Usuario authenticatedUser = service.authenticated();
-        Boolean resposta = authenticatedUser.getIdsSeguindo().contains(id);
-        return ResponseEntity.ok(resposta);
-
-    }
-
-    @GetMapping("/seguidores")
-    public ResponseEntity<List<Usuario>> findAllSeguidores() {
-        Usuario authenticatedUser = service.authenticated();
-        List<Usuario> list = new ArrayList<>();
-        for (Integer id : authenticatedUser.getIdsSeguidores()) {
-            list.add(service.find(id));
-        }
-        return ResponseEntity.ok().body(list);
-    }
-
-    @GetMapping("/seguindo")
-    public ResponseEntity<List<Usuario>> findAllSeguindo() {
-        Usuario authenticatedUser = service.authenticated();
-        List<Usuario> list = new ArrayList<>();
-        for (Integer id : authenticatedUser.getIdsSeguindo()) {
-            list.add(service.find(id));
-        }
-        return ResponseEntity.ok().body(list);
-    }
-
-    @GetMapping("/interesses")
-    public ResponseEntity<List<Usuario>> findUsersByInteresses() {
-        List<Usuario> usuariosMutuos = service.findUsersByInteresses();
-        return ResponseEntity.ok().body(usuariosMutuos);
-    }
-
+  @GetMapping("/{id}/foto")
+  public ResponseEntity<byte[]> photo(@PathVariable Integer id) {
+    String value = users.find(id).getFotoPerfil();
+    if (value == null)
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Foto não encontrada");
+    int comma = value.indexOf(',');
+    String type = value.substring(5, value.indexOf(';'));
+    if (!Set.of("image/png", "image/jpeg", "image/webp").contains(type))
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Formato de foto não suportado");
+    return ResponseEntity.ok()
+        .contentType(MediaType.parseMediaType(type))
+        .cacheControl(CacheControl.noCache())
+        .body(Base64.getDecoder().decode(value.substring(comma + 1)));
+  }
 }

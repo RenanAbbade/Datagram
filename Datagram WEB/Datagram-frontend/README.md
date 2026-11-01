@@ -1,31 +1,30 @@
-# Datagram frontend
+# Datagram web
 
-Migrated from Angular 9.1 to Angular/CLI 22.2.4, TypeScript 6.0 and RxJS 7.8.
-Use Node.js 24 (the tested version is pinned in `.nvmrc`).
+Angular 22.2.4 standalone, formulários reativos estritamente tipados, estado com
+Signals, navegação com layout persistente e carregamento sob demanda.
+
+Use Node 24 (`nvm use`) e o backend Java 21 em localhost:8080.
 
 ```sh
-nvm use
 npm ci
 npm start
 npm run build
 npm test -- --watch=false
+npm run format:check
 ```
 
-The development server runs at http://localhost:4200. The default build is
-production with AOT and optimization; output is `dist/primeiro-projeto/browser`.
-For a development build, run `npm run build -- --configuration development`.
-Tests use the Angular CLI Vitest builder and jsdom, without a browser download.
-The legacy Protractor and TSLint targets have been retired; their old configuration
-files are historical and are not used by these commands.
+Acesse http://localhost:4200. O proxy de desenvolvimento remove `/api` antes de
+encaminhar a chamada ao Spring. O endereço da API fica nos environments.
 
-NgModule components explicitly retain eager change detection and Zone.js so that
-existing HTTP subscriptions continue to update templates under Angular 22.
-The existing non-strict TypeScript policy is explicit because TypeScript 6 enables
-strict mode by default. Template checking remains enabled.
+```sh
+npx playwright install --with-deps chromium
+npm run test:e2e
+```
 
-The component CSS budget is 125 kB warning / 150 kB error to accommodate the
-existing manager theme (about 121 kB optimized); the initial bundle budget is
-unchanged. Bootstrap 4 markup and its jQuery/Popper integration are retained.
+O Playwright sobe ambas as aplicações e cria suas próprias contas de teste.
+Compile o JAR do backend antes com `./mvnw verify`. Produção gera arquivos em
+`dist/primeiro-projeto/browser`, exige fallback para index.html nas rotas Angular
+e proxy `/api/` configurado no servidor.
 
-The backend already targets Java 21 in `../Datagram-backend/pom.xml`.
-With JDK 21 and Maven installed, validate it using `mvn clean verify` in that folder.
+Consulte [o relatório](../../docs/RELATORIO_REFATORACAO.md) e
+[os contratos/migração](../../docs/API_E_MIGRACAO.md).

@@ -26,6 +26,7 @@
 	</properties>
 
 	<dependencies>
+        <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-validation</artifactId></dependency>
 		<!-- Web & Data -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -34,10 +35,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
 
 		<!-- Banco em memória para dev/testes -->
@@ -56,11 +53,6 @@
 		</dependency>
 
 		<!-- Lombok (opcional) -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
 
 		<!-- Testes (JUnit 5 por padrão no Boot 3) -->
 		<dependency>
@@ -70,18 +62,8 @@
 		</dependency>
 
 		<!-- Rome atualizado (groupId moderno) -->
-		<dependency>
-			<groupId>com.rometools</groupId>
-			<artifactId>rome</artifactId>
-			<version>2.1.0</version>
-		</dependency>
 
 		<!-- Gson atualizado -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.11.0</version>
-		</dependency>
 
 		<!-- Spring Security -->
 		<dependency>

@@ -1,22 +1,27 @@
 package com.datagram.datagramweb.Repository;
 
 import com.datagram.datagramweb.Domain.Usuario;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
-@Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
-  @Transactional(readOnly = true)
   Usuario findByEmail(String email);
 
-  @Query("SELECT u FROM Usuario u WHERE u.nome LIKE ?1%")
-  List<Usuario> findByNome(String nome);
+  List<Usuario> findByNomeStartingWithIgnoreCase(String nome, Pageable page);
 
-  @Query("SELECT u FROM Usuario u WHERE u.instituicao LIKE ?1%")
-  List<Usuario> findByInstituicao(String instituicao);
-  
+  List<Usuario> findByInstituicaoStartingWithIgnoreCase(String instituicao, Pageable page);
+
+  List<Usuario> findTop10ByOrderBySeguidoresDescIdDesc();
+
+  @Query("select coalesce(avg(coalesce(u.seguidores,0)),0) from Usuario u")
+  Double averageFollowers();
+
+  @Query(
+      "select distinct u from Usuario u join u.interesses i where lower(i) in :interesses and u.id"
+          + " <> :id and u.id not in (select s from Usuario me join me.idsSeguindo s where me.id ="
+          + " :id)")
+  List<Usuario> suggestions(
+      @Param("id") Integer id, @Param("interesses") Set<String> interesses, Pageable page);
 }

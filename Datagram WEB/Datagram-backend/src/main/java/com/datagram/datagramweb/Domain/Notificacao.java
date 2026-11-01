@@ -1,16 +1,13 @@
-
 package com.datagram.datagramweb.Domain;
 
-import java.io.Serializable;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 
 @Entity
 public class Notificacao implements Serializable {
@@ -28,8 +25,7 @@ public class Notificacao implements Serializable {
 
   private Integer postagem_id;
 
-  public Notificacao() {
-  }
+  public Notificacao() {}
 
   public Notificacao(Usuario usuario, Integer postagem_id) {
     this.usuario = usuario;
@@ -70,19 +66,13 @@ public class Notificacao implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     Notificacao other = (Notificacao) obj;
     if (id == null) {
-      if (other.id != null)
-        return false;
-    } else if (!id.equals(other.id))
-      return false;
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
     return true;
   }
-
 }

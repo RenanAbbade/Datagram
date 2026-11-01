@@ -47,3 +47,6 @@ Thumbs.db
 
 # Angular CLI cache
 /.angular
+
+/test-results/
+/playwright-report/

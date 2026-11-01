@@ -11,3 +11,8 @@
 /build
 /captures
 .externalNativeBuild
+
+# Build artifacts and dependencies
+**/node_modules/
+**/target/
+**/.angular/

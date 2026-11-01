@@ -1,29 +1,31 @@
 package com.datagram.datagramweb.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import jakarta.persistence.*;
 
 @Entity
 public class Usuario implements Serializable {
 
+  @Version @JsonIgnore private Long version;
+
   private static final long serialVersionUID = 1L;
 
   @Id
-  @GeneratedValue(generator = "increment")
-  @GenericGenerator(name = "increment", strategy = "increment")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  @Column(unique = true, nullable = false)
   private String email;
 
   private String nome;
 
+  @com.fasterxml.jackson.annotation.JsonProperty(
+      access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)
   private String senha;
 
   private String dataNasc;
@@ -38,6 +40,7 @@ public class Usuario implements Serializable {
 
   private String instituicao;
 
+  @Column(length = 1000)
   private String linkCv;
 
   private String dataInicio;
@@ -54,7 +57,8 @@ public class Usuario implements Serializable {
   private String fotoPerfil;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = "INTERESSES") // Telefone se torna em uma tabela auxiliar de identididade fraca
+  @CollectionTable(
+      name = "INTERESSES") // Telefone se torna em uma tabela auxiliar de identididade fraca
   private Set<String> interesses = new HashSet<>();
 
   @JsonIgnore
@@ -71,15 +75,26 @@ public class Usuario implements Serializable {
   @CollectionTable(name = "Id_seguindo")
   private Set<Integer> idsSeguindo = new HashSet<>();
 
-  @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+  @JsonIgnore
+  @OneToMany(mappedBy = "usuario")
   private List<Notificacao> notificacoes = new ArrayList<>();
 
-  public Usuario() {
-  }
+  public Usuario() {}
 
   // Pesquisador constructor
-  public Usuario(Integer id, String nome, String senha, String email, String dataNasc, String escolaridade,
-      String estado, String municipio, String instituicao, String linkCv, String dataInicio, String tipoUsuario) {
+  public Usuario(
+      Integer id,
+      String nome,
+      String senha,
+      String email,
+      String dataNasc,
+      String escolaridade,
+      String estado,
+      String municipio,
+      String instituicao,
+      String linkCv,
+      String dataInicio,
+      String tipoUsuario) {
     this.id = id;
     this.nome = nome;
     this.senha = senha;
@@ -96,7 +111,13 @@ public class Usuario implements Serializable {
   }
 
   // membro constructor
-  public Usuario(Integer id, String nome, String senha, String email, String cpf, String escolaridade,
+  public Usuario(
+      Integer id,
+      String nome,
+      String senha,
+      String email,
+      String cpf,
+      String escolaridade,
       String tipoUsuario) {
     this.id = id;
     this.nome = nome;
@@ -279,7 +300,8 @@ public class Usuario implements Serializable {
     this.seguidores = idsSeguidores.size();
   }
 
-  public void setIdsAllSeguidores(Set<Integer> idsSeguidores) {// recebe um set inteiro na atualizacao
+  public void setIdsAllSeguidores(
+      Set<Integer> idsSeguidores) { // recebe um set inteiro na atualizacao
     this.idsSeguidores = idsSeguidores;
   }
 
@@ -292,7 +314,7 @@ public class Usuario implements Serializable {
     this.seguindo = idsSeguindo.size();
   }
 
-  public void setIdsAllSeguindo(Set<Integer> idsSeguindo) {// recebe um set inteiro na atualizacao
+  public void setIdsAllSeguindo(Set<Integer> idsSeguindo) { // recebe um set inteiro na atualizacao
     this.idsSeguindo = idsSeguindo;
   }
 
@@ -314,19 +336,13 @@ public class Usuario implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     Usuario other = (Usuario) obj;
     if (id == null) {
-      if (other.id != null)
-        return false;
-    } else if (!id.equals(other.id))
-      return false;
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
     return true;
   }
-
 }
