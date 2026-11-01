@@ -75,6 +75,9 @@ branch distribui H2, não configura automaticamente PostgreSQL/MySQL.
 
 ## Migração de uma instalação existente
 
+Os testes de navegador recusam reutilizar servidores em execução e forçam um banco
+H2 em memória separado, sem herdar as credenciais do banco de produção.
+
 Esta branch muda contratos. Não troque somente o frontend ou somente o backend.
 Faça backup, use uma cópia de homologação e publique os dois em conjunto.
 

@@ -215,7 +215,9 @@ precisam instrumentar classes finais nem anexar agentes dinamicamente ao JDK 21.
 A aplicação de produção não é afetada por essa configuração de testes.
 
 Comandos e resultado final da rodada de validação estão na seção de entrega ao fim
-deste relatório. O teste de navegador usa dados artificiais e H2, não contas reais.
+deste relatório. O teste de navegador usa dados artificiais e H2, não contas reais. A configuração
+recusa servidores existentes e fixa um banco em memória para não reutilizar uma
+instância ou credenciais reais por acidente.
 
 ## 5. Em que sentido a aplicação ficou mais correta
 
