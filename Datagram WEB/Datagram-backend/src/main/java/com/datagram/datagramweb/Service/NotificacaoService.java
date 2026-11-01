@@ -12,6 +12,7 @@ import com.datagram.datagramweb.Repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 @Service
+@org.springframework.transaction.annotation.Transactional(readOnly = true)
 public class NotificacaoService {
 
     private final NotificacaoRepository repo;

@@ -16,10 +16,14 @@ import java.util.function.Function;
 @Component
 public class JWTUtil {
 
-    private static final String JWT_SECRET = "chaveSecretaSuperSeguraParaJWTdatagram2024!@#"; // Em produção, use variável de ambiente
-    private static final int JWT_EXPIRATION = 86400000; // 24 horas em ms
+    private static final int JWT_EXPIRATION = 3600000;
+    private final Key key;
 
-    private final Key key = Keys.hmacShaKeyFor(JWT_SECRET.getBytes());
+    public JWTUtil(@org.springframework.beans.factory.annotation.Value("${app.jwt-secret:}") String secret) {
+        // A random development key invalidates sessions after restart; production must supply a stable secret.
+        key = secret.isBlank() ? Keys.secretKeyFor(SignatureAlgorithm.HS256)
+            : Keys.hmacShaKeyFor(secret.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    }
 
     public String generateToken(Usuario usuario) {
         Map<String, Object> claims = new HashMap<>();

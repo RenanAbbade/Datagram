@@ -25,16 +25,21 @@ public class UsuarioService {
         this.repo = repo;
     }
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     // CREATE
     public Usuario insert(Usuario obj) {
         obj.setId(null);
+        obj.setEmail(obj.getEmail().trim().toLowerCase(java.util.Locale.ROOT));
+        obj.setSenha(passwordEncoder.encode(obj.getSenha()));
         return repo.save(obj);
     }
 
     // READ
     public Usuario find(Integer id) {
         Optional<Usuario> obj = repo.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND,"Usuário não encontrado"));
     }
 
     // READ ALL
@@ -42,68 +47,41 @@ public class UsuarioService {
         return repo.findAll();
     }
 
-    // UPDATE
-    public Usuario update(Usuario obj) {
-        // settando os seguidores e o seguindo novamente para não perder a informação no
-        // update, o usuario vem do front sem guardar os campos
-        // idsSeguidores/idsSeguindo
-        Usuario oldObj = find(obj.getId());
-        obj.setIdsAllSeguidores(oldObj.getIdsSeguidores());
-        obj.setIdsAllSeguindo(oldObj.getIdsSeguindo());
-
-        Usuario authenticatedUser = authenticated();
-        if (authenticatedUser.getId().equals(obj.getId())) {
-            // atualizando o usuario logado para refletir no sistema em tempo real.
-            // Como não há mais estado estático, isso pode ser removido ou ajustado se necessário
-        } else {// só ocorre no cenario follow
-
-            if (obj.getSeguidores() != null && oldObj.getSeguidores() != null && !obj.getSeguidores().equals(oldObj.getSeguidores())) {
-
-                // verifico se o usuário logado deu unfollow no usuario target & verifico se
-                // está aumentando ou decrementando o número de seguidores do usuário alvo.
-                if (obj.getIdsSeguidores().contains(authenticatedUser.getId())) {
-                    obj.getIdsSeguidores().remove(authenticatedUser.getId());
-                    authenticatedUser.getIdsSeguindo().remove(obj.getId());
-                    // Atualiza o num de seguidores e quem esta seguindo em ambos obj
-                    obj.setSeguidores(obj.getIdsSeguidores().size());
-                    authenticatedUser.setSeguindo(authenticatedUser.getIdsSeguindo().size());
-                }
-                // Novo seguidor
-                else {
-                    obj.setIdsSeguidores(authenticatedUser.getId());// settando os seguidores no target
-                    authenticatedUser.setIdsSeguindo(obj.getId());// settando na lista dos que o user logado esta seguindo, o número
-                                                             // dos seguidores e atualizado dentro destes métodos
-                }
-                repo.save(authenticatedUser);// salvando o user logado.
-            }
-        }
-        return repo.save(obj);// salvando o objeto passado no parametro.
+    @org.springframework.transaction.annotation.Transactional
+    public Usuario updateProfile(com.datagram.datagramweb.api.ApiDtos.Profile data) {
+        Usuario u=authenticated();
+        u.setNome(data.nome().trim()); u.setEscolaridade(data.escolaridade());
+        u.setEstado(data.estado()); u.setMunicipio(data.municipio());
+        u.setInstituicao(data.instituicao()); u.setLinkCv(safeUrl(data.linkCv()));
+        u.setInteresses(data.interesses()==null?new HashSet<>():new HashSet<>(data.interesses()));
+        return repo.save(u);
     }
 
-    // DELETE
-    public void delete(Integer id) {
-
-        find(id);
+    public static String safeUrl(String value) {
+        if(value==null || value.isBlank()) return null;
         try {
-            repo.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não é possível excluir essa entidade!");
-        }
+            var uri=java.net.URI.create(value);
+            if (!Set.of("https","http").contains(uri.getScheme()) || uri.getHost()==null) throw new IllegalArgumentException();
+            return uri.toString();
+        } catch(IllegalArgumentException e) { throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST,"URL deve usar http ou https"); }
     }
 
-    // Verifica se tentativa de login é válida e retorna token JWT
-    public Map<String, String> login(String email, String senha) {
-        Usuario obj = repo.findByEmail(email);
-        if (obj == null) {
-            throw new RuntimeException("Usuário não encontrado");
-        } else if (!obj.getSenha().equalsIgnoreCase(senha)) {
-            throw new RuntimeException("Senha inválida");
-        }
+    @org.springframework.transaction.annotation.Transactional
+    public Usuario follow(Integer id, boolean follow) {
+        Usuario me=authenticated(), target=find(id);
+        if(me.getId().equals(id)) throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.BAD_REQUEST,"Não é possível seguir a si mesmo");
+        if(follow) { me.getIdsSeguindo().add(id); target.getIdsSeguidores().add(me.getId()); }
+        else { me.getIdsSeguindo().remove(id); target.getIdsSeguidores().remove(me.getId()); }
+        me.setSeguindo(me.getIdsSeguindo().size()); target.setSeguidores(target.getIdsSeguidores().size());
+        repo.save(me); return repo.save(target);
+    }
 
-        String token = jwtUtil.generateToken(obj);
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        return response;
+    @org.springframework.transaction.annotation.Transactional
+    public Map<String,String> login(String email, String senha) {
+        Usuario u=repo.findByEmail(email.trim().toLowerCase(java.util.Locale.ROOT));
+        if (u==null || senha==null || u.getSenha()==null || !passwordEncoder.matches(senha,u.getSenha()))
+            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.UNAUTHORIZED,"Credenciais inválidas");
+        return Map.of("token",jwtUtil.generateToken(u));
     }
 
     public boolean validaExistenciaEmail(String email) {
@@ -115,12 +93,12 @@ public class UsuarioService {
 
     // Método auxiliar para obter o usuário autenticado via SecurityContextHolder
     public Usuario authenticated() {
-        try {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            return repo.findByEmail(username);
-        } catch (Exception e) {
-            throw new RuntimeException("Usuário não autenticado");
-        }
+        var auth=SecurityContextHolder.getContext().getAuthentication();
+        if(auth==null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getName()))
+            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.UNAUTHORIZED,"Autenticação necessária");
+        Usuario u=repo.findByEmail(auth.getName());
+        if(u==null) throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.UNAUTHORIZED,"Sessão inválida");
+        return u;
     }
 
     public Usuario findByEmail(String email) {
@@ -194,7 +172,7 @@ public class UsuarioService {
         if (usuarios.size() > 10) {// iterator performa melhor que o for até o list.size()
             Iterator<Usuario> i = usuarios.iterator();
 
-            while (i.hasNext() && usuariosMaisConectados.size() < 11)
+            while (i.hasNext() && usuariosMaisConectados.size() < 10)
                 usuariosMaisConectados.add(i.next());
 
         } else

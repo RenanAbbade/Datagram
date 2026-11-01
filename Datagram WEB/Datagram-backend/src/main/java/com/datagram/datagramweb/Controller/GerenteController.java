@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/gerente")
+@org.springframework.transaction.annotation.Transactional
 public class GerenteController {
 
     private final UsuarioService service;
@@ -25,8 +26,8 @@ public class GerenteController {
     }
 
     @GetMapping("/maisConectados")
-    public ResponseEntity<List<Usuario>> getMaisConectados() {
-        return ResponseEntity.ok().body(service.membrosMaisConectados());
+    public ResponseEntity<List<com.datagram.datagramweb.api.ApiDtos.UserView>> getMaisConectados() {
+        return ResponseEntity.ok().body(service.membrosMaisConectados().stream().map(u->com.datagram.datagramweb.api.ApiDtos.UserView.of(u,false)).toList());
     }
 
 }

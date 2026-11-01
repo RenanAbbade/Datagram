@@ -79,62 +79,11 @@ public class UsuarioValidator {
     return novoCPF.replace(".", "");
   }
 
-  // validacoes Date
-
-  public boolean isGreatherThan18(String data) {// 2020-05-16
-
-    String novaData = formataDataPadraoBr(data);
-
-    String[] array = novaData.split("/");
-
-    int anoNasc = Integer.parseInt(array[2]);
-
-    Calendar calendar = Calendar.getInstance();
-
-    final int year = calendar.get(Calendar.YEAR);
-
-    if (year - anoNasc >= 18)
-      return true;
-    else
-      return false;
+  public boolean isGreatherThan18(String data) {
+    return !java.time.LocalDate.parse(data).plusYears(18).isAfter(java.time.LocalDate.now());
   }
-
-  public boolean isGreatherThan18(String dataNasc, String dataEmp) {
-
-    String novaDataNasc = formataDataPadraoBr(dataNasc);
-
-    String novaDataEmp = formataDataPadraoBr(dataEmp);
-
-    String[] array = novaDataNasc.split("/");
-
-    String[] array2 = novaDataEmp.split("/");
-
-    int anoNasc = Integer.parseInt(array[2]);
-
-    int anoEmp = Integer.parseInt(array2[2]);
-
-    Calendar calendar = Calendar.getInstance();
-
-    final int year = calendar.get(Calendar.YEAR);
-
-    if (anoEmp > year)
-      return false;
-    if (anoNasc > year)
-      return false;
-
-    if (anoEmp - anoNasc >= 18)
-      return true;
-    else
-      return false;
-  }
-
-  public String formataDataPadraoBr(String data) {
-    String[] array = data.split("-");
-
-    int ano = Integer.parseInt(array[0]);
-    int mes = Integer.parseInt(array[1]);
-    int dia = Integer.parseInt(array[2]);
-
-    return dia + "/" + mes + "/" + ano;
+  public boolean isGreatherThan18(String birth,String start) {
+    var date=java.time.LocalDate.parse(start);
+    return !date.isAfter(java.time.LocalDate.now()) && !java.time.LocalDate.parse(birth).plusYears(18).isAfter(date);
   }
 }

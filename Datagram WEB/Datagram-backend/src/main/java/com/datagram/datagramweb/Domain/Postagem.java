@@ -12,6 +12,10 @@ import java.util.Set;
 @Entity
 public class Postagem implements Serializable {
 
+    @Version
+    @JsonIgnore
+    private Long version;
+
     private static final long serialVersionUID = 1L;
 
     @Id

@@ -13,6 +13,10 @@ import jakarta.persistence.*;
 @Entity
 public class Usuario implements Serializable {
 
+  @Version
+  @JsonIgnore
+  private Long version;
+
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -20,10 +24,12 @@ public class Usuario implements Serializable {
   @GenericGenerator(name = "increment", strategy = "increment")
   private Integer id;
 
+  @Column(unique = true, nullable = false)
   private String email;
 
   private String nome;
 
+  @com.fasterxml.jackson.annotation.JsonProperty(access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)
   private String senha;
 
   private String dataNasc;
@@ -71,7 +77,8 @@ public class Usuario implements Serializable {
   @CollectionTable(name = "Id_seguindo")
   private Set<Integer> idsSeguindo = new HashSet<>();
 
-  @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+  @JsonIgnore
+  @OneToMany(mappedBy = "usuario")
   private List<Notificacao> notificacoes = new ArrayList<>();
 
   public Usuario() {

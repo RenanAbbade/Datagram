@@ -22,7 +22,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private JWTUtil jwtUtil;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private com.datagram.datagramweb.Repository.UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -41,20 +41,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             } catch (Exception e) {
                 logger.warn("JWT Token inválido ou expirado");
             }
-        } else {
-            logger.warn("JWT Token não começa com Bearer String");
         }
 
         // Uma vez que obtemos o token, validamos.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            Usuario usuario = usuarioService.findByEmail(username);
+            Usuario usuario = usuarioRepository.findByEmail(username);
 
             if (usuario != null && jwtUtil.validateToken(jwtToken, username)) {
 
                 // Se token válido, configura Spring Security para definir autenticação manualmente
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(usuario, null, null); // Sem authorities por simplicidade
+                        new UsernamePasswordAuthenticationToken(username, null, java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + usuario.getTipoUsuario().toUpperCase(java.util.Locale.ROOT)))); // Sem authorities por simplicidade
 
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

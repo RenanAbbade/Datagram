@@ -15,6 +15,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/notificacao")
+@org.springframework.transaction.annotation.Transactional
 public class NotificacaoController {
 
     private final NotificacaoService service;
@@ -26,10 +27,10 @@ public class NotificacaoController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Postagem>> findAllNotifyById() {
+    public ResponseEntity<List<com.datagram.datagramweb.api.ApiDtos.PostView>> findAllNotifyById() {
         List<Postagem> list = service.findAllbyFollowerId(usuarioService.authenticated().getId());
         Collections.reverse(list);// Reverto a ordem de apresentacao para mostrar da postagem mais recente
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(list.stream().map(p->com.datagram.datagramweb.api.ApiDtos.PostView.of(p,usuarioService.authenticated().getId())).toList());
     }
 
 }
