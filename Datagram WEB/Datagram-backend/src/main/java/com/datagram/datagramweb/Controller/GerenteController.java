@@ -1,7 +1,7 @@
 package com.datagram.datagramweb.Controller;
-import java.util.List;
-import com.datagram.datagramweb.Domain.Usuario;
+
 import com.datagram.datagramweb.Service.UsuarioService;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,20 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 @org.springframework.transaction.annotation.Transactional
 public class GerenteController {
 
-    private final UsuarioService service;
+  private final UsuarioService service;
 
-    public GerenteController(UsuarioService service) {
-        this.service = service;
-    }
+  public GerenteController(UsuarioService service) {
+    this.service = service;
+  }
 
-    @GetMapping("/mediaSeguidores")
-    public ResponseEntity<Integer> getNumMediaSeguidores() {
-        return ResponseEntity.ok().body(service.numeroMedioSeguidores());
-    }
+  @GetMapping("/mediaSeguidores")
+  public ResponseEntity<Integer> getNumMediaSeguidores() {
+    return ResponseEntity.ok().body(service.numeroMedioSeguidores());
+  }
 
-    @GetMapping("/maisConectados")
-    public ResponseEntity<List<com.datagram.datagramweb.api.ApiDtos.UserView>> getMaisConectados() {
-        return ResponseEntity.ok().body(service.membrosMaisConectados().stream().map(u->com.datagram.datagramweb.api.ApiDtos.UserView.of(u,false)).toList());
-    }
-
+  @GetMapping("/maisConectados")
+  public ResponseEntity<List<com.datagram.datagramweb.api.ApiDtos.UserView>> getMaisConectados() {
+    return ResponseEntity.ok()
+        .body(
+            service.membrosMaisConectados().stream()
+                .map(u -> com.datagram.datagramweb.api.ApiDtos.UserView.of(u, false))
+                .toList());
+  }
 }

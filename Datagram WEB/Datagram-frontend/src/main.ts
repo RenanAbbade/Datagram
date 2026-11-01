@@ -7,5 +7,12 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { authInterceptor } from './app/core/auth';
 import { SessionService } from './app/core/session.service';
-bootstrapApplication(AppComponent,{providers:[provideRouter(routes),provideHttpClient(withInterceptors([authInterceptor])),
- provideAppInitializer(()=>firstValueFrom(inject(SessionService).restore()))]}).catch(console.error);
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])),
+    provideAppInitializer(() =>
+      firstValueFrom(inject(SessionService).restore()),
+    ),
+  ],
+}).catch(console.error);

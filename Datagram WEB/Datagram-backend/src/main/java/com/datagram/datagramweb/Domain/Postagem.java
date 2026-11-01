@@ -1,10 +1,7 @@
 package com.datagram.datagramweb.Domain;
 
-import jakarta.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,213 +9,220 @@ import java.util.Set;
 @Entity
 public class Postagem implements Serializable {
 
-    @Version
-    @JsonIgnore
-    private Long version;
+  @Version @JsonIgnore private Long version;
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "Autor_id")
-    private Usuario autor;
-    private String titulo;
-    private String subtitulo;
-    private String conteudo;
-    private String date;
-    private Integer curtida = 0;
-    private String url;
-    private Integer numComentarios;
-    private String tipoPostagem;
+  @ManyToOne
+  @JoinColumn(name = "Autor_id")
+  private Usuario autor;
 
-    @Column(columnDefinition = "text")
-    private String arquivoPublicacao;
+  private String titulo;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "PalavrasChave")
-    private Set<String> palavrasChave = new HashSet<>();
+  @Column(length = 300)
+  private String subtitulo;
 
-    @ElementCollection
-    private Set<Integer> idsCurtida = new HashSet<>();// Para fazer o controle de quem curtiu o post, não permitindo a
-                                                      // mesma pessoa curtir um post mais de uma vez.
-    // @ElementCollection
-    // @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name
-    // = "postagem_id"))
-    // private List<Comentario> comentarios = new ArrayList<>();
+  @Column(columnDefinition = "text")
+  private String conteudo;
 
-    public Postagem() {
-    }
+  private String date;
+  private Integer curtida = 0;
 
-    public Postagem(Integer id, Usuario autor, String titulo, String subtitulo, String conteudo, String date,
-            Integer curtida) {
-        this.id = id;
-        this.autor = autor;
-        this.titulo = titulo;
-        this.subtitulo = subtitulo;
-        this.conteudo = conteudo;
-        this.date = date;
-        this.curtida = curtida;
-    }
+  @Column(length = 2000)
+  private String url;
 
-    public Integer getId() {
-        return id;
-    }
+  private Integer numComentarios;
+  private String tipoPostagem;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  @Column(columnDefinition = "text")
+  private String arquivoPublicacao;
 
-    public Usuario getUsuario() {
-        return autor;
-    }
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "PalavrasChave")
+  private Set<String> palavrasChave = new HashSet<>();
 
-    public void setUsuario(Usuario usuario) {
-        this.autor = usuario;
-    }
+  @ElementCollection
+  private Set<Integer> idsCurtida =
+      new HashSet<>(); // Para fazer o controle de quem curtiu o post, não permitindo a
 
-    public String getTexto() {
-        return conteudo;
-    }
+  // mesma pessoa curtir um post mais de uma vez.
+  // @ElementCollection
+  // @CollectionTable(name = "postagem_comentario", joinColumns = @JoinColumn(name
+  // = "postagem_id"))
+  // private List<Comentario> comentarios = new ArrayList<>();
 
-    public void setTexto(String texto) {
-        this.conteudo = texto;
-    }
+  public Postagem() {}
 
-    public String getDate() {
-        return date;
-    }
+  public Postagem(
+      Integer id,
+      Usuario autor,
+      String titulo,
+      String subtitulo,
+      String conteudo,
+      String date,
+      Integer curtida) {
+    this.id = id;
+    this.autor = autor;
+    this.titulo = titulo;
+    this.subtitulo = subtitulo;
+    this.conteudo = conteudo;
+    this.date = date;
+    this.curtida = curtida;
+  }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setIdsCurtida(Integer idCurtida) {
-        this.idsCurtida.add(idCurtida);
-        this.curtida = idsCurtida.size();
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setAllIdsCurtida(Set<Integer> idCurtidas) {
-        this.idsCurtida = idCurtidas;
-        this.curtida = idsCurtida.size();
-    }
+  public Usuario getUsuario() {
+    return autor;
+  }
 
-    public String getTitulo() {
-        return titulo;
-    }
+  public void setUsuario(Usuario usuario) {
+    this.autor = usuario;
+  }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+  public String getTexto() {
+    return conteudo;
+  }
 
-    public String getSubtitulo() {
-        return subtitulo;
-    }
+  public void setTexto(String texto) {
+    this.conteudo = texto;
+  }
 
-    public void setSubtitulo(String subtitulo) {
-        this.subtitulo = subtitulo;
-    }
+  public String getDate() {
+    return date;
+  }
 
-    public String getConteudo() {
-        return conteudo;
-    }
+  public void setDate(String date) {
+    this.date = date;
+  }
 
-    public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
-    }
+  public void setIdsCurtida(Integer idCurtida) {
+    this.idsCurtida.add(idCurtida);
+    this.curtida = idsCurtida.size();
+  }
 
-    public Usuario getAutor() {
-        return autor;
-    }
+  public void setAllIdsCurtida(Set<Integer> idCurtidas) {
+    this.idsCurtida = idCurtidas;
+    this.curtida = idsCurtida.size();
+  }
 
-    public void setAutor(Usuario autor) {
-        this.autor = autor;
-    }
+  public String getTitulo() {
+    return titulo;
+  }
 
-    public Integer getCurtida() {
-        return curtida;
-    }
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
 
-    public String getUrl() {
-        return url;
-    }
+  public String getSubtitulo() {
+    return subtitulo;
+  }
 
-    public void setURL(String url) {
-        this.url = url;
-    }
+  public void setSubtitulo(String subtitulo) {
+    this.subtitulo = subtitulo;
+  }
 
-    @JsonIgnore
-    public Set<Integer> getIdsCurtida() {
-        return idsCurtida;
-    }
+  public String getConteudo() {
+    return conteudo;
+  }
 
-    // public List<Comentario> getComentarios() {
-    // return comentarios;
-    // }
+  public void setConteudo(String conteudo) {
+    this.conteudo = conteudo;
+  }
 
-    // public void setComentarios(Comentario comentario) {
-    // this.comentarios.add(comentario);
-    // this.numComentarios++;
-    // }
+  public Usuario getAutor() {
+    return autor;
+  }
 
-    public Integer getNumComentarios() {
-        return numComentarios;
-    }
+  public void setAutor(Usuario autor) {
+    this.autor = autor;
+  }
 
-    public void setNumComentarios(Integer numComentarios) {
-        this.numComentarios = numComentarios;
-    }
+  public Integer getCurtida() {
+    return curtida;
+  }
 
-    public String getArquivoPublicacao() {
-        return arquivoPublicacao;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setArquivoPublicacao(String arquivoPublicacao) {
-        this.arquivoPublicacao = arquivoPublicacao;
-    }
+  public void setURL(String url) {
+    this.url = url;
+  }
 
-    public String getTipoPostagem() {
-        return tipoPostagem;
-    }
+  @JsonIgnore
+  public Set<Integer> getIdsCurtida() {
+    return idsCurtida;
+  }
 
-    public void setTipoPostagem(String tipoPostagem) {
-        this.tipoPostagem = tipoPostagem;
-    }
+  // public List<Comentario> getComentarios() {
+  // return comentarios;
+  // }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
+  // public void setComentarios(Comentario comentario) {
+  // this.comentarios.add(comentario);
+  // this.numComentarios++;
+  // }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Postagem other = (Postagem) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
+  public Integer getNumComentarios() {
+    return numComentarios;
+  }
 
-    public Set<String> getPalavrasChave() {
-        return palavrasChave;
-    }
+  public void setNumComentarios(Integer numComentarios) {
+    this.numComentarios = numComentarios;
+  }
 
-    public void setPalavrasChave(Set<String> palavrasChave) {
-        this.palavrasChave = palavrasChave;
-    }
+  public String getArquivoPublicacao() {
+    return arquivoPublicacao;
+  }
 
+  public void setArquivoPublicacao(String arquivoPublicacao) {
+    this.arquivoPublicacao = arquivoPublicacao;
+  }
+
+  public String getTipoPostagem() {
+    return tipoPostagem;
+  }
+
+  public void setTipoPostagem(String tipoPostagem) {
+    this.tipoPostagem = tipoPostagem;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Postagem other = (Postagem) obj;
+    if (id == null) {
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
+    return true;
+  }
+
+  public Set<String> getPalavrasChave() {
+    return palavrasChave;
+  }
+
+  public void setPalavrasChave(Set<String> palavrasChave) {
+    this.palavrasChave = palavrasChave;
+  }
 }
