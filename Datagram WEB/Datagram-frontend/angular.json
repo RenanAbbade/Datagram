@@ -15,9 +15,7 @@
           "options": {
             "outputPath": "dist/primeiro-projeto",
             "index": "src/index.html",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
@@ -25,14 +23,9 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/popper.js/dist/umd/popper.js",
-              "node_modules/bootstrap/dist/js/bootstrap.js"
-            ],
+            "scripts": [],
             "browser": "src/main.ts"
           },
           "configurations": {
@@ -51,13 +44,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "400kb",
+                  "maximumError": "600kb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "125kb",
-                  "maximumError": "150kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             },
@@ -79,7 +72,10 @@
               "buildTarget": "primeiro-projeto:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "proxy.config.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"

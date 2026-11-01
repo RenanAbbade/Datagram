@@ -14,9 +14,10 @@
       "dom"
     ],
     "useDefineForClassFields": false,
-    "strict": false
+    "strict": true
   },
   "angularCompilerOptions": {
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "strictTemplates": true
   }
 }
